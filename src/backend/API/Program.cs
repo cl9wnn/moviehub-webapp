@@ -7,7 +7,6 @@ builder.ConfigureSerilog();
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-
 builder.Services.AddCustomCors();
 builder.Services.AddSwagerDocumentation(builder.Environment);
 
@@ -18,6 +17,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerDocumentation(builder.Environment);
 }
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection(); 
 app.UseCors();
 app.MapControllers();
