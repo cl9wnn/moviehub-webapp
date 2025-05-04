@@ -1,7 +1,9 @@
-using System.Reflection;
 using API.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.ConfigureSerilog();
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();

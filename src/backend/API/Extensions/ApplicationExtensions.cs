@@ -1,6 +1,6 @@
 ﻿namespace API.Extensions;
 
-public static class ApplicationBuilderExtensions
+public static class ApplicationExtensions
 {
     public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app, IWebHostEnvironment env)
     {
