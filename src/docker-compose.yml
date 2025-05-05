@@ -20,9 +20,23 @@ services:
       - "5000:8080"
     depends_on:
       - seq
+      - db
     environment:
       - ASPNETCORE_URLS=http://+:8080
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PostgresDbConnection=Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      
+  db:
+    container_name: postgres
+    image: postgres:15
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
       
   seq:
     container_name: seq
@@ -31,4 +45,7 @@ services:
       - "5341:80"
     environment:
       - ACCEPT_EULA=Y
+      
+volumes:
+  pgdata:
 

@@ -8,6 +8,9 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 COPY API/API.csproj ./API/
+COPY Application/Application.csproj ./Application/
+COPY Domain/Domain.csproj ./Domain/
+COPY Infrastructure/Infrastructure.csproj ./Infrastructure/
 COPY WebApp.sln .
 
 RUN dotnet restore WebApp.sln

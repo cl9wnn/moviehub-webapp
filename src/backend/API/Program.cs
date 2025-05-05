@@ -9,6 +9,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddCustomCors();
 builder.Services.AddSwagerDocumentation(builder.Environment);
+builder.Services.AddPostgresDb(builder.Configuration);
 
 var app = builder.Build();
 
