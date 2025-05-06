@@ -7,7 +7,7 @@ public static class BuilderExtensions
 {
     public static WebApplicationBuilder ConfigureSerilog(this WebApplicationBuilder builder)
     {
-        var seqUrl = builder.Configuration["Serilog:Args:SeqServerUrl"];
+        var seqUrl = builder.Configuration["Seq:Url"];
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
@@ -20,6 +20,7 @@ public static class BuilderExtensions
             .Enrich.WithProperty("Application", "WebApp")
             .CreateLogger();
 
+        
         builder.Host.UseSerilog();
 
         return builder;

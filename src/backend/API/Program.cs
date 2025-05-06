@@ -22,5 +22,6 @@ app.UseSerilogRequestLogging();
 app.UseHttpsRedirection(); 
 app.UseCors();
 app.MapControllers();
+//app.Services.ApplyMigrations();
 
 app.Run();

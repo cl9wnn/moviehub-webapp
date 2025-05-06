@@ -45,7 +45,10 @@ services:
       - "5341:80"
     environment:
       - ACCEPT_EULA=Y
+    volumes:
+      - seqdata:/data
       
 volumes:
   pgdata:
+  seqdata:
 

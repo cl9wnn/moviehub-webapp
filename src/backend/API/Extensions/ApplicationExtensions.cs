@@ -1,4 +1,7 @@
-﻿namespace API.Extensions;
+﻿using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.Extensions;
 
 public static class ApplicationExtensions
 {
@@ -9,5 +12,22 @@ public static class ApplicationExtensions
             $"{env.ApplicationName} v1"));
         
         return app;
+    }
+    
+    public static void ApplyMigrations(this IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        var serviceProvider = scope.ServiceProvider;
+
+        try
+        {
+            var context = serviceProvider.GetRequiredService<AppDbContext>();
+            context.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Ошибка при применении миграций.");
+        }
     }
 }
