@@ -19,7 +19,6 @@ public static class BuilderExtensions
             .WriteTo.Seq(seqUrl!)
             .Enrich.WithProperty("Application", "WebApp")
             .CreateLogger();
-
         
         builder.Host.UseSerilog();
 

@@ -1,6 +1,12 @@
 ﻿using System.Reflection;
+using System.Text;
+using API.Mappings;
+using Infrastructure.Auth;
 using Infrastructure.Database;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace API.Extensions;
 
@@ -22,6 +28,49 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddAutoMapper(this IServiceCollection services)
+    {
+        services.AddAutoMapper(expression =>
+        {
+            expression.AddProfile<MappingProfile>();
+        });
+        
+        return services;
+    }
+    
+    public static IServiceCollection AddPostgresDb(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseNpgsql(configuration.GetConnectionString("PostgresDbConnection"));
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        var authOptions = configuration.GetSection("AuthOptions").Get<AuthOptions>();
+        
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = authOptions!.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = authOptions.Audience,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authOptions!.SecretKey))
+                };
+            });
+        
+        return services;
+    }
+    
     public static IServiceCollection AddSwagerDocumentation(this IServiceCollection services, IWebHostEnvironment env)
     {
         services.AddSwaggerGen(c =>
@@ -30,16 +79,33 @@ public static class ServiceCollectionExtensions
 
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-        });
-
-        return services;
-    }
-
-    public static IServiceCollection AddPostgresDb(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddDbContext<AppDbContext>(options =>
-        {
-            options.UseNpgsql(configuration.GetConnectionString("PostgresDbConnection"));
+            
+            c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                { 
+                    Description = "JWT Bearer Authentication Scheme",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
+                });
+            
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = JwtBearerDefaults.AuthenticationScheme
+                        },
+                        Scheme = JwtBearerDefaults.AuthenticationScheme,
+                        Name = JwtBearerDefaults.AuthenticationScheme,
+                        In = ParameterLocation.Header,
+                    },
+                    new List<string>()
+                }
+            });
         });
 
         return services;
