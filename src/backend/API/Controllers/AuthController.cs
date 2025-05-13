@@ -1,28 +1,16 @@
 using API.Models;
 using Domain.Abstractions;
+using Infrastructure.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController(IUserService userService):ControllerBase
+public class AuthController(IAuthService authService, IOptions<AuthOptions> authOptions):ControllerBase
 {
-    [HttpPost("register")]
-    public async Task<IActionResult> RegisterAsync([FromBody] RegisterUserRequest? request)
-    {
-        if (request == null)
-        {
-            return BadRequest(new { Error = "Invalid request body" });
-        }
-        
-        var registerResult = await userService.RegisterAsync(request.Username, request.Email, request.Password);
-        
-        return registerResult.IsSuccess
-            ? Ok()
-            : BadRequest(new {Error = registerResult.ErrorMessage});
-    }
-    
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest? request)
     {
@@ -31,10 +19,65 @@ public class AuthController(IUserService userService):ControllerBase
             return BadRequest(new { Error = "Invalid request body" });
         }
         
-        var loginResult = await userService.LoginAsync(request.Username, request.Password);
+        var loginResult = await authService.LoginAsync(request.Username, request.Password);
+
+        if (!loginResult.IsSuccess)
+        {
+            return BadRequest(new { Error = loginResult.ErrorMessage });
+        }
         
-        return loginResult.IsSuccess
-            ? Ok(new {Token = loginResult.Data})
-            : BadRequest(new {Error = loginResult.ErrorMessage});
+        Response.Cookies.Append("refreshToken", loginResult.Data.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = DateTimeOffset.UtcNow.AddDays(authOptions.Value.RefreshTokenExpiredAtDays)
+        });
+        
+        return Ok(new { Token = loginResult.Data.AccessToken });
+    }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshTokenAsync([FromBody] string accessToken)
+    {
+        var refreshToken = Request.Cookies["refreshToken"];
+        
+        if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
+            return BadRequest("Missing tokens");
+        
+        var refreshResult = await authService.RefreshTokenAsync(accessToken, refreshToken);
+
+        if (!refreshResult.IsSuccess)
+        {
+            return BadRequest(new { Error = refreshResult.ErrorMessage });
+        }
+        
+        Response.Cookies.Append("refreshToken", refreshResult.Data.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = DateTimeOffset.UtcNow.AddDays(authOptions.Value.RefreshTokenExpiredAtDays)
+        });
+        
+        return Ok( new {Token = refreshResult.Data.AccessToken});
+    }
+
+    [Authorize]
+    [HttpPost("revoke")]
+    public async Task<IActionResult> RevokeRefreshTokenAsync()
+    {
+        var username = User.Identity.Name;
+
+        if (string.IsNullOrEmpty(username))
+        {
+            return Unauthorized();
+        }
+        
+        var revokeResult = await authService.RevokeRefreshTokenAsync(username);
+
+        if (!revokeResult.IsSuccess)
+        {
+            return BadRequest(new { Error = revokeResult.ErrorMessage });
+        }
+        
+        Response.Cookies.Delete("refreshToken");
+        return NoContent();
     }
 }

@@ -4,10 +4,12 @@ using Application.Validators;
 using Domain.Abstractions;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Application.Services;
 
-public class UserService(IUserRepository repository, IAuthService authService): IUserService
+public class UserService(IUserRepository userRepository): IUserService
 {
     public async Task<Result> RegisterAsync(string username, string email, string password)
     {
@@ -30,31 +32,10 @@ public class UserService(IUserRepository repository, IAuthService authService): 
         var hashPassword = new PasswordHasher<User>().HashPassword(user, password);
         user.Password = hashPassword;
         
-        var addResult = await repository.AddAsync(user);
+        var addResult = await userRepository.AddAsync(user);
         
         return addResult.IsSuccess
             ? Result.Success()
             : Result.Failure(addResult.ErrorMessage!);
-    }
-
-    public async Task<Result<string>> LoginAsync(string username, string password)
-    {
-        var userResult = await repository.GetByUsernameAsync(username);
-
-        if (!userResult.IsSuccess)
-        {
-            return Result<string>.Failure(userResult.ErrorMessage!)!;
-        }
-
-        var user = userResult.Data;
-        var verifyResult = new PasswordHasher<User>().VerifyHashedPassword(user, user.Password, password);
-
-        if (verifyResult != PasswordVerificationResult.Success)
-        {
-            return Result<string>.Failure("Invalid password")!;
-        }
-        
-        var token = authService.GenerateJwtToken(user);
-        return Result<string>.Success(token);
     }
 }

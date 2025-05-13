@@ -9,5 +9,6 @@ public class MappingProfile: Profile
     public MappingProfile()
     {
         CreateMap<User, UserEntity>().ReverseMap();
+        CreateMap<RefreshToken, RefreshTokenEntity>().ReverseMap();
     }
 }

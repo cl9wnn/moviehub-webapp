@@ -1,8 +1,12 @@
 ﻿using System.Reflection;
 using System.Text;
 using API.Mappings;
+using Application.Abstractions;
+using Application.Services;
+using Domain.Abstractions;
 using Infrastructure.Auth;
 using Infrastructure.Database;
+using Infrastructure.Database.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -50,6 +54,11 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<AuthOptions>(configuration.GetSection("AuthOptions"));
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IAuthService, AuthService>();
+        
         var authOptions = configuration.GetSection("AuthOptions").Get<AuthOptions>();
         
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

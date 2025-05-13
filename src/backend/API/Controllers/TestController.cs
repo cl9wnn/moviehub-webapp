@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class TestController(ILogger<TestController> logger): ControllerBase
 {
     [HttpGet]

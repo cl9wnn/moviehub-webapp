@@ -8,9 +8,6 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IAuthService, JwtService>();
-builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("AuthOptions"));
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
