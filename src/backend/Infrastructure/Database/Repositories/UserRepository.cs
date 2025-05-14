@@ -1,6 +1,7 @@
 using Application.Utils;
 using AutoMapper;
 using Domain.Abstractions;
+using Domain.Abstractions.Repositories;
 using Domain.Models;
 using Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;

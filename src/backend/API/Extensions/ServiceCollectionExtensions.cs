@@ -4,6 +4,8 @@ using API.Mappings;
 using Application.Abstractions;
 using Application.Services;
 using Domain.Abstractions;
+using Domain.Abstractions.Repositories;
+using Domain.Abstractions.Services;
 using Infrastructure.Auth;
 using Infrastructure.Database;
 using Infrastructure.Database.Repositories;

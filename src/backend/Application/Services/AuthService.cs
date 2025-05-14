@@ -1,6 +1,8 @@
 using Application.Abstractions;
 using Application.Utils;
 using Domain.Abstractions;
+using Domain.Abstractions.Repositories;
+using Domain.Abstractions.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -27,14 +29,7 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
         }
         
         var accessToken = tokenService.GenerateAccessToken(user);
-        var refreshToken = new RefreshToken
-        {
-            Id = Guid.NewGuid(),
-            Token = tokenService.GenerateRefreshToken(),
-            Expires = DateTime.UtcNow.AddDays(7),
-            Created = DateTime.UtcNow,
-            UserId = user.Id
-        };
+        var refreshToken = RefreshToken.Create(tokenService.GenerateRefreshToken(), user.Id);
         
         var updateResult = await refreshTokenRepository.AddOrUpdateAsync(refreshToken);
 
@@ -43,11 +38,7 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
             return Result<AuthModel>.Failure("Invalid refresh token")!;
         }
         
-        return Result<AuthModel>.Success(new AuthModel
-        {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken.Token,
-        });
+        return Result<AuthModel>.Success(AuthModel.Create(accessToken, refreshToken.Token));
     }
 
     public async Task<Result<AuthModel>> RefreshTokenAsync(string accessToken, string refreshToken)
@@ -80,14 +71,7 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
         }
         
         var newAccessToken = tokenService.GenerateAccessToken(userResult.Data);
-        var newRefreshToken = new RefreshToken
-        {
-            Id = Guid.NewGuid(),
-            Token = tokenService.GenerateRefreshToken(),
-            Expires = DateTime.UtcNow.AddDays(7),
-            Created = DateTime.UtcNow,
-            UserId = userResult.Data.Id
-        };
+        var newRefreshToken = RefreshToken.Create(tokenService.GenerateRefreshToken(), userResult.Data.Id);
         
         var updateResult = await refreshTokenRepository.AddOrUpdateAsync(newRefreshToken);
 
@@ -96,11 +80,7 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
             return Result<AuthModel>.Failure("Invalid refresh token!")!;
         }
         
-        return Result<AuthModel>.Success(new AuthModel
-        {
-            AccessToken = newAccessToken,
-            RefreshToken = newRefreshToken.Token,
-        });
+        return Result<AuthModel>.Success(AuthModel.Create(newAccessToken, newRefreshToken.Token));
     }
 
     public async Task<Result> RevokeRefreshTokenAsync(string username)

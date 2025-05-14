@@ -1,7 +1,7 @@
 using Application.Utils;
 using Domain.Models;
 
-namespace Domain.Abstractions;
+namespace Domain.Abstractions.Services;
 
 public interface IAuthService
 {

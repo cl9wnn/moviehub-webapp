@@ -1,5 +1,6 @@
 using API.Models;
 using Domain.Abstractions;
+using Domain.Abstractions.Services;
 using Infrastructure.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

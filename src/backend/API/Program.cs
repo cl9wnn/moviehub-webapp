@@ -1,8 +1,8 @@
 using API.Extensions;
-using Application.Abstractions;
 using Application.Services;
 using Domain.Abstractions;
-using Infrastructure.Auth;
+using Domain.Abstractions.Repositories;
+using Domain.Abstractions.Services;
 using Infrastructure.Database.Repositories;
 using Serilog;
 
