@@ -1,7 +1,7 @@
-import {useEffect, useState } from 'react';
-import {getTestMessage} from "../services/getTestMessage.ts";
+import React, { useEffect, useState } from 'react';
+import { getTestMessage } from '../services/getTestMessage';
 
-function App() {
+const MainPage: React.FC = () => {
   const [message, setMessage] = useState('');
   const [timestamp, setTimestamp] = useState('');
 
@@ -21,10 +21,12 @@ function App() {
 
   return (
     <div>
+      <div className="text-2xl font-bold text-red-500">Hello Tailwind</div>
+      <h1>Welcome to the Main Page</h1>
       <p>{message}</p>
       <p>{timestamp}</p>
     </div>
   );
-}
+};
 
-export default App
+export default MainPage;
