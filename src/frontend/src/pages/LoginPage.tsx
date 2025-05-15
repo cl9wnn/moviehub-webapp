@@ -37,8 +37,8 @@ const LoginPage: React.FC = () => {
     if (Object.keys(validationErrors).length > 0) return;
 
     const requestData:LoginRequest = {
-      Username: formData.name,
-      Password: formData.password,
+      username: formData.name,
+      password: formData.password,
     };
 
     try {

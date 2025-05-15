@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getTestMessage } from '../services/getTestMessage';
+import { getTestProtectedResource } from '../services/getTestProtectedResource.ts';
 import Header from "../components/common/Header.tsx";
 
 const MainPage: React.FC = () => {
@@ -9,7 +9,7 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getTestMessage();
+        const data = await getTestProtectedResource();
         setMessage(data.message);
         setTimestamp(data.timestamp);
       } catch (error) {
@@ -24,8 +24,7 @@ const MainPage: React.FC = () => {
     <>
     <Header/>
     <div className="pt-20 px-4">
-      <div className="text-2xl font-bold text-red-500">Hello Tailwind</div>
-      <h1>Welcome to the Main Page</h1>
+      <div className="text-2xl font-bold text-red-500">Hello, World</div>
       <p>{message}</p>
       <p>{timestamp}</p>
     </div>

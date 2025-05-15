@@ -39,9 +39,9 @@ const RegisterPage: React.FC = () => {
     if (Object.keys(validationErrors).length > 0) return;
 
     const requestData:RegisterRequest = {
-      Username: formData.name,
-      Email: formData.email,
-      Password: formData.password,
+      username: formData.name,
+      email: formData.email,
+      password: formData.password,
     };
 
     try {
