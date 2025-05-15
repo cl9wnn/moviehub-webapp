@@ -32,16 +32,27 @@ function validatePassword(password?: string): string | undefined {
 }
 
 export function validateRegister(data: AuthFormData): AuthFormErrors {
-  return {
-    name: validateUsername(data.name),
-    email: validateEmail(data.email),
-    password: validatePassword(data.password),
-  };
+  const errors: AuthFormErrors = {};
+
+  const nameError = validateUsername(data.name);
+  const emailError = validateEmail(data.email);
+  const passwordError = validatePassword(data.password);
+
+  if (nameError) errors.name = nameError;
+  if (emailError) errors.email = emailError;
+  if (passwordError) errors.password = passwordError;
+
+  return errors;
 }
 
 export function validateLogin(data: AuthFormData): AuthFormErrors {
-  return {
-    name: validateUsername(data.name),
-    password: validatePassword(data.password),
-  };
+  const errors: AuthFormErrors = {};
+
+  const nameError = validateUsername(data.name);
+  const passwordError = validatePassword(data.password);
+
+  if (nameError) errors.name = nameError;
+  if (passwordError) errors.password = passwordError;
+
+  return errors;
 }

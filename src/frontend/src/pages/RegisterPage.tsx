@@ -4,6 +4,8 @@ import InputField from "../components/common/InputField";
 import Button from "../components/auth/Button.tsx";
 import RedirectMessage from "../components/auth/RedirectMessage.tsx";
 import {validateRegister} from "../utils/validation/authValidation.ts";
+import {type RegisterRequest, registerUser} from "../services/auth/registerUser.ts";
+import {useNavigate} from "react-router-dom";
 
 interface RegisterFormData {
   name: string;
@@ -18,21 +20,39 @@ const RegisterPage: React.FC = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
   const [errors, setErrors] = useState<Partial<RegisterFormData>>({});
+  const [globalError, setGlobalError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setGlobalError(null);
 
     const validationErrors = validateRegister(formData);
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Регистрация", formData);
+    if (Object.keys(validationErrors).length > 0) return;
+
+    const requestData:RegisterRequest = {
+      Username: formData.name,
+      Email: formData.email,
+      Password: formData.password,
+    };
+
+    try {
+      await registerUser(requestData);
+      navigate("/login");
+    } catch (err) {
+      if (err instanceof Error) {
+        setGlobalError(err.message);
+      } else {
+        setGlobalError("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -46,6 +66,10 @@ const RegisterPage: React.FC = () => {
 
         <Button type="submit">Create your Account</Button>
       </form>
+
+      {globalError && (
+        <p className="text-sm text-red-600 text-center mt-2">{globalError}</p>
+      )}
 
       <RedirectMessage message="Already have an account?" linkTo="/login" linkText="Sign In"/>
     </FormWrapper>

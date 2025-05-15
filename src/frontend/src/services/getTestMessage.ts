@@ -1,6 +1,6 @@
-import axios from 'axios';
+import api from "../utils/api.ts";
 
 export const getTestMessage = async () => {
-  const response = await axios.get(`/api/test`);
+  const response = await api.get(`/test`);
   return response.data;
 };
