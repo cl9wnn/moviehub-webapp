@@ -17,8 +17,6 @@ public class TestController(ILogger<TestController> logger): ControllerBase
             timestamp = DateTime.Now
         };
         
-        logger.LogInformation("Responding to GET with message {@Message}", message);
-        
         return Ok(message);
     }
 }

@@ -1,10 +1,8 @@
 using API.Extensions;
 using Application.Services;
-using Domain.Abstractions;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
 using Infrastructure.Database.Repositories;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerDocumentation(builder.Environment);
 }
 
-app.UseSerilogRequestLogging();
+app.UseRequestResponseLogging();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -20,7 +20,7 @@ public class UserController(IUserService userService): ControllerBase
         var registerResult = await userService.RegisterAsync(request.Username, request.Email, request.Password);
         
         return registerResult.IsSuccess
-            ? Ok()
+            ? Created()
             : BadRequest(new {Error = registerResult.ErrorMessage});
     }
 }

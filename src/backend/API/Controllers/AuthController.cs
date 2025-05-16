@@ -37,9 +37,10 @@ public class AuthController(IAuthService authService, IOptions<AuthOptions> auth
     }
 
     [HttpPost("refresh")]
-    public async Task<IActionResult> RefreshTokenAsync([FromBody] string accessToken)
+    public async Task<IActionResult> RefreshTokenAsync([FromBody] AccessTokenRequest accessTokenRequest)
     {
         var refreshToken = Request.Cookies["refreshToken"];
+        var accessToken = accessTokenRequest.AccessToken;
         
         if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
             return BadRequest("Missing tokens");
