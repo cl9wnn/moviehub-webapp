@@ -46,7 +46,7 @@ const RegisterPage: React.FC = () => {
 
     try {
       await registerUser(requestData);
-      navigate("/login");
+      navigate("/login", { state: { successMessage: "Account created successfully!" } });
     } catch (err) {
       if (err instanceof Error) {
         setGlobalError(err.message);

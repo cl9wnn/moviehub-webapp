@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from 'react';
 import { getTestProtectedResource } from '../services/getTestProtectedResource.ts';
 import Header from "../components/common/Header.tsx";
+import React, {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const MainPage: React.FC = () => {
   const [message, setMessage] = useState('');
   const [timestamp, setTimestamp] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const message = location.state?.successMessage;
+    if (message) {
+      toast.success(message);
+
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {

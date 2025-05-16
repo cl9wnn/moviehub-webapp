@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import FormWrapper from "../components/auth/FormWrapper.tsx";
 import InputField from "../components/common/InputField";
 import Button from "../components/auth/Button.tsx";
 import RedirectMessage from "../components/auth/RedirectMessage.tsx";
 import {validateLogin} from "../utils/validation/authValidation.ts";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import  {type LoginRequest, loginUser} from "../services/auth/loginUser.ts";
+import {toast} from "react-toastify";
 
 export interface LoginFormData {
   name: string;
@@ -13,12 +14,23 @@ export interface LoginFormData {
 }
 
 const LoginPage: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const message = location.state?.successMessage;
+    if (message) {
+      toast.success(message);
+
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
+
   const [formData, setFormData] = useState<LoginFormData>({
     name: "",
     password: "",
   });
 
-  const navigate = useNavigate();
   const [errors, setErrors] = useState<Partial<LoginFormData>>({});
   const [globalError, setGlobalError] = useState<string | null>(null);
 
@@ -44,7 +56,7 @@ const LoginPage: React.FC = () => {
     try {
       const loginData = await loginUser(requestData);
       localStorage.setItem("accessToken", loginData.token);
-      navigate("/");
+      navigate("/", { state: { successMessage: "Successful authentication!" } });
     } catch (err) {
       if (err instanceof Error) {
         setGlobalError(err.message);
