@@ -1,8 +1,8 @@
 using Application.Abstractions;
 using Application.Utils;
-using Domain.Abstractions;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
+using Domain.DTOs;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 

@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Text;
-using API.Mappings;
 using Application.Abstractions;
 using Application.Services;
 using Domain.Abstractions;
@@ -8,6 +7,7 @@ using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
 using Infrastructure.Auth;
 using Infrastructure.Database;
+using Infrastructure.Database.Mappings;
 using Infrastructure.Database.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -82,7 +82,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
     
-    public static IServiceCollection AddSwagerDocumentation(this IServiceCollection services, IWebHostEnvironment env)
+    public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services, IWebHostEnvironment env)
     {
         services.AddSwaggerGen(c =>
         {

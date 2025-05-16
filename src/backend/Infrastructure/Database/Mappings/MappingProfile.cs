@@ -2,7 +2,7 @@ using AutoMapper;
 using Domain.Models;
 using Infrastructure.Database.Entities;
 
-namespace API.Mappings;
+namespace Infrastructure.Database.Mappings;
 
 public class MappingProfile: Profile
 {

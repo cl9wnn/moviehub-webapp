@@ -1,4 +1,5 @@
 using Application.Utils;
+using Domain.DTOs;
 using Domain.Models;
 
 namespace Domain.Abstractions.Services;

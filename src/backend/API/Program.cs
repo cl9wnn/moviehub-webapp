@@ -13,7 +13,7 @@ builder.ConfigureSerilog();
 builder.Services.AddControllers();
 builder.Services.AddCustomCors();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSwagerDocumentation(builder.Environment);
+builder.Services.AddSwaggerDocumentation(builder.Environment);
 builder.Services.AddPostgresDb(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAutoMapper();
