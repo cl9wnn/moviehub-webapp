@@ -7,6 +7,7 @@ import {validateLogin} from "../utils/validation/authValidation.ts";
 import {useLocation, useNavigate} from "react-router-dom";
 import  {type LoginRequest, loginUser} from "../services/auth/loginUser.ts";
 import {toast} from "react-toastify";
+import {useAuth} from "../hooks/UseAuth";
 
 export interface LoginFormData {
   name: string;
@@ -16,13 +17,19 @@ export interface LoginFormData {
 const LoginPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
-    const message = location.state?.successMessage;
-    if (message) {
-      toast.success(message);
+    const successMessage = location.state?.successMessage;
+    const errorMessage = location.state?.errorMessage;
 
-      navigate(location.pathname, { replace: true, state: {} });
+    if (successMessage) {
+      toast.success(successMessage);
+    }
+
+    if (errorMessage){
+      toast.error(errorMessage);
     }
   }, [location, navigate]);
 
@@ -56,7 +63,8 @@ const LoginPage: React.FC = () => {
     try {
       const loginData = await loginUser(requestData);
       localStorage.setItem("accessToken", loginData.token);
-      navigate("/", { state: { successMessage: "Successful authentication!" } });
+      setIsAuthenticated(true);
+      navigate(from, { state: { successMessage: "Successful authentication!" }, replace: true });
     } catch (err) {
       if (err instanceof Error) {
         setGlobalError(err.message);
