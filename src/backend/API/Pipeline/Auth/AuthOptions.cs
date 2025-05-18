@@ -1,4 +1,4 @@
-namespace Infrastructure.Auth;
+namespace API.Pipeline.Auth;
 public class AuthOptions
 {
     public string Issuer { get; set; } = string.Empty;

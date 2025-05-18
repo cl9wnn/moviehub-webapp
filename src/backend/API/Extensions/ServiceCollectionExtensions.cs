@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using System.Text;
+using API.Pipeline.Auth;
 using Application.Abstractions;
 using Application.Services;
 using Domain.Abstractions;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
-using Infrastructure.Auth;
 using Infrastructure.Database;
 using Infrastructure.Database.Mappings;
 using Infrastructure.Database.Repositories;
@@ -41,16 +41,6 @@ public static class ServiceCollectionExtensions
             expression.AddProfile<MappingProfile>();
         });
         
-        return services;
-    }
-    
-    public static IServiceCollection AddPostgresDb(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddDbContext<AppDbContext>(options =>
-        {
-            options.UseNpgsql(configuration.GetConnectionString("PostgresDbConnection"));
-        });
-
         return services;
     }
 

@@ -7,9 +7,8 @@ using Application.Utils;
 using Domain.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
-namespace Infrastructure.Auth;
+namespace API.Pipeline.Auth;
 
 public class TokenService(IOptions<AuthOptions> authOptions): ITokenService
 {

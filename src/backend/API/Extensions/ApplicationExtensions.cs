@@ -1,4 +1,4 @@
-﻿using API.Middlewares;
+﻿using API.Pipeline.Middlewares;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Serilog;

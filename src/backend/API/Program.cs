@@ -3,6 +3,7 @@ using Application.Services;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
 using Infrastructure.Database.Repositories;
+using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
