@@ -1,0 +1,16 @@
+using System.Collections;
+
+namespace Infrastructure.Database.Entities;
+
+public class ActorEntity
+{
+    public Guid Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Biography { get; set; }
+    public DateOnly BirthDate { get; set; }
+    public string PhotoUrl { get; set; }
+    
+    public ICollection<ActorPhotoEntity> Photos { get; set; } = new List<ActorPhotoEntity>();
+    public ICollection<MovieActorEntity> MovieActors { get; set; } = new List<MovieActorEntity>();
+}
