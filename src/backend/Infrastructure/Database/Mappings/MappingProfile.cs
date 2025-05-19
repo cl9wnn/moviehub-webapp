@@ -4,9 +4,9 @@ using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Database.Mappings;
 
-public class MappingProfile: Profile
+public class InfrastructureMappingProfile: Profile
 {
-    public MappingProfile()
+    public InfrastructureMappingProfile()
     {
         CreateMap<User, UserEntity>().ReverseMap();
         CreateMap<RefreshToken, RefreshTokenEntity>().ReverseMap();

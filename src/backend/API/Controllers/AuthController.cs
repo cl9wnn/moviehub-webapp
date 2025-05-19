@@ -1,6 +1,8 @@
 using API.Models;
 using API.Pipeline.Auth;
+using AutoMapper;
 using Domain.Abstractions.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -9,7 +11,7 @@ namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController(IAuthService authService, IOptions<AuthOptions> authOptions):ControllerBase
+public class AuthController(IAuthService authService, IOptions<AuthOptions> authOptions, IMapper mapper):ControllerBase
 {
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest? request)
@@ -18,8 +20,9 @@ public class AuthController(IAuthService authService, IOptions<AuthOptions> auth
         {
             return BadRequest(new { Error = "Invalid request body" });
         }
-        
-        var loginResult = await authService.LoginAsync(request.Username, request.Password);
+
+        var userDto = mapper.Map<LoginUserRequest, User>(request);
+        var loginResult = await authService.LoginAsync(userDto);
 
         if (!loginResult.IsSuccess)
         {

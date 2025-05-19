@@ -2,7 +2,6 @@ using Application.Abstractions;
 using Application.Utils;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
-using Domain.DTOs;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,9 +10,9 @@ namespace Application.Services;
 public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenService tokenService, 
     IUserRepository userRepository): IAuthService
 {
-      public async Task<Result<AuthModel>> LoginAsync(string username, string password)
+      public async Task<Result<AuthModel>> LoginAsync(User userDto)
     {
-        var userResult = await userRepository.GetByUsernameAsync(username);
+        var userResult = await userRepository.GetByUsernameAsync(userDto.Username);
 
         if (!userResult.IsSuccess)
         {
@@ -21,7 +20,7 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
         }
 
         var user = userResult.Data;
-        var verifyResult = new PasswordHasher<User>().VerifyHashedPassword(user, user.Password, password);
+        var verifyResult = new PasswordHasher<User>().VerifyHashedPassword(user, user.Password, userDto.Password);
 
         if (verifyResult != PasswordVerificationResult.Success)
         {

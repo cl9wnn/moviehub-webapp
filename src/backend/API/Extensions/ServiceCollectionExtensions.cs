@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using API.Mappings;
 using API.Pipeline.Auth;
 using Application.Abstractions;
 using Application.Services;
@@ -38,7 +39,8 @@ public static class ServiceCollectionExtensions
     {
         services.AddAutoMapper(expression =>
         {
-            expression.AddProfile<MappingProfile>();
+            expression.AddProfile<ApiMappingProfile>();
+            expression.AddProfile<InfrastructureMappingProfile>();
         });
         
         return services;

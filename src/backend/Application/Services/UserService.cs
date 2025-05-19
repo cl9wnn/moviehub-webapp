@@ -13,22 +13,20 @@ namespace Application.Services;
 
 public class UserService(IUserRepository userRepository): IUserService
 {
-    public async Task<Result> RegisterAsync(string username, string email, string password)
+    public async Task<Result> RegisterAsync(User userDto)
     {
-        var user = User.Create(username, email, password);
-        
         var userValidator = new RegisterUserValidator();
-        var validationResult = await userValidator.ValidateAsync(user);
+        var validationResult = await userValidator.ValidateAsync(userDto);
 
         if (!validationResult.IsValid)
         {
             return Result.Failure(string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage)));
         }
         
-        var hashPassword = new PasswordHasher<User>().HashPassword(user, password);
-        user.Password = hashPassword;
+        var hashPassword = new PasswordHasher<User>().HashPassword(userDto, userDto.Password);
+        userDto.Password = hashPassword;
         
-        var addResult = await userRepository.AddAsync(user);
+        var addResult = await userRepository.AddAsync(userDto);
         
         return addResult.IsSuccess
             ? Result.Success()
