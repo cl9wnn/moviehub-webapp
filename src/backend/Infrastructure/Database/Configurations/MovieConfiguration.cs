@@ -17,6 +17,16 @@ public class MovieConfiguration: IEntityTypeConfiguration<MovieEntity>
         builder.Property(m => m.Description)
             .IsRequired()
             .HasMaxLength(1024);
+
+        builder.Property(m => m.Year)
+            .IsRequired();
+        
+        builder.Property(m => m.DurationAtMinutes)
+            .IsRequired();
+        
+        builder.Property(m => m.UserRating)
+            .IsRequired()
+            .HasDefaultValue(0);
         
         builder.Property(m => m.AgeRating)
             .IsRequired()
@@ -25,5 +35,8 @@ public class MovieConfiguration: IEntityTypeConfiguration<MovieEntity>
         builder.Property(m => m.PosterUrl)
             .IsRequired()
             .HasMaxLength(256);
+        
+        builder.Property(m => m.IsDeleted)
+            .HasDefaultValue(false);
     }
 }

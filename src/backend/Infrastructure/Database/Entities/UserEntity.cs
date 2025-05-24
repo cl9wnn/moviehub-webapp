@@ -8,4 +8,5 @@ public class UserEntity
     public string Password { get; set; }
     
     public RefreshTokenEntity RefreshToken { get; set; } 
+    public bool IsDeleted { get; set; }
 }

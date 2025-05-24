@@ -1,17 +1,19 @@
 ﻿using System.Reflection;
 using System.Text;
+using API.Filters;
 using API.Mappings;
+using API.Models;
+using API.Models.Requests;
 using API.Pipeline.Auth;
+using API.Validation;
 using Application.Abstractions;
 using Application.Services;
-using Domain.Abstractions;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
-using Infrastructure.Database;
+using FluentValidation;
 using Infrastructure.Database.Mappings;
 using Infrastructure.Database.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -46,6 +48,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddFilters(this IServiceCollection services)
+    {
+        services.AddScoped<MovieExistsFilter>();
+        services.AddScoped<ActorExistsFilter>();
+        return services;
+    }
+
     public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<AuthOptions>(configuration.GetSection("AuthOptions"));
@@ -73,9 +82,19 @@ public static class ServiceCollectionExtensions
         
         return services;
     }
+
+    public static IServiceCollection AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IValidator<CreateActorRequest>, CreateActorValidator>();
+        services.AddScoped<IValidator<CreateMovieRequest>, CreateMovieValidator>();
+        services.AddScoped<IValidator<CreateMovieActorRequest>, CreateMovieActorValidator>();
+        services.AddScoped<IValidator<RegisterUserRequest>, RegisterUserValidator>();
+        return services;
+    }
     
     public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services, IWebHostEnvironment env)
     {
+        
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new() { Title = env.ApplicationName, Version = "v1" });

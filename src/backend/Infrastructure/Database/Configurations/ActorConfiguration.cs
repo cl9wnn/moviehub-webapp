@@ -1,6 +1,7 @@
 using Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Infrastructure.Database.Configurations;
 
@@ -22,8 +23,14 @@ public class ActorConfiguration: IEntityTypeConfiguration<ActorEntity>
             .HasMaxLength(512)
             .IsRequired();
         
+        builder.Property(x => x.BirthDate)
+            .IsRequired();
+            
         builder.Property(x => x.PhotoUrl)
             .HasMaxLength(256)
             .IsRequired();
+        
+        builder.Property(m => m.IsDeleted)
+            .HasDefaultValue(false);
     }
 }

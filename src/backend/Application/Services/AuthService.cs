@@ -2,6 +2,7 @@ using Application.Abstractions;
 using Application.Utils;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
+using Domain.Dtos;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -10,13 +11,13 @@ namespace Application.Services;
 public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenService tokenService, 
     IUserRepository userRepository): IAuthService
 {
-      public async Task<Result<AuthModel>> LoginAsync(User userDto)
+      public async Task<Result<AuthDto>> LoginAsync(User userDto)
     {
         var userResult = await userRepository.GetByUsernameAsync(userDto.Username);
 
         if (!userResult.IsSuccess)
         {
-            return Result<AuthModel>.Failure(userResult.ErrorMessage!)!;
+            return Result<AuthDto>.Failure(userResult.ErrorMessage!)!;
         }
 
         var user = userResult.Data;
@@ -24,7 +25,7 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
 
         if (verifyResult != PasswordVerificationResult.Success)
         {
-            return Result<AuthModel>.Failure("Invalid password")!;
+            return Result<AuthDto>.Failure("Invalid password")!;
         }
         
         var accessToken = tokenService.GenerateAccessToken(user);
@@ -34,19 +35,19 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
 
         if (!updateResult.IsSuccess)
         {
-            return Result<AuthModel>.Failure("Invalid refresh token")!;
+            return Result<AuthDto>.Failure("Invalid refresh token")!;
         }
         
-        return Result<AuthModel>.Success(AuthModel.Create(accessToken, refreshToken.Token));
+        return Result<AuthDto>.Success(AuthDto.Create(accessToken, refreshToken.Token));
     }
 
-    public async Task<Result<AuthModel>> RefreshTokenAsync(string accessToken, string refreshToken)
+    public async Task<Result<AuthDto>> RefreshTokenAsync(string accessToken, string refreshToken)
     {
         var principalResult = tokenService.GetPrincipalFromExpiredToken(accessToken);
         
         if (!principalResult.IsSuccess)
         {
-            return Result<AuthModel>.Failure(principalResult.ErrorMessage!)!;
+            return Result<AuthDto>.Failure(principalResult.ErrorMessage!)!;
         }
 
         var username = principalResult.Data.Identity!.Name!;
@@ -54,19 +55,19 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
 
         if (!userResult.IsSuccess)
         {
-            return Result<AuthModel>.Failure(userResult.ErrorMessage!)!;
+            return Result<AuthDto>.Failure(userResult.ErrorMessage!)!;
         }
 
         var refreshTokenResult = await refreshTokenRepository.GetByUserIdAsync(userResult.Data.Id);
 
         if (!refreshTokenResult.IsSuccess || refreshTokenResult.Data.Token != refreshToken)
         {
-            return Result<AuthModel>.Failure("Invalid refresh token")!;
+            return Result<AuthDto>.Failure("Invalid refresh token")!;
         }
         
         if (refreshTokenResult.Data.Expires <= DateTime.UtcNow)
         {
-            return Result<AuthModel>.Failure("Refresh token has expired")!;
+            return Result<AuthDto>.Failure("Refresh token has expired")!;
         }
         
         var newAccessToken = tokenService.GenerateAccessToken(userResult.Data);
@@ -76,10 +77,10 @@ public class AuthService(IRefreshTokenRepository refreshTokenRepository, ITokenS
 
         if (!updateResult.IsSuccess)
         {
-            return Result<AuthModel>.Failure("Invalid refresh token!")!;
+            return Result<AuthDto>.Failure("Invalid refresh token!")!;
         }
         
-        return Result<AuthModel>.Success(AuthModel.Create(newAccessToken, newRefreshToken.Token));
+        return Result<AuthDto>.Success(AuthDto.Create(newAccessToken, newRefreshToken.Token));
     }
 
     public async Task<Result> RevokeRefreshTokenAsync(string username)

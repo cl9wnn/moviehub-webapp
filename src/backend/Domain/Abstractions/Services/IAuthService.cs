@@ -1,11 +1,12 @@
 using Application.Utils;
+using Domain.Dtos;
 using Domain.Models;
 
 namespace Domain.Abstractions.Services;
 
 public interface IAuthService
 {
-    Task<Result<AuthModel>> LoginAsync(User user);
-    Task<Result<AuthModel>> RefreshTokenAsync(string accessToken, string refreshToken);
+    Task<Result<AuthDto>> LoginAsync(User user);
+    Task<Result<AuthDto>> RefreshTokenAsync(string accessToken, string refreshToken);
     Task<Result> RevokeRefreshTokenAsync(string username);
 }

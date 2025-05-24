@@ -1,13 +1,13 @@
-namespace Domain.Models;
+namespace Domain.Dtos;
 
-public class AuthModel
+public class AuthDto
 {
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }
 
-    public static AuthModel Create(string accessToken, string refreshToken)
+    public static AuthDto Create(string accessToken, string refreshToken)
     {
-        return new AuthModel
+        return new AuthDto
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken

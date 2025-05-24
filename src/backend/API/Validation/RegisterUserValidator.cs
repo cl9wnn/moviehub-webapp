@@ -1,9 +1,11 @@
+using API.Models;
+using API.Models.Requests;
 using Domain.Models;
 using FluentValidation;
 
-namespace Application.Validators;
+namespace API.Validation;
 
-public class RegisterUserValidator: AbstractValidator<User>
+public class RegisterUserValidator: AbstractValidator<RegisterUserRequest>
 {
     public RegisterUserValidator()
     {

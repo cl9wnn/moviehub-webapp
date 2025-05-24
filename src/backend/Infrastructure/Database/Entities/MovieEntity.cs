@@ -10,11 +10,11 @@ public class MovieEntity
     public string AgeRating { get; set; }
     public double UserRating { get; set; }
     public string PosterUrl { get; set; }
+    public bool IsDeleted { get; set; }
     
     public ICollection<MovieDirectorEntity> Directors { get; set; } = new List<MovieDirectorEntity>();
     public ICollection<MovieWriterEntity> Writers { get; set; } = new List<MovieWriterEntity>();
     public ICollection<MovieActorEntity> MovieActors { get; set; } = new List<MovieActorEntity>();
     public ICollection<GenreEntity> Genres { get; set; } = new List<GenreEntity>();
-    
     public ICollection<MoviePhotoEntity> Photos { get; set; } = new List<MoviePhotoEntity>();
 }
