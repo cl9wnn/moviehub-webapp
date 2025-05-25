@@ -12,7 +12,7 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 [ActorExists]
 [ApiController]
-public class ActorsController(IActorService actorService, IMapper mapper): ControllerBase
+public class ActorsController(IActorService actorService, IMediaService mediaService, IMapper mapper): ControllerBase
 {
     [HttpGet("all")]
     public async Task<IActionResult> GetActorsAsync()
@@ -55,6 +55,57 @@ public class ActorsController(IActorService actorService, IMapper mapper): Contr
         return createResult.IsSuccess
             ? Created()
             : BadRequest(createResult.ErrorMessage);
+    }
+    
+    [ValidateImageFile]
+    [HttpPost("{id:guid}/portrait")]
+    public async Task<IActionResult> UploadActorPortraitAsync(Guid id, IFormFile? file)
+    {
+        var objectName = $"portraits/{id}{Path.GetExtension(file.FileName)}";
+        const string bucketName = "actors";
+        await using var stream = file.OpenReadStream();
+        
+        var urlResult = await mediaService.UploadMediaFile(stream, objectName, file.ContentType, bucketName);
+
+        if (!urlResult.IsSuccess)
+        {
+            return BadRequest(urlResult.ErrorMessage);
+        }
+        
+        var portraitUrl = urlResult.Data;
+        
+        var addOrUpdateResult = await actorService.AddOrUpdatePortraitPhotoAsync(portraitUrl, id);
+        
+        return addOrUpdateResult.IsSuccess 
+            ? Ok()
+            : BadRequest(addOrUpdateResult.ErrorMessage);
+    }
+    
+    [ValidateImageFile]
+    [HttpPost("{id:guid}/photo")]
+    public async Task<IActionResult> UploadActorPhotoAsync(Guid id, IFormFile? file)
+    {
+        var objectName = $"photos/{id}/{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+        const string bucketName = "actors";
+        await using var stream = file.OpenReadStream();
+        
+        var urlResult = await mediaService.UploadMediaFile(stream, objectName, file.ContentType, bucketName);
+
+        if (!urlResult.IsSuccess)
+        {
+            return BadRequest(urlResult.ErrorMessage);
+        }
+        
+        var photo = new Photo
+        {
+            ImageUrl = urlResult.Data,
+        };
+        
+        var addResult = await actorService.AddActorPhotoAsync(photo, id);
+        
+        return addResult.IsSuccess 
+            ? Ok()
+            : BadRequest(urlResult.ErrorMessage);
     }
     
     [HttpDelete("{id:guid}")]

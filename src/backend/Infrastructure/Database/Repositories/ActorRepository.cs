@@ -1,7 +1,7 @@
-using Application.Utils;
 using AutoMapper;
 using Domain.Abstractions.Repositories;
 using Domain.Models;
+using Domain.Utils;
 using Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -38,6 +38,7 @@ public class ActorRepository(AppDbContext dbContext, IMapper mapper): IActorRepo
         await dbContext.SaveChangesAsync();
         
         var actor = mapper.Map<Actor>(actorEntity);
+        
         return Result<Actor>.Success(actor);
     }
 
@@ -55,6 +56,7 @@ public class ActorRepository(AppDbContext dbContext, IMapper mapper): IActorRepo
         await dbContext.SaveChangesAsync();
         
         var updated = mapper.Map<Actor>(existingActor);
+        
         return Result<Actor>.Success(updated);
     }
 
@@ -70,6 +72,7 @@ public class ActorRepository(AppDbContext dbContext, IMapper mapper): IActorRepo
         
         existingActor!.IsDeleted = true;
         await dbContext.SaveChangesAsync();
+        
         return Result.Success();
     }
 
@@ -85,5 +88,32 @@ public class ActorRepository(AppDbContext dbContext, IMapper mapper): IActorRepo
         var actors = mapper.Map<List<Actor>>(actorEntities);
 
         return Result<ICollection<Actor>>.Success(actors);
+    }
+
+    public async Task<Result> AddOrUpdatePortraitAsync(string url, Guid id)
+    {
+        var actorEntity = await ActiveActors
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (actorEntity == null)
+        {
+            return Result.Failure("Actor not found")!;
+        }
+        
+        actorEntity.PhotoUrl = url;
+        await dbContext.SaveChangesAsync();
+        
+        return Result.Success();
+    }
+
+    public async Task<Result> AddActorPhotoAsync(Photo photo, Guid id)
+    {
+        var actorPhotoEntity = mapper.Map<ActorPhotoEntity>(photo);
+        actorPhotoEntity.ActorId = id;
+        
+        await dbContext.ActorPhotos.AddAsync(actorPhotoEntity);
+        await dbContext.SaveChangesAsync();
+        
+        return Result.Success();
     }
 }

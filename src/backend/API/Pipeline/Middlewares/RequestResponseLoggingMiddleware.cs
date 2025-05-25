@@ -12,9 +12,16 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<Requ
     
     public async Task InvokeAsync(HttpContext context)
     {
-        context.Request.EnableBuffering();
-        var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
-        context.Request.Body.Position = 0;
+        var isMedia = context.Request.ContentType?.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase) == true;
+        var requestBody = "[Skipped due to multipart/form-data]";
+        
+        if (!isMedia)
+        {
+            context.Request.EnableBuffering();
+            using var reader = new StreamReader(context.Request.Body, leaveOpen: true);
+            requestBody = await reader.ReadToEndAsync();
+            context.Request.Body.Position = 0;
+        }
         
         var originalBodyStream = context.Response.Body;
         using var responseBody = new MemoryStream();

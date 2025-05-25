@@ -1,4 +1,4 @@
-namespace Application.Utils;
+namespace Domain.Utils;
 
 public class Result<T>(bool isSuccess, T data, string? errorMessage)
 {

@@ -51,6 +51,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<MovieExistsFilter>();
         services.AddScoped<ActorExistsFilter>();
+        services.AddScoped<ValidateImageFileFilter>();
         return services;
     }
 

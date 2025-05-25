@@ -17,6 +17,8 @@ builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
+builder.Services.AddScoped<IMediaService, MediaService>();
+
 builder.ConfigureSerilog();
 builder.Services.AddControllers();
 builder.Services.AddCustomCors();

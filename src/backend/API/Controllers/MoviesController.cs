@@ -13,7 +13,7 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 [MovieExists]
 [ApiController]
-public class MoviesController(IMovieService movieService , IMapper mapper): ControllerBase
+public class MoviesController(IMovieService movieService, IMediaService mediaService, IMapper mapper): ControllerBase
 {
     [HttpGet("all")]
     public async Task<IActionResult> GetMoviesAsync()
@@ -56,6 +56,57 @@ public class MoviesController(IMovieService movieService , IMapper mapper): Cont
         return createResult.IsSuccess
             ? Created()
             : BadRequest(createResult.ErrorMessage);
+    }
+    
+    [ValidateImageFile]
+    [HttpPost("{id:guid}/poster")]
+    public async Task<IActionResult> UploadMoviePoster(Guid id, IFormFile? file)
+    {
+        var objectName = $"posters/{id}{Path.GetExtension(file.FileName)}";
+        const string bucketName = "movies";
+        await using var stream = file.OpenReadStream();
+        
+        var urlResult = await mediaService.UploadMediaFile(stream, objectName, file.ContentType, bucketName);
+        
+        if (!urlResult.IsSuccess)
+        {
+            return BadRequest(urlResult.ErrorMessage);
+        }
+        
+        var posterUrl = urlResult.Data;
+        
+        var addOrUpdateResult = await movieService.AddOrUpdatePosterPhotoAsync(posterUrl, id);
+        
+        return addOrUpdateResult.IsSuccess 
+            ? Ok()
+            : BadRequest(addOrUpdateResult.ErrorMessage);
+    }
+    
+    [ValidateImageFile]
+    [HttpPost("{id:guid}/photo")]
+    public async Task<IActionResult> UploadMoviePhotoAsync(Guid id, IFormFile? file)
+    {
+        var objectName = $"photos/{id}/{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+        const string bucketName = "movies";
+        await using var stream = file.OpenReadStream();
+        
+        var urlResult = await mediaService.UploadMediaFile(stream, objectName, file.ContentType, bucketName);
+
+        if (!urlResult.IsSuccess)
+        {
+            return BadRequest(urlResult.ErrorMessage);
+        }
+        
+        var photo = new Photo
+        {
+            ImageUrl = urlResult.Data,
+        };
+        
+        var addResult = await movieService.AddMoviePhotoAsync(photo, id);
+        
+        return addResult.IsSuccess 
+            ? Ok()
+            : BadRequest(urlResult.ErrorMessage);
     }
     
     [HttpPost("{id:guid}/actors")]

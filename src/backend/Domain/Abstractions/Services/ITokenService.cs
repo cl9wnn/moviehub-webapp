@@ -1,6 +1,6 @@
 using System.Security.Claims;
-using Application.Utils;
 using Domain.Models;
+using Domain.Utils;
 
 namespace Domain.Abstractions.Services;
 

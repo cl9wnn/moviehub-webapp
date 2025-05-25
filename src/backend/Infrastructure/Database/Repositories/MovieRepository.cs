@@ -1,8 +1,8 @@
-using Application.Utils;
 using AutoMapper;
 using Domain.Abstractions.Repositories;
 using Domain.Dtos;
 using Domain.Models;
+using Domain.Utils;
 using Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -137,6 +137,32 @@ public class MovieRepository(AppDbContext dbContext, IMapper mapper): IMovieRepo
         }
         
         await dbContext.MovieActors.AddRangeAsync(actorEntities);
+        await dbContext.SaveChangesAsync();
+        
+        return Result.Success();
+    }
+
+    public async Task<Result> AddOrUpdatePosterPhotoAsync(string url, Guid id)
+    {
+        var movieEntity = await ActiveMovies
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (movieEntity == null)
+        {
+            return Result.Failure("Movie not found")!;
+        }
+        
+        movieEntity.PosterUrl = url;
+        await dbContext.SaveChangesAsync();
+        return Result.Success();
+    }
+
+    public async Task<Result> AddMoviePhotoAsync(Photo photo, Guid id)
+    {
+        var moviePhotoEntity = mapper.Map<MoviePhotoEntity>(photo);
+        moviePhotoEntity.MovieId = id;
+        
+        await dbContext.MoviePhotos.AddAsync(moviePhotoEntity);
         await dbContext.SaveChangesAsync();
         
         return Result.Success();

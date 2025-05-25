@@ -1,5 +1,5 @@
-﻿using Application.Utils;
-using Domain.Abstractions.Services;
+﻿using Domain.Abstractions.Services;
+using Domain.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Minio;

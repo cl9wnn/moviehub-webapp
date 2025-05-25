@@ -1,8 +1,8 @@
-using Application.Utils;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
 using Domain.Dtos;
 using Domain.Models;
+using Domain.Utils;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Services;

@@ -1,8 +1,8 @@
-using Application.Utils;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
 using Domain.Dtos;
 using Domain.Models;
+using Domain.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -52,6 +52,24 @@ public class MovieService(IMovieRepository movieRepository): IMovieService
         var addResult = await movieRepository.AddActorsAsync(actors);
         
         return  addResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(addResult.ErrorMessage!);
+    }
+
+    public async Task<Result> AddOrUpdatePosterPhotoAsync(string url, Guid id)
+    {
+        var addOrUpdateResult = await movieRepository.AddOrUpdatePosterPhotoAsync(url, id);
+        
+        return addOrUpdateResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(addOrUpdateResult.ErrorMessage!);
+    }
+
+    public async Task<Result> AddMoviePhotoAsync(Photo photo, Guid id)
+    {
+        var addResult = await movieRepository.AddMoviePhotoAsync(photo, id);
+        
+        return addResult.IsSuccess
             ? Result.Success()
             : Result.Failure(addResult.ErrorMessage!);
     }
