@@ -1,4 +1,6 @@
+using Domain.Abstractions.Services;
 using Infrastructure.Database;
+using Infrastructure.FileStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,15 @@ public static class ServiceCollectionExtensions
         {
             options.UseNpgsql(configuration.GetConnectionString("PostgresDbConnection"));
         });
+
+        return services;
+    }
+    
+    public static IServiceCollection AddMinioStorage(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<MinioOptions>(configuration.GetSection("MinioOptions"));
+
+        services.AddSingleton<IFileStorageService, MinioFileStorageService>();
 
         return services;
     }

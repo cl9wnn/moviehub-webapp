@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Application.Utils;
 using Domain.Models;
 
-namespace Application.Abstractions;
+namespace Domain.Abstractions.Services;
 
 public interface ITokenService
 {

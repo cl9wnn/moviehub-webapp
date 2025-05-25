@@ -21,6 +21,7 @@ services:
     depends_on:
       - seq
       - db
+      - minio
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PostgresDbConnection=Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -36,6 +37,20 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
       
   seq:
     container_name: seq
@@ -49,5 +64,6 @@ services:
       
 volumes:
   pgdata:
+  minio_data:
   seqdata:
 

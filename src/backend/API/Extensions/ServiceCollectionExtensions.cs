@@ -6,7 +6,6 @@ using API.Models;
 using API.Models.Requests;
 using API.Pipeline.Auth;
 using API.Validation;
-using Application.Abstractions;
 using Application.Services;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
