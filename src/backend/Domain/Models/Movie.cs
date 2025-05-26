@@ -14,6 +14,6 @@ public class Movie
     public List<Person> Directors { get; set; } = new();
     public List<Person> Writers { get; set; } = new();
     public List<Genre> Genres { get; set; } = new();
-    public List<Photo> Photos { get; set; } = new();
+    public List<Photo>? Photos { get; set; }
     public List<MovieActor> Actors { get; set; } = new();
 }

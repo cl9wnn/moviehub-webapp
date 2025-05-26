@@ -33,7 +33,6 @@ public class MovieConfiguration: IEntityTypeConfiguration<MovieEntity>
             .HasMaxLength(5);
 
         builder.Property(m => m.PosterUrl)
-            .IsRequired()
             .HasMaxLength(256);
         
         builder.Property(m => m.IsDeleted)

@@ -231,7 +231,6 @@ namespace Infrastructure.Database.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<string>("PosterUrl")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 

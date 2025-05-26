@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250526072616_MakePhotosNullable")]
-    partial class MakePhotosNullable
+    [Migration("20250526074631_MakePhotosAreNullable")]
+    partial class MakePhotosAreNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,7 +234,6 @@ namespace Infrastructure.Database.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<string>("PosterUrl")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
