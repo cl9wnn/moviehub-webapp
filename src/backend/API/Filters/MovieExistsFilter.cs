@@ -13,7 +13,7 @@ public class MovieExistsFilter(IMovieService movieService): IAsyncActionFilter
             var getResult = await movieService.GetMovieAsync(id);
             if (!getResult.IsSuccess)
             {
-                context.Result = new NotFoundObjectResult(getResult.ErrorMessage);
+                context.Result = new NotFoundObjectResult(new {Error = getResult.ErrorMessage});
                 return;
             }
         }

@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const { isAuthenticated, setIsAuthenticated } = useAuth();
 
   const handleSignIn = () => navigate("/login");
-  const handleProfile = () => navigate("/user/:userId");
+  const handleProfile = () => navigate("/users/:userId");
 
   const handleLogout = async () => {
     try{

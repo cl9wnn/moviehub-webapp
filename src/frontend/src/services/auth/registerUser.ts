@@ -12,7 +12,7 @@ export interface ErrorRegisterResponse {
 
 export async function registerUser(data: RegisterRequest): Promise<void> {
   try{
-    await axios.post("/api/user/register", data);
+    await axios.post("/api/users/register", data);
   } catch (err) {
     const error = err as AxiosError<ErrorRegisterResponse>;
 

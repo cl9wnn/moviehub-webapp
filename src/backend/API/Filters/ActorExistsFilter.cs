@@ -14,7 +14,7 @@ public class ActorExistsFilter(IActorService actorService): IAsyncActionFilter
             var getResult = await actorService.GetActorAsync(id);
             if (!getResult.IsSuccess)
             {
-                context.Result = new NotFoundObjectResult(getResult.ErrorMessage);
+                context.Result = new NotFoundObjectResult(new {Error = getResult.ErrorMessage});
                 return;
             }
         }

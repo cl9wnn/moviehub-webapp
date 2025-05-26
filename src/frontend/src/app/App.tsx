@@ -6,6 +6,7 @@ import RegisterPage from '../pages/RegisterPage';
 import { ToastContainer } from 'react-toastify';
 import AccountPage from "../pages/AccountPage.tsx";
 import PrivateRoute from "../routes/PrivateRoute.tsx";
+import MoviePage from "../pages/MoviePage.tsx";
 
 const App: React.FC = () => {
   return (
@@ -14,7 +15,8 @@ const App: React.FC = () => {
       <Route path="/" element={<MainPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage/>}/>
-      <Route path="/user/:userId" element={<PrivateRoute><AccountPage/></PrivateRoute>} />
+      <Route path="/users/:userId" element={<PrivateRoute><AccountPage/></PrivateRoute>} />
+      <Route path="/movies/:movieId" element={<MoviePage/>} />
     </Routes>
   <ToastContainer position="top-right" autoClose={3000} />
     </>);
