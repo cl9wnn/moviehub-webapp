@@ -1,6 +1,7 @@
 using API.Models;
 using API.Models.Requests;
 using FluentValidation;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Validation;
 
@@ -25,15 +26,12 @@ public class CreateActorValidator: AbstractValidator<CreateActorRequest>
             .LessThan(DateOnly.FromDateTime(DateTime.Now));
 
         RuleFor(x => x.PhotoUrl)
-            .NotEmpty()
-            .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            .Must(url => url == null || Uri.IsWellFormedUriString(url, UriKind.Absolute))
             .WithMessage("PhotoUrl must be a valid URL.");
-        
-        RuleFor(x => x.Photos)
-            .NotEmpty().WithMessage("At least one additional photo is required");
 
         RuleForEach(x => x.Photos)
-            .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))
-            .WithMessage("Invalid URL format in additional photos");
+            .Must(url => !string.IsNullOrWhiteSpace(url) &&  Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            .WithMessage("Each photo must be a valid non-empty URL.")
+            .When(x => x.Photos != null);
     }
 }

@@ -25,10 +25,9 @@ public class ActorConfiguration: IEntityTypeConfiguration<ActorEntity>
         
         builder.Property(x => x.BirthDate)
             .IsRequired();
-            
+
         builder.Property(x => x.PhotoUrl)
-            .HasMaxLength(256)
-            .IsRequired();
+            .HasMaxLength(256);
         
         builder.Property(m => m.IsDeleted)
             .HasDefaultValue(false);
