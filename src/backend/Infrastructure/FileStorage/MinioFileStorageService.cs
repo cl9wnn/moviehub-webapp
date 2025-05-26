@@ -10,17 +10,16 @@ namespace Infrastructure.FileStorage;
 public class MinioFileStorageService: IFileStorageService
 {
     private readonly IMinioClient _minioClient;
-    private readonly string _endpoint;
     private readonly ILogger<MinioFileStorageService> _logger;
     
     public MinioFileStorageService(IOptions<MinioOptions> options, ILogger<MinioFileStorageService> logger)
     {
         var settings = options.Value;
         _logger = logger;
-        _endpoint = settings.Endpoint ?? throw new ArgumentNullException(nameof(settings.Endpoint));
+        var endpoint = settings.Endpoint ?? throw new ArgumentNullException(nameof(settings.Endpoint));
         
         _minioClient = new MinioClient()
-            .WithEndpoint(_endpoint)
+            .WithEndpoint(endpoint)
             .WithCredentials(settings.AccessKey, settings.SecretKey)
             .WithSSL(false)
             .Build();
@@ -42,7 +41,7 @@ public class MinioFileStorageService: IFileStorageService
 
             await _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
 
-            var filePath = $"{_endpoint}/{bucketName}/{fileName}";
+            var filePath = $"localhost:9000/{bucketName}/{fileName}";
             return Result<string>.Success(filePath);
         }
         catch (Exception ex)
