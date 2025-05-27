@@ -24,7 +24,11 @@ public class MovieConfiguration: IEntityTypeConfiguration<MovieEntity>
         builder.Property(m => m.DurationAtMinutes)
             .IsRequired();
         
-        builder.Property(m => m.UserRating)
+        builder.Property(m => m.RatingCount)
+            .IsRequired()
+            .HasDefaultValue(0);
+        
+        builder.Property(m => m.RatingSum)
             .IsRequired()
             .HasDefaultValue(0);
         

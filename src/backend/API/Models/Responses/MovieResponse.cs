@@ -9,6 +9,7 @@ public class MovieResponse
     public int DurationAtMinutes { get; set; }
     public string AgeRating { get; set; }
     public double UserRating { get; set; }
+    public int RatingCount { get; set; }
     public string PosterUrl { get; set; }
     
     public List<PersonResponse> Directors { get; set; } 

@@ -8,7 +8,8 @@ public class Movie
     public int Year { get; set; }
     public int DurationAtMinutes { get; set; }
     public string AgeRating { get; set; }
-    public double UserRating { get; set; }
+    public int RatingCount { get; set; }
+    public double RatingSum { get; set; }
     public string PosterUrl { get; set; }
     
     public List<Person> Directors { get; set; } = new();

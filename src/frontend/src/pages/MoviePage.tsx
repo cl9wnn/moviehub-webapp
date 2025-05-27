@@ -56,7 +56,7 @@ const MoviePage: React.FC = () => {
             {movie && <MovieInfo movie={movie} />}
           </div>
 
-          <MovieRating rating={movie?.userRating ?? null} />
+          <MovieRating rating={movie?.userRating ?? null} count={movie?.ratingCount ?? null}/>
         </div>
 
         <div className="w-full mt-5 max-w-5xl">

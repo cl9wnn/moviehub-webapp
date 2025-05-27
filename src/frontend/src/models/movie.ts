@@ -20,8 +20,8 @@ export interface MovieResponse {
   durationAtMinutes: number;
   ageRating: string;
   userRating: number;
+  ratingCount: number;
   posterUrl: string;
-
   directors: PersonResponse[];
   writers: PersonResponse[];
   movieActors: ActorCardResponse[];
