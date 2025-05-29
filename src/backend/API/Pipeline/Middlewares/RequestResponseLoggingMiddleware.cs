@@ -49,7 +49,12 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<Requ
             var node = JsonNode.Parse(json);
             if (node is not null)
                 FilterNode(node);
-            return node?.ToJsonString(new JsonSerializerOptions { WriteIndented = false }) ?? json;
+            return node?.ToJsonString(new JsonSerializerOptions
+            {
+                WriteIndented = false,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+
+            }) ?? json;
         }
         catch
         {

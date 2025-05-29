@@ -10,7 +10,7 @@ const HorizontalPhoto: React.FC<MoviePhotoProps> = ({ url, alt }) => {
     <img
       src={`http://${url}`}
       alt={alt ?? "Movie photo"}
-      className="min-w-[304px] h-48 object-cover rounded-lg"
+      className="h-48 w-auto object-cover rounded-lg"
     />
   );
 };

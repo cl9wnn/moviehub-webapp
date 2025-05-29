@@ -1,5 +1,7 @@
 import React from "react";
 import type { MovieResponse } from "../../models/movie.ts";
+import InfoRow from "../common/InfoRow.tsx";
+import ListRow from "../common/ListRow.tsx";
 
 type MovieInfoProps = {
   movie: MovieResponse;
@@ -39,19 +41,5 @@ const MovieInfo : React.FC<MovieInfoProps> = ({movie}) => {
     </div>
 );
 };
-
-const InfoRow = ({ label, value }: { label: string, value: React.ReactNode }) => (
-  <div className="flex">
-    <div className="w-1/3 font-semibold">{label}</div>
-    <div className="w-2/3 text-gray-800 pl-5">{value}</div>
-  </div>
-);
-
-const ListRow = ({ label, children }: { label: string, children: React.ReactNode }) => (
-  <div className="flex items-start">
-    <div className="w-1/3 font-semibold">{label}</div>
-    <ul className="w-2/3 space-y-1 text-gray-700 pl-5">{children}</ul>
-  </div>
-);
 
 export default MovieInfo;

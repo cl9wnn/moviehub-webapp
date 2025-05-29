@@ -6,7 +6,7 @@ import MoviePoster from "../components/movies/MoviePoster.tsx";
 import MovieRating from "../components/movies/MovieRating.tsx";
 import MovieDescription from "../components/movies/MovieDescription.tsx";
 import MovieActorsCarousel from "../components/movies/MovieActorsCarousel.tsx";
-import MoviePhotosCarousel from "../components/movies/MoviePhotosCarousel.tsx";
+import PhotoCarousel from "../components/common/PhotosCarousel.tsx";
 import MovieInfo from "../components/movies/MovieInfo.tsx";
 import MovieTitle from "../components/movies/MovieTitle.tsx";
 import PageWrapper from "../components/common/PageWrapper.tsx";
@@ -70,7 +70,7 @@ const MoviePage: React.FC = () => {
 
           {(movie?.photos ?? []).length > 0 && (
             <div className="mt-14 mb-12">
-              <MoviePhotosCarousel photos={movie?.photos ?? []} />
+              <PhotoCarousel photos={movie?.photos ?? []} />
             </div>
           )}
         </div>

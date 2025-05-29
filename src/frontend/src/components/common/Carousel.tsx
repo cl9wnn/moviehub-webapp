@@ -26,7 +26,7 @@ const Carousel: React.FC<CarouselProps> = ({ children, title }) => {
       <div className="relative">
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white opacity-40 hover:opacity-100 transition-opacity shadow-md rounded-full p-2"
         >
           <ChevronLeft size={24} />
         </button>
@@ -40,7 +40,7 @@ const Carousel: React.FC<CarouselProps> = ({ children, title }) => {
 
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white opacity-40 hover:opacity-100 transition-opacity shadow-md rounded-full p-2"
         >
           <ChevronRight size={24} />
         </button>
