@@ -10,6 +10,7 @@ const Header: React.FC = () => {
 
   const handleSignIn = () => navigate("/login");
   const handleProfile = () => navigate("/users/:userId");
+  const handleMain = () => navigate("/");
 
   const handleLogout = async () => {
     try{
@@ -22,9 +23,15 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className="w-full fixed top-0 left-0 bg-gray-200 z-50">
+    <header className="w-full fixed top-0 left-0 bg-black z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 space-x-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-800">Мое приложение</h1>
+        <button
+          onClick={handleMain}
+          className="bg-white text-black px-4 py-2 rounded-xl"
+        >
+          На главную
+        </button>
+        <h1 className="text-xl font-bold text-white">Мое приложение</h1>
         <div>
           {isAuthenticated ? (
             <>

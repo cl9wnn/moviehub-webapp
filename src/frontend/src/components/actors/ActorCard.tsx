@@ -1,13 +1,23 @@
 import React from "react";
 import type { ActorCardResponse } from "../../models/movie.ts";
+import { useNavigate } from "react-router-dom";
 
 interface ActorCardProps {
   actor: ActorCardResponse;
 }
 
 const ActorCard: React.FC<ActorCardProps> = ({ actor }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (): void => {
+    navigate(`/actors/${actor.id}`);
+  }
+
   return (
-    <div className="min-w-[210px] text-center">
+    <div
+      onClick={handleClick}
+      className="min-w-[210px] text-center cursor-pointer"
+    >
       <div className="relative w-full pt-[135%] overflow-hidden rounded-lg">
         <img
           src={`http://${actor.photoUrl}`}

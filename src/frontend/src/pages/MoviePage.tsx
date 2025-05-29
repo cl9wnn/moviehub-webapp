@@ -10,6 +10,8 @@ import PhotoCarousel from "../components/common/PhotosCarousel.tsx";
 import MovieInfo from "../components/movies/MovieInfo.tsx";
 import MovieTitle from "../components/movies/MovieTitle.tsx";
 import PageWrapper from "../components/common/PageWrapper.tsx";
+import Header from "../components/common/Header.tsx";
+import Divider from "../components/common/Divider.tsx";
 
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();
@@ -46,36 +48,51 @@ const MoviePage: React.FC = () => {
   if (error) return <div className="text-center mt-10 text-red-600">{error}</div>;
 
   return (
-    <PageWrapper>
-      <div className="flex flex-col items-center">
-        <div className="w-full flex flex-col lg:flex-row gap-10 justify-center">
-          <MoviePoster posterUrl={movie?.posterUrl} title={movie?.title} />
+    <>
+      <Header/>
+      <PageWrapper>
+        <div className="flex flex-col items-center">
+          <div className="w-full flex flex-col lg:flex-row gap-10 justify-center">
+            <MoviePoster posterUrl={movie?.posterUrl} title={movie?.title} />
 
-          <div className="flex-1 max-w-3xl space-y-8">
-            {movie && <MovieTitle title={movie?.title} />}
-            {movie && <MovieInfo movie={movie} />}
+            <div className="flex-1 max-w-3xl space-y-8">
+              {movie && <MovieTitle title={movie?.title} />}
+              {movie && <MovieInfo movie={movie} />}
+            </div>
+
+            <MovieRating rating={movie?.userRating ?? null} count={movie?.ratingCount ?? null}/>
           </div>
 
-          <MovieRating rating={movie?.userRating ?? null} count={movie?.ratingCount ?? null}/>
+          <div className="w-full mt-5 max-w-5xl">
+
+            {movie?.description &&  (
+              <>
+                <Divider/>
+                <MovieDescription description={movie?.description}/>
+              </>
+            )}
+
+            {(movie?.movieActors ?? []).length > 0 && (
+              <>
+                <Divider/>
+                <div className="mt-10 mb-12">
+                  <MovieActorsCarousel actors={movie?.movieActors ?? []}/>
+                </div>
+              </>
+            )}
+
+            {(movie?.photos ?? []).length > 0 && (
+              <>
+                <Divider/>
+                <div className="mt-10 mb-12">
+                  <PhotoCarousel photos={movie?.photos ?? []}/>
+                </div>
+              </>
+            )}
+          </div>
         </div>
-
-        <div className="w-full mt-5 max-w-5xl">
-          {movie?.description && <MovieDescription description={movie?.description}/>}
-
-          {(movie?.movieActors ?? []).length > 0 && (
-            <div className="mt-14 mb-12">
-              <MovieActorsCarousel actors={movie?.movieActors ?? []} />
-            </div>
-          )}
-
-          {(movie?.photos ?? []).length > 0 && (
-            <div className="mt-14 mb-12">
-              <PhotoCarousel photos={movie?.photos ?? []} />
-            </div>
-          )}
-        </div>
-      </div>
-    </PageWrapper>
+      </PageWrapper>
+    </>
   );
 };
 
