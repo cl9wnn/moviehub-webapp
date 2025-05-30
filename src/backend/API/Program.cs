@@ -37,6 +37,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerDocumentation(builder.Environment);
+    app.Services.ApplyMigrations();
+    app.SeedDatabase();
 }
 
 app.UseRequestResponseLogging();
@@ -44,7 +46,5 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
-app.Services.ApplyMigrations();
 
 app.Run();

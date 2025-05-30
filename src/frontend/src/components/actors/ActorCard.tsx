@@ -28,7 +28,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ actor }) => {
       <div className="mt-3 text-base font-semibold">
         {actor.firstName} {actor.lastName}
       </div>
-      <div className="text-sm text-gray-600">"{actor.characterName}"</div>
+      <div className="text-sm text-gray-600">{actor.characterName}</div>
     </div>
   );
 };

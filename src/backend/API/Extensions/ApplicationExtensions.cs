@@ -38,6 +38,12 @@ public static class ApplicationExtensions
         
         return services;
     }
+
+    public static WebApplication SeedDatabase(this WebApplication app)
+    {
+        MovieSeeder.SeedMovies(app.Services);
+        return app;
+    }
     
     public static IApplicationBuilder UseRequestResponseLogging(this IApplicationBuilder app)
     {
