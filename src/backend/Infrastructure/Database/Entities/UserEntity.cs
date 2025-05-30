@@ -9,4 +9,8 @@ public class UserEntity
     
     public RefreshTokenEntity RefreshToken { get; set; } 
     public bool IsDeleted { get; set; }
+    
+    public ICollection<MovieEntity> WatchList { get; set; } = new List<MovieEntity>();
+    public ICollection<ActorEntity> FavoriteActors { get; set; } = new List<ActorEntity>();
+    public ICollection<GenreEntity> PreferredGenres { get; set; } = new List<GenreEntity>();
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-
 namespace Infrastructure.Database.Entities;
 
 public class ActorEntity
@@ -14,4 +12,5 @@ public class ActorEntity
     
     public ICollection<ActorPhotoEntity>? Photos { get; set; } 
     public ICollection<MovieActorEntity> MovieActors { get; set; } = new List<MovieActorEntity>();
+    public ICollection<UserEntity> Users { get; set; } = new List<UserEntity>();
 }
