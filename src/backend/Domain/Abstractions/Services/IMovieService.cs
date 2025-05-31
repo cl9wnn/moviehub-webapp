@@ -13,4 +13,5 @@ public interface IMovieService
     Task<Result> AddActorsAsync(List<MovieActorDto> actors);
     Task<Result> AddOrUpdatePosterPhotoAsync(string url, Guid id);
     Task<Result> AddMoviePhotoAsync(Photo photo, Guid id);
+    Task<Result<MovieWithUserInfoDto>> GetMovieWithUserInfoAsync(Guid userId, Guid movieId);
 }

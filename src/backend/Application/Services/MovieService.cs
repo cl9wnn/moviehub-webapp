@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class MovieService(IMovieRepository movieRepository): IMovieService
+public class MovieService(IMovieRepository movieRepository, IUserRepository userRepository): IMovieService
 {
     public async Task<Result<List<Movie>>> GetAllMoviesAsync()
     {
@@ -72,5 +72,32 @@ public class MovieService(IMovieRepository movieRepository): IMovieService
         return addResult.IsSuccess
             ? Result.Success()
             : Result.Failure(addResult.ErrorMessage!);
+    }
+
+    public async Task<Result<MovieWithUserInfoDto>> GetMovieWithUserInfoAsync(Guid userId, Guid movieId)
+    {
+        var getResult  = await movieRepository.GetByIdAsync(movieId);
+
+        if (!getResult.IsSuccess)
+        {
+            return Result<MovieWithUserInfoDto>.Failure(getResult.ErrorMessage!)!;
+        }
+        
+        var movie = getResult.Data;
+        
+        var isInWatchListResult = await userRepository.IsMovieInWatchListAsync(userId, movieId);
+
+        if (!isInWatchListResult.IsSuccess)
+        {
+            return Result<MovieWithUserInfoDto>.Failure(isInWatchListResult.ErrorMessage!)!;
+        }
+
+        var actorWithInfo = new MovieWithUserInfoDto()
+        {
+            Movie = movie,
+            IsInWatchList = isInWatchListResult.Data,
+        };
+        
+        return Result<MovieWithUserInfoDto>.Success(actorWithInfo);
     }
 }

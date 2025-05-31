@@ -48,7 +48,9 @@ public class ApiMappingProfile: Profile
         CreateMap<Actor, ActorResponse>();
         
         CreateMap<Actor, ActorCardResponse>();
-
+        
+        CreateMap<ActorWithUserInfoDto, ActorWithUserInfoResponse>();
+        
         CreateMap<Movie, MovieResponse>()
             .ForMember(dest => dest.MovieActors, opt => opt.MapFrom(src => src.Actors))
             .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src =>
@@ -57,6 +59,8 @@ public class ApiMappingProfile: Profile
         CreateMap<Movie, MovieCardResponse>()
             .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src =>
             src.RatingCount == 0 ? 0 : Math.Round(src.RatingSum / src.RatingCount, 1)));
+        
+        CreateMap<MovieWithUserInfoDto, MovieWithUserInfoResponse>();
         
         CreateMap<Person, PersonResponse>();
 

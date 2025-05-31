@@ -1,11 +1,12 @@
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
+using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 
 namespace Application.Services;
 
-public class ActorService(IActorRepository actorRepository): IActorService
+public class ActorService(IActorRepository actorRepository, IUserRepository userRepository): IActorService
 {
     public async Task<Result<List<Actor>>> GetAllActorsAsync()
     {
@@ -55,5 +56,32 @@ public class ActorService(IActorRepository actorRepository): IActorService
         return addResult.IsSuccess
             ? Result.Success()
             : Result.Failure(addResult.ErrorMessage!);
+    }
+
+    public async Task<Result<ActorWithUserInfoDto>> GetActorWithUserInfoAsync(Guid userId, Guid actorId)
+    {
+        var getResult  = await actorRepository.GetByIdAsync(actorId);
+
+        if (!getResult.IsSuccess)
+        {
+            return Result<ActorWithUserInfoDto>.Failure(getResult.ErrorMessage!)!;
+        }
+        
+        var actor = getResult.Data;
+        
+        var isFavoriteResult = await userRepository.IsActorFavoriteAsync(userId, actorId);
+
+        if (!isFavoriteResult.IsSuccess)
+        {
+            return Result<ActorWithUserInfoDto>.Failure(isFavoriteResult.ErrorMessage!)!;
+        }
+
+        var actorWithInfo = new ActorWithUserInfoDto
+        {
+            Actor = actor,
+            IsFavorite = isFavoriteResult.Data,
+        };
+        
+        return Result<ActorWithUserInfoDto>.Success(actorWithInfo);
     }
 }

@@ -126,6 +126,44 @@ public class UserRepository(AppDbContext context, IMapper mapper): IUserReposito
         return Result.Success();
     }
 
+    public async Task<Result<bool>> IsActorFavoriteAsync(Guid userId, Guid actorId)
+    {
+        var userEntity = await ActiveUsers
+            .Include(u => u.FavoriteActors)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (userEntity == null)
+        {
+            return Result<bool>.Failure("User not found")!;
+        }
+        
+        if (userEntity.FavoriteActors.Any(a => a.Id == actorId))
+        {
+            return Result<bool>.Success(true);
+        }
+        
+        return Result<bool>.Success(false);
+    }
+    
+    public async Task<Result<bool>> IsMovieInWatchListAsync(Guid userId, Guid movieId)
+    {
+        var userEntity = await ActiveUsers
+            .Include(u => u.WatchList)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (userEntity == null)
+        {
+            return Result<bool>.Failure("User not found")!;
+        }
+        
+        if (userEntity.WatchList.Any(a => a.Id == movieId))
+        {
+            return Result<bool>.Success(true);
+        }
+        
+        return Result<bool>.Success(false);
+    }
+    
     public async Task<Result> AddFavoriteActorAsync(Guid userId, Guid actorId)
     {
         var userEntity = await ActiveUsers

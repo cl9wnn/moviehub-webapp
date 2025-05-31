@@ -1,3 +1,4 @@
+using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 
@@ -11,5 +12,6 @@ public interface IActorService
     Task<Result> DeleteActorAsync(Guid id);
     Task<Result> AddOrUpdatePortraitPhotoAsync(string url, Guid id);
     Task<Result> AddActorPhotoAsync(Photo photo, Guid id);
+    Task<Result<ActorWithUserInfoDto>> GetActorWithUserInfoAsync(Guid userId, Guid actorId);
 
 }
