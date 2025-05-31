@@ -30,9 +30,9 @@ public class ActorRepository(AppDbContext dbContext, IMapper mapper): IActorRepo
         return Result<Actor>.Success(actor);
     }
 
-    public async Task<Result<Actor>> AddAsync(Actor entity)
+    public async Task<Result<Actor>> AddAsync(Actor actorDto)
     {
-        var actorEntity = mapper.Map<ActorEntity>(entity);
+        var actorEntity = mapper.Map<ActorEntity>(actorDto);
         
         await dbContext.Actors.AddAsync(actorEntity);
         await dbContext.SaveChangesAsync();
@@ -42,17 +42,17 @@ public class ActorRepository(AppDbContext dbContext, IMapper mapper): IActorRepo
         return Result<Actor>.Success(actor);
     }
 
-    public async Task<Result<Actor>> UpdateAsync(Actor entity)
+    public async Task<Result<Actor>> UpdateAsync(Actor actorDto)
     {
         var existingActor = await ActiveActors
-            .FirstOrDefaultAsync(a => a.Id == entity.Id);
+            .FirstOrDefaultAsync(a => a.Id == actorDto.Id);
 
         if (existingActor == null)
         {
             return Result<Actor>.Failure("Actor not found")!;
         }
 
-        mapper.Map(entity, existingActor);
+        mapper.Map(actorDto, existingActor);
         await dbContext.SaveChangesAsync();
         
         var updated = mapper.Map<Actor>(existingActor);

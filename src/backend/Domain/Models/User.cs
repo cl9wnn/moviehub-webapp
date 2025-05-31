@@ -6,4 +6,7 @@ public class User
     public string Username { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
+    public List<Actor> FavoriteActors { get; set; }
+    public List<Movie> WatchList { get; set; }
+    public List<Genre> PreferredGenres { get; set; }
 }
