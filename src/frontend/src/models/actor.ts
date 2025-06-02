@@ -1,4 +1,9 @@
 export interface ActorResponse  {
+  actor: ActorData;
+  isFavorite: boolean;
+}
+
+export interface ActorData {
   id: string;
   firstName: string;
   lastName: string;

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {getMovieById} from "../services/movies/getMovieById.ts";
 import { useParams } from "react-router-dom";
-import type {MovieResponse} from "../models/movie.ts";
+import type {MovieData} from "../models/movie.ts";
 import MoviePoster from "../components/movies/MoviePoster.tsx";
 import MovieRating from "../components/movies/MovieRating.tsx";
 import MovieDescription from "../components/movies/MovieDescription.tsx";
@@ -12,12 +12,34 @@ import MovieTitle from "../components/movies/MovieTitle.tsx";
 import PageWrapper from "../components/common/PageWrapper.tsx";
 import Header from "../components/common/Header.tsx";
 import Divider from "../components/common/Divider.tsx";
+import {addToWatchlist, removeFromWatchlist} from "../services/movies/toggleToWatchlist.ts";
 
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState<MovieResponse | null>(null);
+  const [movie, setMovie] = useState<MovieData | null>(null);
+  const [isInWatchList, setIsInWatchList] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const toggleWatchlist = async () => {
+    if (!movieId) return;
+
+    try {
+      if (isInWatchList) {
+        await removeFromWatchlist(movieId);
+        setIsInWatchList(false);
+      } else {
+        await addToWatchlist(movieId);
+        setIsInWatchList(true);
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Не удалось изменить статус watchlist");
+      }
+    }
+  };
 
   useEffect(() => {
     if (!movieId) {
@@ -28,8 +50,9 @@ const MoviePage: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        const data = await getMovieById(movieId);
-        setMovie(data);
+        const movieResponse = await getMovieById(movieId);
+        setMovie(movieResponse.movie);
+        setIsInWatchList(movieResponse.isInWatchList);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -56,7 +79,7 @@ const MoviePage: React.FC = () => {
             <MoviePoster posterUrl={movie?.posterUrl} title={movie?.title} />
 
             <div className="flex-1 max-w-3xl space-y-8">
-              {movie && <MovieTitle title={movie?.title} />}
+              {movie && <MovieTitle title={movie?.title} isInWatchList={isInWatchList} onToggleWatchlist={toggleWatchlist} />}
               {movie && <MovieInfo movie={movie} />}
             </div>
 

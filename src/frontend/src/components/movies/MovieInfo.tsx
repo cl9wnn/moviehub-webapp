@@ -1,10 +1,10 @@
 import React from "react";
-import type { MovieResponse } from "../../models/movie.ts";
+import type {MovieData} from "../../models/movie.ts";
 import InfoRow from "../common/InfoRow.tsx";
 import ListRow from "../common/ListRow.tsx";
 
 type MovieInfoProps = {
-  movie: MovieResponse;
+  movie: MovieData;
 };
 
 

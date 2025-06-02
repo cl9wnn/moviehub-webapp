@@ -17,8 +17,8 @@ const App: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage/>}/>
       <Route path="/users/:userId" element={<PrivateRoute><AccountPage/></PrivateRoute>} />
-      <Route path="/movies/:movieId" element={<MoviePage/>} />
-      <Route path="/actors/:actorId" element={<ActorPage/>} />
+      <Route path="/movies/:movieId" element={<PrivateRoute><MoviePage/></PrivateRoute>} />
+      <Route path="/actors/:actorId" element={<PrivateRoute><ActorPage/></PrivateRoute>} />
     </Routes>
   <ToastContainer position="top-right" autoClose={3000} />
     </>);

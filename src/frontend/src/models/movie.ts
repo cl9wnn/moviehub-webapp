@@ -12,7 +12,7 @@ export interface ActorCardResponse {
   characterName: string;
 }
 
-export interface MovieResponse {
+export interface MovieData {
   id: string;
   title: string;
   description: string;
@@ -27,4 +27,8 @@ export interface MovieResponse {
   movieActors: ActorCardResponse[];
   genres: string[];
   photos: string[];
+}
+export interface MovieResponse {
+  movie: MovieData;
+  isInWatchList: boolean;
 }

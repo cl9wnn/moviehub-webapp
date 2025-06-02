@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import PageWrapper from "../components/common/PageWrapper";
 import {useParams} from "react-router-dom";
-import type {ActorResponse} from "../models/actor.ts";
+import type {ActorData} from "../models/actor.ts";
 import {getActorById} from "../services/actors/getActorById.ts";
 import ActorPortrait from "../components/actors/ActorPortrait.tsx";
 import ActorTitle from "../components/actors/ActorTitle.tsx";
@@ -10,12 +10,34 @@ import PhotoCarousel from "../components/common/PhotosCarousel.tsx";
 import ActorMoviesCarousel from "../components/actors/ActorMoviesCarousel.tsx";
 import Header from "../components/common/Header.tsx";
 import Divider from "../components/common/Divider.tsx";
+import {addFavoriteActor, removeFavoriteActor} from "../services/users/toggleFavoriteActor.ts";
 
 const ActorPage: React.FC = () => {
   const { actorId } = useParams();
-  const [actor, setActor] = useState<ActorResponse | null>(null);
+  const [actor, setActor] = useState<ActorData | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const toggleFavorite = async () => {
+    if (!actorId) return;
+
+    try {
+      if (isFavorite) {
+        await removeFavoriteActor(actorId);
+        setIsFavorite(false);
+      } else {
+        await addFavoriteActor(actorId);
+        setIsFavorite(true);
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Не удалось изменить статус избранного");
+      }
+    }
+  };
 
   useEffect(() => {
     if (!actorId) {
@@ -26,8 +48,9 @@ const ActorPage: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        const data = await getActorById(actorId);
-        setActor(data);
+        const actorResponse = await getActorById(actorId);
+        setActor(actorResponse.actor);
+        setIsFavorite(actorResponse.isFavorite);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -54,7 +77,7 @@ const ActorPage: React.FC = () => {
             <ActorPortrait photoUrl={actor?.photoUrl} firstName={actor?.firstName} lastName={actor?.lastName} />
 
             <div className="flex-1 max-w-3xl space-y-8">
-              {actor && <ActorTitle firstName={actor?.firstName} lastName={actor?.lastName} />}
+              {actor && <ActorTitle firstName={actor?.firstName} lastName={actor?.lastName} isFavorite={isFavorite} onToggleFavorite={toggleFavorite}/>}
               {actor && <ActorInfo biography={actor?.biography} birthDate={actor?.birthDate} />}
             </div>
           </div>
