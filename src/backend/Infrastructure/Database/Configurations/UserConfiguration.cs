@@ -24,5 +24,8 @@ public class UserConfiguration: IEntityTypeConfiguration<UserEntity>
         builder.Property(u => u.IsDeleted)
             .IsRequired()
             .HasDefaultValue(false);
+
+        builder.Property(u => u.AvatarUrl)
+            .IsRequired();
     }
 }

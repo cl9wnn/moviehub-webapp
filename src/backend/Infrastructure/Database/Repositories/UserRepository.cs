@@ -1,14 +1,15 @@
 using AutoMapper;
-using Domain.Abstractions;
 using Domain.Abstractions.Repositories;
 using Domain.Models;
 using Domain.Utils;
 using Infrastructure.Database.Entities;
+using Infrastructure.FileStorage;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Database.Repositories;
 
-public class UserRepository(AppDbContext context, IMapper mapper): IUserRepository
+public class UserRepository(AppDbContext context, IMapper mapper, IOptions<MinioOptions> minioOptions): IUserRepository
 {
     public IQueryable<UserEntity> ActiveUsers => context.Users.Where(u => !u.IsDeleted);
     public async Task<Result<ICollection<User>>> GetAllAsync()
@@ -55,7 +56,8 @@ public class UserRepository(AppDbContext context, IMapper mapper): IUserReposito
         }
         
         var userEntity = mapper.Map<UserEntity>(userDto);
-
+        userEntity.AvatarUrl = $"{minioOptions.Value.InternalEndpoint}/users/default_avatar.png";
+        
         await context.Users.AddAsync(userEntity);
         await context.SaveChangesAsync();
         

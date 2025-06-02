@@ -3,6 +3,7 @@ export interface UserResponse {
   id: string;
   username: string;
   isCurrentUser: boolean;
+  avatarUrl: string;
   favoriteActors: ActorCardResponse[];
   watchList: MovieCardResponse[];
 }
