@@ -72,7 +72,7 @@ const ActorPage: React.FC = () => {
     <>
       <Header/>
       <PageWrapper>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-6">
           <div className="w-full flex flex-col lg:flex-row gap-10 justify-center">
             <ActorPortrait photoUrl={actor?.photoUrl} firstName={actor?.firstName} lastName={actor?.lastName} />
 
@@ -87,7 +87,7 @@ const ActorPage: React.FC = () => {
               <>
                 <Divider/>
                 <div className="mt-10 mb-10">
-                  <ActorMoviesCarousel movies={actor?.movies ?? []}/>
+                  <ActorMoviesCarousel movies={actor?.movies ?? []} title="Фильмография"/>
                 </div>
               </>
             )}

@@ -7,6 +7,10 @@ import Header from "../components/common/Header.tsx";
 import Avatar from "../components/account/Avatar.tsx";
 import AccountTitle from "../components/account/AccountTitle.tsx";
 import {uploadAvatar} from "../services/users/uploadAvatar.ts";
+import AccountInfo from "../components/account/AccountInfo.tsx";
+import ActorMoviesCarousel from "../components/actors/ActorMoviesCarousel.tsx";
+import MovieActorsCarousel from "../components/movies/MovieActorsCarousel.tsx";
+import Tabs from "../components/common/Tabs.tsx";
 
 
 const AccountPage: React.FC = () => {
@@ -72,27 +76,57 @@ const AccountPage: React.FC = () => {
     <>
       <Header/>
       <PageWrapper>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-6">
           <div className="w-full flex flex-col lg:flex-row gap-10 justify-center">
-            <Avatar  photoUrl={user?.avatarUrl ? `${user.avatarUrl}?t=${new Date().getTime()}` : undefined}
-                     name={user?.username} />
+            <Avatar photoUrl={user?.avatarUrl ? `${user.avatarUrl}?t=${new Date().getTime()}` : undefined}
+                    name={user?.username}/>
 
             <div className="flex-1 max-w-3xl space-y-8">
-              {user && (
-                <AccountTitle
-                  isCurrentUser={user.isCurrentUser}
-                  username={user.username}
-                  onUploadAvatar={handleUploadClick}
-                />
-              )}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+              {user && (<AccountTitle isCurrentUser={user.isCurrentUser} username={user.username}
+                                      onUploadAvatar={handleUploadClick}/>)}
+              {user && <AccountInfo bio={user?.bio} registrationDate={user?.registrationDate}/>}
+
+              <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange}/>
             </div>
+          </div>
+
+          <div className="w-full mt-12 mb-4 max-w-5xl">
+            {(user?.favoriteActors?.length || 0) > 0 ||
+            (user?.isCurrentUser && (user?.watchList?.length || 0) > 0) ? (
+              <>
+                <Tabs
+                  tabs={[
+                    ...(user?.favoriteActors?.length
+                      ? [
+                        {
+                          label: "Любимые актеры",
+                          content: (
+                            <MovieActorsCarousel
+                              actors={user.favoriteActors}
+                              title="Любимые актеры"
+                            />
+                          ),
+                        },
+                      ]
+                      : []),
+                    ...(user?.isCurrentUser && user?.watchList?.length
+                      ? [
+                        {
+                          label: "Смотреть позже",
+                          content: (
+                            <ActorMoviesCarousel
+                              movies={user.watchList}
+                              title="Смотреть позже"
+                            />
+                          ),
+                        },
+                      ]
+                      : []),
+                    // Добавь другие вкладки здесь при необходимости
+                  ]}
+                />
+              </>
+            ) : null}
           </div>
         </div>
       </PageWrapper>

@@ -27,5 +27,11 @@ public class UserConfiguration: IEntityTypeConfiguration<UserEntity>
 
         builder.Property(u => u.AvatarUrl)
             .IsRequired();
+        
+        builder.Property(u => u.RegistrationDate)
+            .IsRequired();
+
+        builder.Property(u => u.Bio)
+            .HasMaxLength(256);
     }
 }

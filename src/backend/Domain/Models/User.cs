@@ -6,6 +6,8 @@ public class User
     public string Username { get; set; }
     public string Email { get; set; }
     public string AvatarUrl { get; set; }
+    public string Bio { get; set; }
+    public DateOnly RegistrationDate { get; set; }
     public string Password { get; set; }
     public List<Actor> FavoriteActors { get; set; }
     public List<Movie> WatchList { get; set; }

@@ -74,7 +74,7 @@ const MoviePage: React.FC = () => {
     <>
       <Header/>
       <PageWrapper>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-6">
           <div className="w-full flex flex-col lg:flex-row gap-10 justify-center">
             <MoviePoster posterUrl={movie?.posterUrl} title={movie?.title} />
 
@@ -99,7 +99,7 @@ const MoviePage: React.FC = () => {
               <>
                 <Divider/>
                 <div className="mt-10 mb-12">
-                  <MovieActorsCarousel actors={movie?.movieActors ?? []}/>
+                  <MovieActorsCarousel actors={movie?.movieActors ?? []} title="Актеры"/>
                 </div>
               </>
             )}

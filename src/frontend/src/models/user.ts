@@ -4,6 +4,8 @@ export interface UserResponse {
   username: string;
   isCurrentUser: boolean;
   avatarUrl: string;
+  registrationDate: string;
+  bio: string;
   favoriteActors: ActorCardResponse[];
   watchList: MovieCardResponse[];
 }

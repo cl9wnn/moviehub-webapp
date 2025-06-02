@@ -57,6 +57,7 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         
         var userEntity = mapper.Map<UserEntity>(userDto);
         userEntity.AvatarUrl = $"{minioOptions.Value.InternalEndpoint}/users/default_avatar.png";
+        userEntity.RegistrationDate = DateOnly.FromDateTime(DateTime.UtcNow);
         
         await context.Users.AddAsync(userEntity);
         await context.SaveChangesAsync();

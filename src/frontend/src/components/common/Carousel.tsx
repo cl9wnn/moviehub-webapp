@@ -22,7 +22,7 @@ const Carousel: React.FC<CarouselProps> = ({ children, title }) => {
 
   return (
     <div className="relative mt-6">
-      {title && <h2 className="text-2xl font-bold mb-4">{title}</h2>}
+      {title && <h2 className="text-2xl font-bold mb-6">{title}</h2>}
       <div className="relative">
         <button
           onClick={() => scroll("left")}

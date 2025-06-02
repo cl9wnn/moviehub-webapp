@@ -7,6 +7,8 @@ public class UserEntity
     public string Email { get; set; }
     public string Password { get; set; }
     public string AvatarUrl { get; set; }
+    public DateOnly RegistrationDate { get; set; }
+    public string? Bio { get; set; }
     
     public RefreshTokenEntity RefreshToken { get; set; } 
     public bool IsDeleted { get; set; }
