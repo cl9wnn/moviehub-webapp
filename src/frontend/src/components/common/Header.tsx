@@ -1,15 +1,17 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {logoutUser} from "../../services/auth/logoutUser.ts";
+import { getCurrentUserId } from "../../hooks/useCurrentUserId";
 
 import {useAuth} from "../../hooks/UseAuth";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const currentUserId = getCurrentUserId();
 
   const handleSignIn = () => navigate("/login");
-  const handleProfile = () => navigate("/users/:userId");
+  const handleProfile = () => navigate(`/users/${currentUserId}`);
   const handleMain = () => navigate("/");
 
   const handleLogout = async () => {

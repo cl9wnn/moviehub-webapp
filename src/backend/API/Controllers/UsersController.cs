@@ -29,9 +29,18 @@ public class UsersController(IUserService userService, IMapper mapper): Controll
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetUserAsync(Guid id)
     {
+        var currentUserIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+        if (!Guid.TryParse(currentUserIdString, out var currentUserId))
+        {
+            return Unauthorized("Incorrect format for user");
+        }
+        
         var getResult = await userService.GetUserAsync(id);
         
         var user = mapper.Map<UserResponse>(getResult.Data);
+        
+        user.IsCurrentUser = id == currentUserId;
         
         return getResult.IsSuccess
             ? Ok(user)

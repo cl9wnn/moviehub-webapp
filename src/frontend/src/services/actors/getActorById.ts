@@ -2,7 +2,7 @@ import api from "../../utils/api.ts";
 import type { AxiosError } from "axios";
 import type {ActorResponse} from "../../models/actor.ts";
 
-export interface ErrorRegisterResponse {
+export interface ErrorGetResponse {
   error: string;
 }
 
@@ -11,7 +11,7 @@ export const getActorById = async (id: string): Promise<ActorResponse> => {
     const response = await api.get<ActorResponse>(`/actors/${id}`);
     return response.data;
   } catch (err) {
-    const error = err as AxiosError<ErrorRegisterResponse>;
+    const error = err as AxiosError<ErrorGetResponse>;
 
     if (error.response && error.response.status === 404 && error.response.data?.error) {
       throw new Error(error.response.data.error);

@@ -12,7 +12,7 @@ import MovieTitle from "../components/movies/MovieTitle.tsx";
 import PageWrapper from "../components/common/PageWrapper.tsx";
 import Header from "../components/common/Header.tsx";
 import Divider from "../components/common/Divider.tsx";
-import {addToWatchlist, removeFromWatchlist} from "../services/movies/toggleToWatchlist.ts";
+import {addToWatchlist, removeFromWatchlist} from "../services/users/toggleToWatchlist.ts";
 
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();

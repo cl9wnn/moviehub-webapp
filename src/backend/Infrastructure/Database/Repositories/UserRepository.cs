@@ -27,7 +27,9 @@ public class UserRepository(AppDbContext context, IMapper mapper): IUserReposito
     
     public async Task<Result<User>> GetByIdAsync(Guid userId)
     {
-        var userEntity = await context.Users
+        var userEntity = await ActiveUsers
+            .Include(u => u.WatchList)
+            .Include(u => u.FavoriteActors)
             .FirstOrDefaultAsync(u => u.Id == userId );
 
         return userEntity == null 
@@ -37,7 +39,7 @@ public class UserRepository(AppDbContext context, IMapper mapper): IUserReposito
     
     public async Task<Result<User>> GetByUsernameAsync(string username)
     {
-        var userEntity = await context.Users
+        var userEntity = await ActiveUsers
             .FirstOrDefaultAsync(u => u.Username == username );
 
         return userEntity == null

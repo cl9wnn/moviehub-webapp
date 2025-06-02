@@ -1,14 +1,14 @@
 import api from "../../utils/api.ts";
-import type { MovieResponse } from "../../models/movie";
+import type { UserResponse } from "../../models/user";
 import type { AxiosError } from "axios";
 
 export interface ErrorGetResponse {
   error: string;
 }
 
-export const getMovieById = async (id: string): Promise<MovieResponse> => {
+export const getUserById = async (id: string): Promise<UserResponse> => {
   try {
-    const response = await api.get<MovieResponse>(`/movies/${id}`);
+    const response = await api.get<UserResponse>(`/users/${id}`);
     return response.data;
   } catch (err) {
     const error = err as AxiosError<ErrorGetResponse>;
@@ -17,6 +17,6 @@ export const getMovieById = async (id: string): Promise<MovieResponse> => {
       throw new Error(error.response.data.error);
     }
 
-    throw new Error("Couldn't upload movie");
+    throw new Error("Couldn't upload user");
   }
 };
