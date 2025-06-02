@@ -61,7 +61,7 @@ public class AdminActorsController(IActorService actorService, IMediaService med
     
     [ValidateImageFile]
     [HttpPost("{id:guid}/portrait")]
-    public async Task<IActionResult> UploadActorPortraitAsync(Guid id, IFormFile? file)
+    public async Task<IActionResult> UploadActorPortraitAsync(Guid id, IFormFile file)
     {
         var objectName = $"portraits/{id}{Path.GetExtension(file.FileName)}";
         const string bucketName = "actors";
@@ -85,7 +85,7 @@ public class AdminActorsController(IActorService actorService, IMediaService med
     
     [ValidateImageFile]
     [HttpPost("{id:guid}/photo")]
-    public async Task<IActionResult> UploadActorPhotoAsync(Guid id, IFormFile? file)
+    public async Task<IActionResult> UploadActorPhotoAsync(Guid id, IFormFile file)
     {
         var objectName = $"photos/{id}/{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
         const string bucketName = "actors";

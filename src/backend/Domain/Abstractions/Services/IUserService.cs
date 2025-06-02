@@ -14,4 +14,5 @@ public interface IUserService
     Task<Result> AddToWatchListAsync(Guid userId, Guid movieId);
     Task<Result> DeleteFromWatchListAsync(Guid userId, Guid movieId);
     Task<Result> AddPreferredGenresAsync(Guid userId, List<Genre> genres);
+    Task<Result> AddOrUpdateAvatarAsync(string url, Guid userId);
 }

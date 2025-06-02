@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using API.Attributes;
 using API.Models;
 using API.Models.Requests;
 using API.Models.Responses;
@@ -14,7 +15,7 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class UsersController(IUserService userService, IMapper mapper): ControllerBase
+public class UsersController(IUserService userService, IMapper mapper, IMediaService mediaService): ControllerBase
 {
     [HttpGet("all")]
     public async Task<IActionResult> GetUsersAsync()
@@ -79,6 +80,38 @@ public class UsersController(IUserService userService, IMapper mapper): Controll
             : NotFound(deleteResult.ErrorMessage);
     }
 
+    [ValidateImageFile]
+    [HttpPost("avatar")]
+    public async Task<IActionResult> UploadAvatarAsync(IFormFile file)
+    {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (!Guid.TryParse(userIdString, out var userId))
+        {
+            return Unauthorized("Incorrect format for user");
+        }
+        
+        var objectName = $"avatars/{userId}{Path.GetExtension(file.FileName)}";
+        const string bucketName = "users";
+        await using var stream = file.OpenReadStream();
+        
+        var urlResult = await mediaService.UploadMediaFile(stream, objectName, file.ContentType, bucketName);
+
+        if (!urlResult.IsSuccess)
+        {
+            return BadRequest(urlResult.ErrorMessage);
+        }
+        
+        var avatarUrl = urlResult.Data;
+        
+        var addOrUpdateResult = await userService.AddOrUpdateAvatarAsync(avatarUrl, userId);
+        
+        return addOrUpdateResult.IsSuccess 
+            ? Ok()
+            : BadRequest(addOrUpdateResult.ErrorMessage);
+    }
+    
+        
     [HttpPost("favorite-actors/{actorId:guid}")]
     public async Task<IActionResult> AddFavoriteActorAsync(Guid actorId)
     {

@@ -167,7 +167,24 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         
         return Result<bool>.Success(false);
     }
-    
+
+    public async Task<Result> AddOrUpdateAvatarAsync(string url, Guid userId)
+    {
+        var userEntity = await ActiveUsers
+            .Include(u => u.FavoriteActors)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (userEntity == null)
+        {
+            return Result.Failure("User not found")!;
+        }
+        
+        userEntity.AvatarUrl = url;
+        await context.SaveChangesAsync();
+        
+        return Result.Success();
+    }
+
     public async Task<Result> AddFavoriteActorAsync(Guid userId, Guid actorId)
     {
         var userEntity = await ActiveUsers

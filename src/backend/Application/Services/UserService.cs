@@ -89,4 +89,13 @@ public class UserService(IUserRepository userRepository): IUserService
             ? Result.Success()
             : Result.Failure(addResult.ErrorMessage!);
     }
+
+    public async Task<Result> AddOrUpdateAvatarAsync(string url, Guid userId)
+    {
+        var addOrUpdateResult = await userRepository.AddOrUpdateAvatarAsync(url, userId);
+        
+        return addOrUpdateResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(addOrUpdateResult.ErrorMessage!);
+    }
 }

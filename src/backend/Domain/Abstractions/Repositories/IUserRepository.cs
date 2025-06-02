@@ -13,4 +13,5 @@ public interface IUserRepository: IRepository<Guid, User>
     Task<Result> DeleteFromWatchListAsync(Guid userId, Guid movieId);
     Task<Result<bool>> IsActorFavoriteAsync(Guid userId, Guid actorId);
     Task<Result<bool>> IsMovieInWatchListAsync(Guid userId, Guid movieId);
+    Task<Result> AddOrUpdateAvatarAsync(string url, Guid userId);
 }
