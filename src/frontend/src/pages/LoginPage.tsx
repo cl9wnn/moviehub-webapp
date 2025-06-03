@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <FormWrapper title="Sign in">
+    <FormWrapper title="Sign in" topPaddingClass="pt-48">
       <form onSubmit={handleSubmit} className="space-y-4">
 
         <InputField label="Username" name="name" value={formData.name} onChange={handleChange} placeholder="Enter your username" error={errors.name}/>

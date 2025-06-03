@@ -1,12 +1,14 @@
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
+using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Services;
 
-public class UserService(IUserRepository userRepository): IUserService
+public class UserService(IUserRepository userRepository, ITokenService tokenService,
+    IRefreshTokenRepository refreshTokenRepository): IUserService
 {
     public async Task<Result<List<User>>> GetAllUsersAsync()
     {
@@ -24,16 +26,29 @@ public class UserService(IUserRepository userRepository): IUserService
             : Result<User>.Failure(getResult.ErrorMessage!)!;
     }
 
-    public async Task<Result> RegisterAsync(User userDto)
+    public async Task<Result<AuthDto>> RegisterAsync(User userDto)
     {
         var hashPassword = new PasswordHasher<User>().HashPassword(userDto, userDto.Password);
         userDto.Password = hashPassword;
         
         var addResult = await userRepository.AddAsync(userDto);
+
+        if (!addResult.IsSuccess)
+        {
+            return Result<AuthDto>.Failure(addResult.ErrorMessage!)!;
+        }
         
-        return addResult.IsSuccess
-            ? Result.Success()
-            : Result.Failure(addResult.ErrorMessage!);
+        var accessToken = tokenService.GenerateAccessToken(userDto);
+        var refreshToken = RefreshToken.Create(tokenService.GenerateRefreshToken(), userDto.Id);
+        
+        var updateResult = await refreshTokenRepository.AddOrUpdateAsync(refreshToken);
+
+        if (!updateResult.IsSuccess)
+        {
+            return Result<AuthDto>.Failure("Invalid refresh token")!;
+        }
+        
+        return Result<AuthDto>.Success(AuthDto.Create(accessToken, refreshToken.Token));
     }
 
     public async Task<Result> DeleteUserAsync(Guid id)
@@ -81,9 +96,9 @@ public class UserService(IUserRepository userRepository): IUserService
             : Result.Failure(deleteResult.ErrorMessage!);
     }
 
-    public async Task<Result> AddPreferredGenresAsync(Guid userId, List<Genre> genres)
+    public async Task<Result> PersonalizeUserAsync(PersonalizeUserDto personalizeUserDto, Guid userId)
     {
-        var addResult = await userRepository.AddPreferredGenresAsync(userId, genres);
+        var addResult = await userRepository.PersonalizeUserAsync(personalizeUserDto, userId);
         
         return addResult.IsSuccess
             ? Result.Success()

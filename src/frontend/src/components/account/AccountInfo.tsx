@@ -8,16 +8,18 @@ type AccountInfoProps = {
 
 const AccountInfo : React.FC<AccountInfoProps> = ({bio, registrationDate}) => {
   return (
-    <div className="space-y-4">
-      <div className="space-y-4">
+    <div className="space-y-2">
+      <div className="space-y-2">
         <span className="font-semibold">Дата регистрации: </span>
         <span>{registrationDate}</span>
       </div>
-      <div className="space-y-4">
-        <span className="font-semibold">О себе: </span>
-        <span>{bio}</span>
-      </div>
-  </div>
+      {bio != null && (
+        <div className="space-y-2">
+          <span className="font-semibold">О себе: </span>
+          <span className="break-words whitespace-pre-wrap block">{bio}</span>
+        </div>
+      )}
+    </div>
   );
 };
 

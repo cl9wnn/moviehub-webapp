@@ -8,6 +8,7 @@ export interface LoginRequest {
 export interface LoginResponse {
   token: string;
 }
+
 export interface ErrorLoginResponse {
   error: string;
 }

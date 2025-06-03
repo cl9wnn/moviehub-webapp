@@ -6,6 +6,7 @@ import RedirectMessage from "../components/auth/RedirectMessage.tsx";
 import {validateRegister} from "../utils/validation/authValidation.ts";
 import {type RegisterRequest, registerUser} from "../services/auth/registerUser.ts";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../hooks/UseAuth.tsx";
 
 interface RegisterFormData {
   name: string;
@@ -23,6 +24,7 @@ const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<Partial<RegisterFormData>>({});
   const [globalError, setGlobalError] = useState<string | null>(null);
+  const { setIsAuthenticated } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,8 +47,10 @@ const RegisterPage: React.FC = () => {
     };
 
     try {
-      await registerUser(requestData);
-      navigate("/login", { state: { successMessage: "Account created successfully!" } });
+      const registerResult = await registerUser(requestData);
+      localStorage.setItem("accessToken", registerResult.token);
+      setIsAuthenticated(true);
+      navigate("/personalize", { state: { successMessage: "Account created successfully!" } });
     } catch (err) {
       if (err instanceof Error) {
         setGlobalError(err.message);
@@ -57,7 +61,7 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <FormWrapper title="Create account">
+    <FormWrapper title="Create account" stepLabel="Шаг 1" topPaddingClass="pt-32">
       <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
 
         <InputField label="Username" name="name" value={formData.name} onChange={handleChange} placeholder="Enter your unique username" error={errors.name} />

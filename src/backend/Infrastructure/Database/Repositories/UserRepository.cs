@@ -1,5 +1,6 @@
 using AutoMapper;
 using Domain.Abstractions.Repositories;
+using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 using Infrastructure.Database.Entities;
@@ -101,9 +102,9 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         return Result.Success();
     }
     
-    public async Task<Result> AddPreferredGenresAsync(Guid userId, List<Genre> genres)
+    public async Task<Result> PersonalizeUserAsync(PersonalizeUserDto personalizeUserDto, Guid userId)
     {
-        var genreIds = genres.Select(g => g.Id).ToList();
+        var genreIds = personalizeUserDto.Genres.Select(g => g.Id).ToList();
             
         var genreEntities = await context.Genres
             .Where(g => genreIds.Contains(g.Id))
@@ -126,6 +127,8 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         }
 
         userEntity.PreferredGenres = genreEntities;
+        userEntity.Bio = personalizeUserDto.Bio;
+        
         await context.SaveChangesAsync();
         
         return Result.Success();

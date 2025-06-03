@@ -35,7 +35,7 @@ public class ApiMappingProfile: Profile
             .ForMember(dest => dest.Genres, opt => opt.MapFrom(src =>
                 src.GenreIds.Select(id => new Genre { Id = id }).ToList()));
 
-        CreateMap<PreferredGenresRequest, List<Genre>>();
+        CreateMap<PersonalizeUserRequest, PersonalizeUserDto>();
         
         CreateMap<CreateMovieActorByIdRequest, MovieActorDto>()
             .ForMember(dest => dest.MovieId, opt => opt.MapFrom((_, _, _, context) =>

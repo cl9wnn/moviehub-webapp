@@ -89,6 +89,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IValidator<CreateMovieRequest>, CreateMovieValidator>();
         services.AddScoped<IValidator<CreateMovieActorRequest>, CreateMovieActorValidator>();
         services.AddScoped<IValidator<RegisterUserRequest>, RegisterUserValidator>();
+        services.AddScoped<IValidator<PersonalizeUserRequest>, PersonalizeUserValidator>();
         return services;
     }
     

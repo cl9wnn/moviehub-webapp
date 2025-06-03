@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import type {UserResponse} from "../models/user.ts";
 import {getUserById} from "../services/users/getUserById.ts";
 import PageWrapper from "../components/common/PageWrapper.tsx";
@@ -15,6 +15,7 @@ import Tabs from "../components/common/Tabs.tsx";
 
 const AccountPage: React.FC = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
   const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,8 +83,12 @@ const AccountPage: React.FC = () => {
                     name={user?.username}/>
 
             <div className="flex-1 max-w-3xl space-y-8">
-              {user && (<AccountTitle isCurrentUser={user.isCurrentUser} username={user.username}
-                                      onUploadAvatar={handleUploadClick}/>)}
+              {user && (<AccountTitle
+                isCurrentUser={user.isCurrentUser}
+                username={user.username}
+                onUploadAvatar={handleUploadClick}
+                onPersonalizeProfile={() => navigate("/personalize")}
+              />)}
               {user && <AccountInfo bio={user?.bio} registrationDate={user?.registrationDate}/>}
 
               <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange}/>

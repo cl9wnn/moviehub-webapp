@@ -10,9 +10,14 @@ export interface ErrorRegisterResponse {
   error: string;
 }
 
-export async function registerUser(data: RegisterRequest): Promise<void> {
+export interface RegisterResponse {
+  token: string;
+}
+
+export async function registerUser(data: RegisterRequest): Promise<RegisterResponse> {
   try{
-    await axios.post("/api/users/register", data);
+    const response = await axios.post("/api/users/register", data);
+    return response.data;
   } catch (err) {
     const error = err as AxiosError<ErrorRegisterResponse>;
 
