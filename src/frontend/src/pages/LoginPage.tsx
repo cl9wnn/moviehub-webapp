@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import FormWrapper from "../components/auth/FormWrapper.tsx";
 import InputField from "../components/common/InputField";
 import Button from "../components/auth/Button.tsx";
 import RedirectMessage from "../components/auth/RedirectMessage.tsx";
-import {validateLogin} from "../utils/validation/authValidation.ts";
-import {useLocation, useNavigate} from "react-router-dom";
-import  {type LoginRequest, loginUser} from "../services/auth/loginUser.ts";
-import {toast} from "react-toastify";
-import {useAuth} from "../hooks/UseAuth";
+import { validateLogin } from "../utils/validation/authValidation.ts";
+import { type LoginRequest, loginUser } from "../services/auth/loginUser.ts";
+import { useAuth } from "../hooks/UseAuth";
 
 export interface LoginFormData {
   name: string;
@@ -15,23 +16,10 @@ export interface LoginFormData {
 }
 
 const LoginPage: React.FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { setIsAuthenticated } = useAuth();
   const from = location.state?.from?.pathname || "/";
-
-  useEffect(() => {
-    const successMessage = location.state?.successMessage;
-    const errorMessage = location.state?.errorMessage;
-
-    if (successMessage) {
-      toast.success(successMessage);
-    }
-
-    if (errorMessage){
-      toast.error(errorMessage);
-    }
-  }, [location, navigate]);
 
   const [formData, setFormData] = useState<LoginFormData>({
     name: "",
@@ -41,9 +29,17 @@ const LoginPage: React.FC = () => {
   const [errors, setErrors] = useState<Partial<LoginFormData>>({});
   const [globalError, setGlobalError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const successMessage = location.state?.successMessage;
+    const errorMessage = location.state?.errorMessage;
+
+    if (successMessage) toast.success(successMessage);
+    if (errorMessage) toast.error(errorMessage);
+  }, [location]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,10 +48,9 @@ const LoginPage: React.FC = () => {
 
     const validationErrors = validateLogin(formData);
     setErrors(validationErrors);
-
     if (Object.keys(validationErrors).length > 0) return;
 
-    const requestData:LoginRequest = {
+    const requestData: LoginRequest = {
       username: formData.name,
       password: formData.password,
     };
@@ -64,32 +59,51 @@ const LoginPage: React.FC = () => {
       const loginData = await loginUser(requestData);
       localStorage.setItem("accessToken", loginData.token);
       setIsAuthenticated(true);
-      navigate(from, { state: { successMessage: "Successful authentication!" }, replace: true });
+      navigate(from, { state: { successMessage: "Успешный вход!" }, replace: true });
     } catch (err) {
-      if (err instanceof Error) {
-        setGlobalError(err.message);
-      } else {
-        setGlobalError("Something went wrong. Please try again.");
-      }
+      setGlobalError(err instanceof Error ? err.message : "Что-то пошло не так. Попробуйте снова.");
     }
-
   };
 
   return (
-    <FormWrapper title="Sign in" topPaddingClass="pt-48">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <FormWrapper title="Войти" topPaddingClass="pt-48">
+      <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
+        <InputField
+          label="Username"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Введите никнейм"
+          error={errors.name}
+        />
+        <InputField
+          label="Password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          type="password"
+          placeholder="Введите пароль"
+          error={errors.password}
+        />
 
-        <InputField label="Username" name="name" value={formData.name} onChange={handleChange} placeholder="Enter your username" error={errors.name}/>
-        <InputField label="Password" name="password" value={formData.password} onChange={handleChange} type="password" placeholder="Enter your password" error={errors.password}/>
+        <Button type="submit">Войти</Button>
 
-        <Button type="submit">Sign In</Button>
+        {globalError && (
+          <p className="text-sm text-red-600 text-center">{globalError}</p>
+        )}
       </form>
 
-      {globalError && (
-        <p className="text-sm text-red-600 text-center mt-2">{globalError}</p>
-      )}
+      <RedirectMessage
+        message="Впервые на сайте?"
+        linkTo="/register"
+        linkText="Зарегистрироваться"
+      />
 
-     <RedirectMessage message="New To MovieHub?" linkTo="/register" linkText="Sign up"/>
+      <p className="text-center text-sm mt-2">
+        <Link to="/" className="text-blue-800 hover:underline">
+          На главную
+        </Link>
+      </p>
     </FormWrapper>
   );
 };

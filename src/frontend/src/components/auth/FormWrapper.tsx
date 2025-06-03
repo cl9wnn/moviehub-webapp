@@ -8,7 +8,7 @@ interface FormWrapperProps {
 }
 
 const FormWrapper: React.FC<FormWrapperProps> = ({ title, stepLabel, children, topPaddingClass = "pt-20" }) => (
-  <div className={`min-h-screen flex flex-col items-center bg-gray-50 ${topPaddingClass} px-4`}>
+  <div className={`min-h-screen flex flex-col items-center bg-gray-100 ${topPaddingClass} px-4`}>
     {stepLabel && (
       <h3 className="text-2xl font-bold text-center mb-4">{stepLabel}</h3>
     )}

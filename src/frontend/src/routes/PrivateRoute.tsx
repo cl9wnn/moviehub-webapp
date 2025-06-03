@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
       to="/login"
       state={{
         from: location,
-        errorMessage: "You must be logged in to access this page!"
+        errorMessage: "Вы должны войти в систему, чтобы получить доступ к этой странице"
     }} replace />;
   }
 

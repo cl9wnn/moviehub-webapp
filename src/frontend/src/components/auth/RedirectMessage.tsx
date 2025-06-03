@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 interface RedirectMessageProps {
-  message: string;
+  message?: string;
   linkText: string;
   linkTo: string;
 }

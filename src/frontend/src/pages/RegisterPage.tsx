@@ -3,10 +3,10 @@ import FormWrapper from "../components/auth/FormWrapper.tsx";
 import InputField from "../components/common/InputField";
 import Button from "../components/auth/Button.tsx";
 import RedirectMessage from "../components/auth/RedirectMessage.tsx";
-import {validateRegister} from "../utils/validation/authValidation.ts";
-import {type RegisterRequest, registerUser} from "../services/auth/registerUser.ts";
-import {useNavigate} from "react-router-dom";
-import {useAuth} from "../hooks/UseAuth.tsx";
+import { validateRegister } from "../utils/validation/authValidation.ts";
+import { type RegisterRequest, registerUser } from "../services/auth/registerUser.ts";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/UseAuth.tsx";
 
 interface RegisterFormData {
   name: string;
@@ -40,7 +40,7 @@ const RegisterPage: React.FC = () => {
 
     if (Object.keys(validationErrors).length > 0) return;
 
-    const requestData:RegisterRequest = {
+    const requestData: RegisterRequest = {
       username: formData.name,
       email: formData.email,
       password: formData.password,
@@ -50,32 +50,68 @@ const RegisterPage: React.FC = () => {
       const registerResult = await registerUser(requestData);
       localStorage.setItem("accessToken", registerResult.token);
       setIsAuthenticated(true);
-      navigate("/personalize", { state: { successMessage: "Account created successfully!" } });
+      navigate("/personalize", {
+        state: { successMessage: "Аккаунт успешно создан!" },
+      });
     } catch (err) {
       if (err instanceof Error) {
         setGlobalError(err.message);
       } else {
-        setGlobalError("Something went wrong. Please try again.");
+        setGlobalError("Что-то пошло не так. Попробуйте снова.");
       }
     }
   };
 
   return (
-    <FormWrapper title="Create account" stepLabel="Шаг 1" topPaddingClass="pt-32">
-      <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
+    <FormWrapper title="Создать аккаунт" stepLabel="Шаг 1" topPaddingClass="pt-32">
+      <form onSubmit={handleSubmit} className="space-y-5" autoComplete="off">
+        <InputField
+          label="Никнейм"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Введите никнейм"
+          error={errors.name}
+        />
+        <InputField
+          label="Email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Введите email"
+          error={errors.email}
+        />
+        <InputField
+          label="Пароль"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Введите пароль"
+          error={errors.password}
+        />
 
-        <InputField label="Username" name="name" value={formData.name} onChange={handleChange} placeholder="Enter your unique username" error={errors.name} />
-        <InputField label="Email" name="email" value={formData.email} onChange={handleChange} type="email" placeholder="Enter your email address" error={errors.email} />
-        <InputField label="Password" name="password" value={formData.password} onChange={handleChange} type="password" placeholder="Enter your password" error={errors.password} />
+        {globalError && (
+          <p className="text-sm text-red-600 text-center -mt-2">{globalError}</p>
+        )}
 
-        <Button type="submit">Create your Account</Button>
+        <Button type="submit">Создать аккаунт</Button>
       </form>
 
-      {globalError && (
-        <p className="text-sm text-red-600 text-center mt-2">{globalError}</p>
-      )}
+      <div className="mt-6">
+        <RedirectMessage
+          message="Уже есть аккаунт?"
+          linkTo="/login"
+          linkText="Войти"
+        />
 
-      <RedirectMessage message="Already have an account?" linkTo="/login" linkText="Sign In"/>
+        <p className="text-center text-sm mt-2">
+          <Link to="/" className="text-blue-800 hover:underline">
+            На главную
+          </Link>
+        </p>
+      </div>
     </FormWrapper>
   );
 };

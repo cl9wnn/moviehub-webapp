@@ -10,25 +10,25 @@ export interface AuthFormErrors {
   password?: string;
 }
 
-// Username
+// Имя пользователя
 function validateUsername(name?: string): string | undefined {
-  if (!name?.trim()) return "Username is required";
+  if (!name?.trim()) return "Имя пользователя обязательно для заполнения";
   if (!/^[a-zA-Z0-9_\s]{5,20}$/.test(name))
-    return "Username must be 5–20 characters: letters, numbers, underscores or spaces.";
+    return "Имя пользователя должно содержать от 5 до 20 символов: буквы, цифры, пробелы или подчёркивания.";
 }
 
 // Email
 function validateEmail(email?: string): string | undefined {
-  if (!email?.trim()) return "Email is required";
+  if (!email?.trim()) return "Email обязателен для заполнения";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-    return "Invalid email address format.";
+    return "Неверный формат email-адреса.";
 }
 
-// Password
+// Пароль
 function validatePassword(password?: string): string | undefined {
-  if (!password?.trim()) return "Password is required";
+  if (!password?.trim()) return "Пароль обязателен для заполнения";
   if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(password))
-    return "Password must be 8–20 characters, include a digit, a special symbol, and a letter.";
+    return "Пароль должен содержать от 8 до 20 символов, включать букву, цифру и специальный символ.";
 }
 
 export function validateRegister(data: AuthFormData): AuthFormErrors {

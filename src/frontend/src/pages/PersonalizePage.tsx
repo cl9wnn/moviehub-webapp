@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import FormWrapper from "../components/auth/FormWrapper";
 import Button from "../components/auth/Button";
 import { personalizeUser } from "../services/auth/personalizeUser";
 import GenreTag from "../components/common/GenreTag";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import RedirectMessage from "../components/auth/RedirectMessage.tsx";
 
 const GENRES = [
   "Action", "Adventure", "Comedy", "Drama", "Horror", "Sci-Fi", "Fantasy", "Romance",
@@ -22,8 +25,15 @@ const PersonalizePage: React.FC = () => {
   const [bio, setBio] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const location = useLocation();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      toast.success(location.state.successMessage);
+    }
+  }, [location.state]);
 
   const toggleGenre = (genre: string) => {
     setSelectedGenres((prev) =>
@@ -47,7 +57,7 @@ const PersonalizePage: React.FC = () => {
     setError(null);
 
     if (selectedGenres.length !== MAX_GENRES) {
-      setError(`Please select exactly ${MAX_GENRES} genres.`);
+      setError(`Пожалуйста, выберите только ${MAX_GENRES} жанра.`);
       return;
     }
 
@@ -55,7 +65,7 @@ const PersonalizePage: React.FC = () => {
       const genres = selectedGenres.map((genre) => GENRE_ID_MAP[genre]);
 
       await personalizeUser({ bio,genres });
-      navigate("/");
+      navigate("/", { state: { successMessage: "Профиль успешно обновлён!" } });
     } catch (err) {
       setError("Failed to update profile. Please try again. " + err);
     }
@@ -66,11 +76,11 @@ const PersonalizePage: React.FC = () => {
   };
 
   return (
-    <FormWrapper title="Tell us about yourself" stepLabel="Шаг 2">
+    <FormWrapper title="Расскажите нам о себе" stepLabel="Шаг 2">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            About You
+            О Вас
           </label>
           <div className="relative">
             <textarea
@@ -78,7 +88,7 @@ const PersonalizePage: React.FC = () => {
               onChange={handleBioChange}
               rows={5}
               maxLength={MAX_BIO_LENGTH}
-              placeholder="Tell us a little about yourself..."
+              placeholder="Расскажите немного о себе..."
               className="w-full border rounded-lg p-2 pr-10"
             />
             <div
@@ -95,7 +105,7 @@ const PersonalizePage: React.FC = () => {
 
         <div>
           <p className="text-sm font-medium text-gray-700 mb-2">
-            Pick 3 genres you love
+            Выберите 3 любимых жанра
           </p>
           <div className="flex flex-wrap gap-2">
             {GENRES.map((genre) => (
@@ -111,14 +121,14 @@ const PersonalizePage: React.FC = () => {
 
         {error && <p className="text-sm text-red-600">{error}</p>}
 
-        <Button type="submit">Continue</Button>
+        <Button type="submit">Продолжить</Button>
 
         <button
           type="button"
           onClick={handleSkip}
           className="text-sm text-gray-500 underline hover:text-gray-700 block mx-auto mt-2"
         >
-          Skip for now
+          Пропустить сейчас
         </button>
       </form>
     </FormWrapper>
