@@ -15,7 +15,7 @@ public class MovieService(IMovieRepository movieRepository, IUserRepository user
         return Result<List<Movie>>.Success(getResult.Data.ToList());
     }
 
-    public async Task<Result<Movie>> GetMovieAsync(Guid id)
+    public async Task<Result<Movie>> GetByIdAsync(Guid id)
     {
         var getResult = await movieRepository.GetByIdAsync(id);
         

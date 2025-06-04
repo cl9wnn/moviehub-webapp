@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [Route("api/[controller]")]
-[MovieExists]
+[EntityExists<IMovieService, Movie>]
 [Authorize]
 [ApiController]
 public class MoviesController(IMovieService movieService, IMapper mapper): ControllerBase

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [Route("api/[controller]")]
-[ActorExists]
+[EntityExists<IActorService, Actor>]
 [Authorize]
 [ApiController]
 public class ActorsController(IActorService actorService, IMapper mapper): ControllerBase

@@ -4,10 +4,9 @@ using Domain.Utils;
 
 namespace Domain.Abstractions.Services;
 
-public interface IActorService
+public interface IActorService: IEntityService<Actor>
 {
     Task<Result<List<Actor>>> GetAllActorsAsync();
-    Task<Result<Actor>> GetActorAsync(Guid id);
     Task<Result<Actor>> CreateActorAsync(Actor actor);
     Task<Result> DeleteActorAsync(Guid id);
     Task<Result> AddOrUpdatePortraitPhotoAsync(string url, Guid id);

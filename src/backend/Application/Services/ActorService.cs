@@ -15,7 +15,7 @@ public class ActorService(IActorRepository actorRepository, IUserRepository user
         return Result<List<Actor>>.Success(getResult.Data.ToList());
     }
 
-    public async Task<Result<Actor>> GetActorAsync(Guid id)
+    public async Task<Result<Actor>> GetByIdAsync(Guid id)
     {
         var getResult = await actorRepository.GetByIdAsync(id);
         

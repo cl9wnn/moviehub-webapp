@@ -8,10 +8,10 @@ using Domain.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
+namespace API.Controllers.Admin;
 
 [Route("api/admin/movies")]
-[MovieExists]
+[EntityExists<IMovieService, Movie>]
 [ApiController]
 public class AdminMoviesController(IMovieService movieService, IMediaService mediaService, IMapper mapper): ControllerBase
 {
@@ -28,7 +28,7 @@ public class AdminMoviesController(IMovieService movieService, IMediaService med
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetMovieAsync(Guid id)
     {
-        var getResult = await movieService.GetMovieAsync(id);
+        var getResult = await movieService.GetByIdAsync(id);
         
         var movie = mapper.Map<MovieResponse>(getResult.Data);
         

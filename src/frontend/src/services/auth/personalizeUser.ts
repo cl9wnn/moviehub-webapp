@@ -1,13 +1,10 @@
 import api from "../../utils/api.ts";
 import type { AxiosError } from "axios";
+import type {ErrorResponse} from "../../models/ErrorReposnse.ts";
 
 export interface PersonalizeUserRequest {
   bio: string;
   genres: number[];
-}
-
-export interface ErrorResponse {
-  error: string;
 }
 
 export const personalizeUser = async (data: PersonalizeUserRequest): Promise<void> => {

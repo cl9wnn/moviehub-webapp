@@ -24,16 +24,6 @@ public class UsersController(
     IMediaService mediaService,
     IOptions<AuthOptions> authOptions) : ControllerBase
 {
-    [HttpGet("all")]
-    public async Task<IActionResult> GetUsersAsync()
-    {
-        var getResult = await userService.GetAllUsersAsync();
-
-        var users = mapper.Map<List<UserResponse>>(getResult.Data);
-
-        return Ok(users);
-    }
-
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetUserAsync(Guid id)
     {
@@ -84,16 +74,6 @@ public class UsersController(
         });
 
         return Ok(new { Token = registerResult.Data.AccessToken });
-    }
-
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteUserAsync(Guid id)
-    {
-        var deleteResult = await userService.DeleteUserAsync(id);
-
-        return deleteResult.IsSuccess
-            ? Ok()
-            : NotFound(deleteResult.ErrorMessage);
     }
 
     [ValidateImageFile]

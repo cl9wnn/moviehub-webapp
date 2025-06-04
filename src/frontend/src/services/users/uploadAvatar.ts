@@ -1,9 +1,6 @@
 import api from "../../utils/api.ts";
 import type { AxiosError } from "axios";
-
-export interface ErrorResponse {
-  error: string;
-}
+import type {ErrorResponse} from "../../models/ErrorReposnse.ts";
 
 export const uploadAvatar = async (file: File): Promise<void> => {
   const formData = new FormData();

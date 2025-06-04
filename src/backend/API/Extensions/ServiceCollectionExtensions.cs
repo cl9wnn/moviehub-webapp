@@ -49,8 +49,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddFilters(this IServiceCollection services)
     {
-        services.AddScoped<MovieExistsFilter>();
-        services.AddScoped<ActorExistsFilter>();
+        services.AddScoped(typeof(EntityExistsFilter<,>));
         services.AddScoped<ValidateImageFileFilter>();
         return services;
     }

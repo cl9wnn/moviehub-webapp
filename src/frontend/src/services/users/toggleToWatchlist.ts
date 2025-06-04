@@ -1,9 +1,6 @@
 import api from "../../utils/api.ts";
 import type { AxiosError } from "axios";
-
-export interface ErrorResponse {
-  error: string;
-}
+import type {ErrorResponse} from "../../models/ErrorReposnse.ts";
 
 export const addToWatchlist = async (movieId: string): Promise<void> => {
   try {

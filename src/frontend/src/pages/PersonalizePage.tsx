@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
 import FormWrapper from "../components/auth/FormWrapper";
 import Button from "../components/auth/Button";
 import { personalizeUser } from "../services/auth/personalizeUser";
 import GenreTag from "../components/common/GenreTag";
-import { useLocation } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
-import RedirectMessage from "../components/auth/RedirectMessage.tsx";
 
 const GENRES = [
   "Action", "Adventure", "Comedy", "Drama", "Horror", "Sci-Fi", "Fantasy", "Romance",

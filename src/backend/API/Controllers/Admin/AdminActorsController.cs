@@ -1,18 +1,16 @@
-﻿using System.Security.Claims;
-using API.Attributes;
+﻿using API.Attributes;
 using API.Models.Requests;
 using API.Models.Responses;
 using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
+namespace API.Controllers.Admin;
 
 [Route("api/admin/actors")]
-[ActorExists]
+[EntityExists<IActorService, Actor>]
 [ApiController]
 public class AdminActorsController(IActorService actorService, IMediaService mediaService, IMapper mapper): ControllerBase
 {
@@ -29,7 +27,7 @@ public class AdminActorsController(IActorService actorService, IMediaService med
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetActorAsync(Guid id)
     {
-        var getResult = await actorService.GetActorAsync(id);
+        var getResult = await actorService.GetByIdAsync(id);
         
         var actor = mapper.Map<ActorResponse>(getResult.Data);
         

@@ -4,10 +4,9 @@ using Domain.Utils;
 
 namespace Domain.Abstractions.Services;
 
-public interface IMovieService
+public interface IMovieService: IEntityService<Movie>
 {
     Task<Result<List<Movie>>> GetAllMoviesAsync();
-    Task<Result<Movie>> GetMovieAsync(Guid id);
     Task<Result<Movie>> CreateMovieAsync(Movie actor);
     Task<Result> DeleteMovieAsync(Guid id);
     Task<Result> AddActorsAsync(List<MovieActorDto> actors);
