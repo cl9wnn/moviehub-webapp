@@ -16,7 +16,8 @@ namespace API.Controllers.Admin;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+[EntityExists<IUserService, User>]
+[Authorize(Roles = "Admin")]
 public class AdminUsersController(
     IUserService userService,
     IMapper mapper) : ControllerBase

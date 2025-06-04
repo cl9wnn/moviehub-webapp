@@ -17,7 +17,7 @@ public class UserService(IUserRepository userRepository, ITokenService tokenServ
         return Result<List<User>>.Success(getResult.Data.ToList());
     }
 
-    public async Task<Result<User>> GetUserAsync(Guid id)
+    public async Task<Result<User>> GetByIdAsync(Guid id)
     {
         var getResult = await userRepository.GetByIdAsync(id);
         
@@ -32,7 +32,7 @@ public class UserService(IUserRepository userRepository, ITokenService tokenServ
         userDto.Password = hashPassword;
         
         var addResult = await userRepository.AddAsync(userDto);
-
+        
         if (!addResult.IsSuccess)
         {
             return Result<AuthDto>.Failure(addResult.ErrorMessage!)!;

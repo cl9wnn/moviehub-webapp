@@ -57,6 +57,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<AuthOptions>(configuration.GetSection("AuthOptions"));
+        services.Configure<AdminOptions>(configuration.GetSection("AdminOptions"));
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IAuthService, AuthService>();
@@ -88,6 +89,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IValidator<CreateMovieRequest>, CreateMovieValidator>();
         services.AddScoped<IValidator<CreateMovieActorRequest>, CreateMovieActorValidator>();
         services.AddScoped<IValidator<RegisterUserRequest>, RegisterUserValidator>();
+        services.AddScoped<IValidator<RegisterAdminRequest>, RegisterAdminValidator>();
         services.AddScoped<IValidator<PersonalizeUserRequest>, PersonalizeUserValidator>();
         return services;
     }

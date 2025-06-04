@@ -5,12 +5,14 @@ using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Admin;
 
 [Route("api/admin/actors")]
 [EntityExists<IActorService, Actor>]
+[Authorize(Roles = "Admin")]
 [ApiController]
 public class AdminActorsController(IActorService actorService, IMediaService mediaService, IMapper mapper): ControllerBase
 {

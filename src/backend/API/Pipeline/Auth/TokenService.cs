@@ -18,6 +18,7 @@ public class TokenService(IOptions<AuthOptions> authOptions): ITokenService
         {
             new (ClaimTypes.NameIdentifier, user.Id.ToString()),
             new (ClaimTypes.Name, user.Username),
+            new (ClaimTypes.Role, user.Role.ToString())
         };
 
         var singingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authOptions.Value.SecretKey));

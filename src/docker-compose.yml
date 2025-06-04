@@ -29,6 +29,7 @@ services:
       - MinioOptions__SecretKey=${MINIO_ROOT_PASSWORD}
       - MinioOptions__PublicEndpoint=minio:9000
       - MinioOptions__InternalEndpoint=localhost:9000
+      - AdminOptions__SecretKey=${ADMIN_SECRET_KEY}
       
   db:
     container_name: postgres

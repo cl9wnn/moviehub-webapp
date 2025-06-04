@@ -5,6 +5,7 @@ using Domain.Abstractions.Services;
 using Domain.Models;
 using Infrastructure.Database.Repositories;
 using Infrastructure.Extensions;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +31,10 @@ builder.Services.AddMinioStorage(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAutoMapper();
 builder.Services.AddValidators();
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+});
 
 var app = builder.Build();
 

@@ -13,6 +13,9 @@ public class ApiMappingProfile: Profile
         CreateMap<RegisterUserRequest, User>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()));
         
+        CreateMap<RegisterAdminRequest, User>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()));
+        
         CreateMap<LoginUserRequest, User>();
 
         CreateMap<CreateActorRequest, Actor>()

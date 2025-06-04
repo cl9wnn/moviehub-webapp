@@ -6,12 +6,14 @@ using Domain.Abstractions.Services;
 using Domain.Dtos;
 using Domain.Models;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Admin;
 
 [Route("api/admin/movies")]
 [EntityExists<IMovieService, Movie>]
+[Authorize(Roles = "Admin")]
 [ApiController]
 public class AdminMoviesController(IMovieService movieService, IMediaService mediaService, IMapper mapper): ControllerBase
 {

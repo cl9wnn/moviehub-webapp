@@ -1,3 +1,5 @@
+using Domain.Enums;
+
 namespace Infrastructure.Database.Entities;
 
 public class UserEntity
@@ -9,6 +11,7 @@ public class UserEntity
     public string AvatarUrl { get; set; }
     public DateOnly RegistrationDate { get; set; }
     public string? Bio { get; set; }
+    public UserRole Role { get; set; } 
     
     public RefreshTokenEntity RefreshToken { get; set; } 
     public bool IsDeleted { get; set; }

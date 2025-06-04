@@ -1,3 +1,4 @@
+using Domain.Enums;
 using Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -33,5 +34,11 @@ public class UserConfiguration: IEntityTypeConfiguration<UserEntity>
 
         builder.Property(u => u.Bio)
             .HasMaxLength(256);
+        
+        builder.Property(u => u.Role)
+            .HasConversion<string>()
+            .HasMaxLength(32)
+            .IsRequired()
+            .HasDefaultValue(UserRole.User);
     }
 }

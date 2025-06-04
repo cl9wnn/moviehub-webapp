@@ -8,6 +8,7 @@ using API.Pipeline.Auth;
 using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Dtos;
+using Domain.Enums;
 using Domain.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -18,12 +19,14 @@ namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[EntityExists<IUserService, User>]
 [Authorize]
 public class UsersController(
     IUserService userService,
     IMapper mapper,
     IMediaService mediaService,
-    IOptions<AuthOptions> authOptions) : ControllerBase
+    IOptions<AuthOptions> authOptions,
+    IOptions<AdminOptions> adminOptions) : ControllerBase
 {
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetUserAsync(Guid id)
@@ -33,7 +36,7 @@ public class UsersController(
             return Unauthorized("Incorrect format for user id");
         }
 
-        var getResult = await userService.GetUserAsync(id);
+        var getResult = await userService.GetByIdAsync(id);
 
         var user = mapper.Map<UserResponse>(getResult.Data);
 
@@ -61,6 +64,44 @@ public class UsersController(
         var userDto = mapper.Map<RegisterUserRequest, User>(request);
         var registerResult = await userService.RegisterAsync(userDto);
 
+        if (!registerResult.IsSuccess)
+        {
+            return BadRequest(new { Error = registerResult.ErrorMessage });
+        }
+
+        Response.Cookies.Append("refreshToken", registerResult.Data.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = DateTimeOffset.UtcNow.AddDays(authOptions.Value.RefreshTokenExpiredAtDays)
+        });
+
+        return Ok(new { Token = registerResult.Data.AccessToken });
+    }
+
+    [AllowAnonymous]
+    [HttpPost("register-admin")]
+    public async Task<IActionResult> RegisterAdminAsync([FromBody] RegisterAdminRequest request,
+        [FromServices] IValidator<RegisterAdminRequest> requestValidator)
+    {
+        var validationResult = await requestValidator.ValidateAsync(request);
+
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors
+                .Select(e => new { e.PropertyName, e.ErrorMessage });
+            return BadRequest(errors);
+        }
+
+        if (request.SecretKey != adminOptions.Value.SecretKey)
+        {
+            return Unauthorized("Invalid secret key!");
+        }
+        
+        var userDto = mapper.Map<RegisterAdminRequest, User>(request);
+        userDto.Role = UserRole.Admin;
+        
+        var registerResult = await userService.RegisterAsync(userDto);
+        
         if (!registerResult.IsSuccess)
         {
             return BadRequest(new { Error = registerResult.ErrorMessage });

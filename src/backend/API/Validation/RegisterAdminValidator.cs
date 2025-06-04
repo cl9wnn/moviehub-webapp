@@ -1,13 +1,11 @@
-using API.Models;
-using API.Models.Requests;
-using Domain.Models;
+﻿using API.Models.Requests;
 using FluentValidation;
 
 namespace API.Validation;
 
-public class RegisterUserValidator: AbstractValidator<RegisterUserRequest>
+public class RegisterAdminValidator: AbstractValidator<RegisterAdminRequest>
 {
-    public RegisterUserValidator()
+    public RegisterAdminValidator()
     {
         RuleFor(user => user.Email)
             .NotEmpty()
@@ -23,6 +21,10 @@ public class RegisterUserValidator: AbstractValidator<RegisterUserRequest>
             .NotEmpty()
             .Matches(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
             .WithMessage("Password must be between 8 and 20 characters, " +
-                         "at least one digit, special symbol, and upper case letter.");
+                         "at least one digit, special symbol, and upper case letter.");   
+        
+        RuleFor(a => a.SecretKey)
+            .NotEmpty()
+            .WithMessage("Secret key is required.");
     }
 }

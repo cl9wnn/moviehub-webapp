@@ -4,10 +4,9 @@ using Domain.Utils;
 
 namespace Domain.Abstractions.Services;
 
-public interface IUserService
+public interface IUserService: IEntityService<User>
 {
     Task<Result<List<User>>> GetAllUsersAsync();
-    Task<Result<User>> GetUserAsync(Guid id);
     Task<Result<AuthDto>> RegisterAsync(User user);
     Task<Result> DeleteUserAsync(Guid id);
     Task<Result> AddFavoriteActorAsync(Guid userId, Guid actorId);
