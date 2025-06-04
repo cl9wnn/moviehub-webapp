@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using API.Attributes;
+using API.Extensions;
 using API.Models;
 using API.Models.Requests;
 using API.Models.Responses;
@@ -27,18 +28,16 @@ public class UsersController(
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetUserAsync(Guid id)
     {
-        var currentUserIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (!Guid.TryParse(currentUserIdString, out var currentUserId))
+        if (User.GetUserId() is not Guid userId)
         {
-            return Unauthorized("Incorrect format for user");
+            return Unauthorized("Incorrect format for user id");
         }
 
         var getResult = await userService.GetUserAsync(id);
 
         var user = mapper.Map<UserResponse>(getResult.Data);
 
-        user.IsCurrentUser = id == currentUserId;
+        user.IsCurrentUser = id == userId;
 
         return getResult.IsSuccess
             ? Ok(user)
@@ -80,11 +79,9 @@ public class UsersController(
     [HttpPost("avatar")]
     public async Task<IActionResult> UploadAvatarAsync(IFormFile file)
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (!Guid.TryParse(userIdString, out var userId))
+        if (User.GetUserId() is not Guid userId)
         {
-            return Unauthorized("Incorrect format for user");
+            return Unauthorized("Incorrect format for user id");
         }
 
         var objectName = $"avatars/{userId}{Path.GetExtension(file.FileName)}";
@@ -111,11 +108,9 @@ public class UsersController(
     [HttpPost("favorite-actors/{actorId:guid}")]
     public async Task<IActionResult> AddFavoriteActorAsync(Guid actorId)
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (!Guid.TryParse(userIdString, out var userId))
+        if (User.GetUserId() is not Guid userId)
         {
-            return Unauthorized("Incorrect format for user");
+            return Unauthorized("Incorrect format for user id");
         }
 
         var addResult = await userService.AddFavoriteActorAsync(userId, actorId);
@@ -128,11 +123,9 @@ public class UsersController(
     [HttpDelete("favorite-actors/{actorId:guid}")]
     public async Task<IActionResult> DeleteFavoriteActorAsync(Guid actorId)
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (!Guid.TryParse(userIdString, out var userId))
+        if (User.GetUserId() is not Guid userId)
         {
-            return Unauthorized("Incorrect format for user");
+            return Unauthorized("Incorrect format for user id");
         }
 
         var deleteResult = await userService.DeleteFavoriteActorAsync(userId, actorId);
@@ -145,11 +138,9 @@ public class UsersController(
     [HttpPost("watchlist/{movieId:guid}")]
     public async Task<IActionResult> AddToWatchListAsync(Guid movieId)
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (!Guid.TryParse(userIdString, out var userId))
+        if (User.GetUserId() is not Guid userId)
         {
-            return Unauthorized("Incorrect format for user");
+            return Unauthorized("Incorrect format for user id");
         }
 
         var addResult = await userService.AddToWatchListAsync(userId, movieId);
@@ -162,11 +153,9 @@ public class UsersController(
     [HttpDelete("watchlist/{movieId:guid}")]
     public async Task<IActionResult> DeleteFromWatchListAsync(Guid movieId)
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (!Guid.TryParse(userIdString, out var userId))
+        if (User.GetUserId() is not Guid userId)
         {
-            return Unauthorized("Incorrect format for user");
+            return Unauthorized("Incorrect format for user id");
         }
 
         var deleteResult = await userService.DeleteFromWatchListAsync(userId, movieId);
@@ -189,11 +178,9 @@ public class UsersController(
             return BadRequest(errors);
         }
 
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (!Guid.TryParse(userIdString, out var userId))
+        if (User.GetUserId() is not Guid userId)
         {
-            return Unauthorized("Incorrect format for user");
+            return Unauthorized("Incorrect format for user id");
         }
 
         var personalizeDto = mapper.Map<PersonalizeUserRequest, PersonalizeUserDto>(request);

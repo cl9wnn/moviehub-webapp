@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using API.Attributes;
+using API.Extensions;
 using API.Models.Requests;
 using API.Models.Responses;
 using AutoMapper;
@@ -20,11 +21,9 @@ public class ActorsController(IActorService actorService, IMapper mapper): Contr
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetActorWithUserInfoAsync(Guid id)
     {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (!Guid.TryParse(userIdString, out var userId))
+        if (User.GetUserId() is not Guid userId)
         {
-            return Unauthorized("Incorrect format for user");
+            return Unauthorized("Incorrect format for user id");
         }
 
         var getResult = await actorService.GetActorWithUserInfoAsync(userId, id);
