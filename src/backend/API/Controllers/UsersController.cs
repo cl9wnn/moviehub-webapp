@@ -39,9 +39,9 @@ public class UsersController(
         var getResult = await userService.GetByIdAsync(id);
 
         var user = mapper.Map<UserResponse>(getResult.Data);
-
+        
         user.IsCurrentUser = id == userId;
-
+        
         return getResult.IsSuccess
             ? Ok(user)
             : NotFound(getResult.ErrorMessage);

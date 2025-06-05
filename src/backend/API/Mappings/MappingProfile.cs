@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using API.Models.Requests;
 using API.Models.Responses;
 using AutoMapper;
@@ -56,13 +57,19 @@ public class ApiMappingProfile: Profile
         
         CreateMap<Movie, MovieResponse>()
             .ForMember(dest => dest.MovieActors, opt => opt.MapFrom(src => src.Actors))
-            .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src =>
-                src.RatingCount == 0 ? 0 : Math.Round(src.RatingSum / src.RatingCount, 1)));
+            .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)));
 
-        CreateMap<Movie, MovieCardResponse>()
-            .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src =>
-            src.RatingCount == 0 ? 0 : Math.Round(src.RatingSum / src.RatingCount, 1)));
+
+        CreateMap<Movie, RatedMovieCardResponse>()
+            .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)));
+
+        CreateMap<MovieRating, RatedMovieCardResponse>()
+            .IncludeMembers(src => src.Movie)
+            .ForMember(dest => dest.OwnRating, opt => opt.MapFrom(src => src.Rating));
         
+        CreateMap<Movie, MovieCardResponse>()
+            .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)));
+
         CreateMap<MovieWithUserInfoDto, MovieWithUserInfoResponse>();
         
         CreateMap<Person, PersonResponse>();
@@ -74,5 +81,10 @@ public class ApiMappingProfile: Profile
         
         CreateMap<MovieActor, MovieCardResponse>()
             .IncludeMembers(src => src.Movie);
+    }
+    
+    private static double CalculateUserRating(Movie movie)
+    {
+        return movie.RatingCount == 0 ? 0 : Math.Round(movie.RatingSum / movie.RatingCount, 1);
     }
 }

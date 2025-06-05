@@ -4,11 +4,12 @@ using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
 public class UserService(IUserRepository userRepository, ITokenService tokenService,
-    IRefreshTokenRepository refreshTokenRepository): IUserService
+    IRefreshTokenRepository refreshTokenRepository, ILogger<UserService> logger): IUserService
 {
     public async Task<Result<List<User>>> GetAllUsersAsync()
     {
@@ -20,6 +21,8 @@ public class UserService(IUserRepository userRepository, ITokenService tokenServ
     public async Task<Result<User>> GetByIdAsync(Guid id)
     {
         var getResult = await userRepository.GetByIdAsync(id);
+        
+        logger.LogInformation("user: {@user}", getResult.Data);
         
         return getResult.IsSuccess
             ? Result<User>.Success(getResult.Data)

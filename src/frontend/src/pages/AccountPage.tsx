@@ -11,6 +11,7 @@ import AccountInfo from "../components/account/AccountInfo.tsx";
 import ActorMoviesCarousel from "../components/actors/ActorMoviesCarousel.tsx";
 import MovieActorsCarousel from "../components/movies/MovieActorsCarousel.tsx";
 import Tabs from "../components/common/Tabs.tsx";
+import RatedMoviesCarousel from "../components/movies/RatedMoviesCarousel.tsx";
 
 
 const AccountPage: React.FC = () => {
@@ -97,42 +98,54 @@ const AccountPage: React.FC = () => {
 
           <div className="w-full mt-12 mb-4 max-w-5xl">
             {(user?.favoriteActors?.length || 0) > 0 ||
+            (user?.movieRatings?.length || 0) > 0 ||
             (user?.isCurrentUser && (user?.watchList?.length || 0) > 0) ? (
-              <>
-                <Tabs
-                  tabs={[
-                    ...(user?.favoriteActors?.length
-                      ? [
-                        {
-                          label: "Любимые актеры",
-                          content: (
-                            <MovieActorsCarousel
-                              actors={user.favoriteActors}
-                              title="Любимые актеры"
-                            />
-                          ),
-                        },
-                      ]
-                      : []),
-                    ...(user?.isCurrentUser && user?.watchList?.length
-                      ? [
-                        {
-                          label: "Смотреть позже",
-                          content: (
-                            <ActorMoviesCarousel
-                              movies={user.watchList}
-                              title="Смотреть позже"
-                            />
-                          ),
-                        },
-                      ]
-                      : []),
-                    // Добавь другие вкладки здесь при необходимости
-                  ]}
-                />
-              </>
+              <Tabs
+                tabs={[
+                  ...(user?.favoriteActors?.length
+                    ? [
+                      {
+                        label: "Любимые актеры",
+                        content: (
+                          <MovieActorsCarousel
+                            actors={user.favoriteActors}
+                            title="Любимые актеры"
+                          />
+                        ),
+                      },
+                    ]
+                    : []),
+                  ...(user?.movieRatings?.length
+                    ? [
+                      {
+                        label: "Оценки",
+                        content: (
+                          <RatedMoviesCarousel
+                            movies={user.movieRatings}
+                            title="Оценки"
+                          />
+                        ),
+                      },
+                    ]
+                    : []),
+                  ...(user?.isCurrentUser && user?.watchList?.length
+                    ? [
+                      {
+                        label: "Смотреть позже",
+                        content: (
+                          <ActorMoviesCarousel
+                            movies={user.watchList}
+                            title="Смотреть позже"
+                          />
+                        ),
+                      },
+                    ]
+                    : []),
+                ]}
+              />
             ) : null}
           </div>
+
         </div>
       </PageWrapper>
     </>

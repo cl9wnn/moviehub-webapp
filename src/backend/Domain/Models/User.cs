@@ -15,4 +15,5 @@ public class User
     public List<Actor> FavoriteActors { get; set; }
     public List<Movie> WatchList { get; set; }
     public List<Genre> PreferredGenres { get; set; }
+    public List<MovieRating> MovieRatings { get; set; }
 }

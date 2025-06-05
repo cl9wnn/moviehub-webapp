@@ -1,12 +1,12 @@
 import React from "react";
-import type { MovieCardResponse } from "../../models/actor.ts";
+import type { RatedMovieCardResponse } from "../../models/ratedMovie.ts";
 import { useNavigate } from "react-router-dom";
 
-interface MovieCardProps {
-  movie: MovieCardResponse;
+interface RatedMovieCardProps {
+  movie: RatedMovieCardResponse;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const RatedMovieCard: React.FC<RatedMovieCardProps> = ({ movie }) => {
   const navigate = useNavigate();
 
   const handleClick = (): void => {
@@ -25,11 +25,15 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         />
         <div className="p-2">
           <h3 className="text-m font-bold truncate">{movie.title} ({movie.year})</h3>
-          <p className="text-s text-gray-500 truncate">{movie.characterName}</p>
-          <div className="flex items-center justify-center">
-            <span className="text-yellow-500 mr-1">★</span>
-            <span className="font-semibold">{movie.userRating.toFixed(1)}</span>
-            <span className="text-gray-500 text-sm ml-2">({movie.ratingCount})</span>
+          <div className="flex items-center justify-center space-x-4">
+            <div className="flex items-center">
+              <span className="text-yellow-500">★</span>
+              <span className="font-semibold ml-1">{movie.userRating}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-blue-500">★</span>
+              <span className="font-semibold ml-1">{movie.ownRating}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -37,4 +41,4 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   );
 };
 
-export default MovieCard;
+export default RatedMovieCard;

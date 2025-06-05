@@ -21,6 +21,9 @@ public class InfrastructureMappingProfile: Profile
             .ForMember(dest => dest.ActorId, opt => opt.MapFrom(src => src.Actor.Id))
             .ReverseMap();
 
+        CreateMap<MovieRatingEntity, MovieRating>()
+            .ReverseMap();
+        
         CreateMap<Movie, MovieEntity>()
             .ForMember(dest => dest.MovieActors, opt => opt.MapFrom(src => src.Actors))
             .ReverseMap();

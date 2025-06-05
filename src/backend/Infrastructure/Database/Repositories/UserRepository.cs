@@ -32,6 +32,8 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         var userEntity = await ActiveUsers
             .Include(u => u.WatchList)
             .Include(u => u.FavoriteActors)
+            .Include(u => u.MovieRatings)
+                .ThenInclude(m => m.Movie)
             .FirstOrDefaultAsync(u => u.Id == userId );
 
         return userEntity == null 

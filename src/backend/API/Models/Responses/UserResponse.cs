@@ -10,4 +10,5 @@ public class UserResponse
     public bool IsCurrentUser { get; set; }
     public List<ActorCardResponse> FavoriteActors { get; set; }
     public List<MovieCardResponse> WatchList { get; set; }
+    public List<RatedMovieCardResponse> MovieRatings { get; set; }
 }
