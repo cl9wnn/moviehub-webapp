@@ -167,4 +167,53 @@ public class MovieRepository(AppDbContext dbContext, IMapper mapper): IMovieRepo
         
         return Result.Success();
     }
+
+    public async Task<Result> RateMovieAsync(Guid id, Guid userId, int rating)
+    {
+        var movie = await ActiveMovies
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (movie == null)
+        {
+            return Result.Failure("Movie not found")!;
+        }
+
+        await using var transaction = await dbContext.Database.BeginTransactionAsync();
+
+        try
+        {
+            var existingRating = await dbContext.MovieRatings
+                .FirstOrDefaultAsync(m => m.MovieId == id && m.UserId == userId);
+
+            if (existingRating == null)
+            {
+                var movieRatingEntity = new MovieRatingEntity
+                {
+                    MovieId = id,
+                    UserId = userId,
+                    Rating = rating
+                };
+                
+                dbContext.MovieRatings.Add(movieRatingEntity);
+                
+                movie.RatingCount++;
+                movie.RatingSum += rating;
+            }
+            else
+            {
+                movie.RatingSum = movie.RatingSum - existingRating.Rating + rating;
+                existingRating.Rating = rating;
+            }
+            
+            await dbContext.SaveChangesAsync();
+            await transaction.CommitAsync();
+            
+            return Result.Success();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            return Result.Failure("Rating failed!")!;
+        }
+    }
 }

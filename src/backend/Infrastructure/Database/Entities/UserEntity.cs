@@ -19,4 +19,5 @@ public class UserEntity
     public ICollection<MovieEntity> WatchList { get; set; } = new List<MovieEntity>();
     public ICollection<ActorEntity> FavoriteActors { get; set; } = new List<ActorEntity>();
     public ICollection<GenreEntity> PreferredGenres { get; set; } = new List<GenreEntity>();
+    public ICollection<MovieRatingEntity> MovieRatings { get; set; } = new List<MovieRatingEntity>();
 }

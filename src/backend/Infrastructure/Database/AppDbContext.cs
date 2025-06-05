@@ -15,6 +15,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options): DbContext(opt
     public DbSet<MovieEntity> Movies { get; set; }
     public DbSet<MoviePhotoEntity> MoviePhotos { get; set; }
     public DbSet<MovieWriterEntity> MovieWriters { get; set; }
+    public DbSet<MovieRatingEntity> MovieRatings { get; set; }
     public DbSet<PhotoEntity> Photos { get; set; }
     public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
     public DbSet<UserEntity> Users { get; set; }
@@ -30,6 +31,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options): DbContext(opt
         modelBuilder.ApplyConfiguration(new PhotoConfiguration());
         modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieRatingConfiguration());
         
         base.OnModelCreating(modelBuilder);
     }

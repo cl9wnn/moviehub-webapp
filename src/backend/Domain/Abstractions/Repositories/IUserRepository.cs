@@ -15,4 +15,5 @@ public interface IUserRepository: IRepository<Guid, User>
     Task<Result<bool>> IsMovieInWatchListAsync(Guid userId, Guid movieId);
     Task<Result> AddOrUpdateAvatarAsync(string url, Guid userId);
     Task<Result> PersonalizeUserAsync(PersonalizeUserDto personalizeUserDto, Guid userId);
+    Task<Result<int?>> GetMovieRatingAsync(Guid userId, Guid movieId);
 }

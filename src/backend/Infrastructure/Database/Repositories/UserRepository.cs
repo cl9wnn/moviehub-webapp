@@ -134,6 +134,19 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         return Result.Success();
     }
 
+    public async Task<Result<int?>> GetMovieRatingAsync(Guid userId, Guid movieId)
+    {
+        var existingMovieRating = await context.MovieRatings
+            .FirstOrDefaultAsync(m => m.UserId == userId && m.MovieId == movieId);
+
+        if (existingMovieRating == null)
+        {
+            return Result<int?>.Success(null);
+        }
+        
+        return Result<int?>.Success(existingMovieRating.Rating);
+    }
+
     public async Task<Result<bool>> IsActorFavoriteAsync(Guid userId, Guid actorId)
     {
         var userEntity = await ActiveUsers

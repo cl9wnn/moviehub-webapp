@@ -31,4 +31,5 @@ export interface MovieData {
 export interface MovieResponse {
   movie: MovieData;
   isInWatchList: boolean;
+  ownRating?: number;
 }

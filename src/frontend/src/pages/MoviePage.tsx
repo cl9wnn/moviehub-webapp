@@ -18,6 +18,7 @@ const MoviePage: React.FC = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState<MovieData | null>(null);
   const [isInWatchList, setIsInWatchList] = useState(false);
+  const [ownRating, setOwnRating] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,6 +42,18 @@ const MoviePage: React.FC = () => {
     }
   };
 
+  const refreshMovieRatings = async () => {
+    if (!movieId) return;
+
+    try {
+      const movieResponse = await getMovieById(movieId);
+      setMovie(movieResponse.movie);
+      setOwnRating(movieResponse.ownRating ?? null);
+    } catch (err) {
+      console.error("Ошибка обновления рейтингов:", err);
+    }
+  };
+
   useEffect(() => {
     if (!movieId) {
       setError("Empty ID in URL");
@@ -53,6 +66,7 @@ const MoviePage: React.FC = () => {
         const movieResponse = await getMovieById(movieId);
         setMovie(movieResponse.movie);
         setIsInWatchList(movieResponse.isInWatchList);
+        setOwnRating(movieResponse.ownRating ?? null);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -83,7 +97,13 @@ const MoviePage: React.FC = () => {
               {movie && <MovieInfo movie={movie} />}
             </div>
 
-            <MovieRating rating={movie?.userRating ?? null} count={movie?.ratingCount ?? null}/>
+            <MovieRating
+              rating={movie?.userRating ?? null}
+              count={movie?.ratingCount ?? null}
+              movieId={movieId!}
+              userRating={ownRating ?? null}
+              onRatingSubmitted={refreshMovieRatings}
+            />
           </div>
 
           <div className="w-full mt-5 max-w-5xl">

@@ -35,4 +35,24 @@ public class MoviesController(IMovieService movieService, IMapper mapper): Contr
             ? Ok(movie)
             : NotFound(getResult.ErrorMessage);
     }
+
+    [HttpPost("{id:guid}/rate")]
+    public async Task<IActionResult> RateMovieAsync(Guid id, [FromBody] MovieRatingRequest request)
+    {
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+
+        if (request.Rating < 1 || request.Rating > 10)
+        {
+            return BadRequest("Rating must be between 1 and 10");
+        }
+
+        var rateResult = await movieService.RateMovieAsync(id, userId, request.Rating);
+        
+        return rateResult.IsSuccess
+            ? Ok()
+            : BadRequest(new {Error = rateResult.ErrorMessage});
+    }
 }

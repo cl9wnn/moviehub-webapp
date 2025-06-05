@@ -3,7 +3,6 @@ using Domain.Abstractions.Services;
 using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
-using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
@@ -91,13 +90,30 @@ public class MovieService(IMovieRepository movieRepository, IUserRepository user
         {
             return Result<MovieWithUserInfoDto>.Failure(isInWatchListResult.ErrorMessage!)!;
         }
+        
+        var ratingResult = await userRepository.GetMovieRatingAsync(userId, movieId);
 
-        var actorWithInfo = new MovieWithUserInfoDto()
+        if (!ratingResult.IsSuccess)
+        {
+            return Result<MovieWithUserInfoDto>.Failure(ratingResult.ErrorMessage!)!;
+        }
+        
+        var actorWithInfo = new MovieWithUserInfoDto
         {
             Movie = movie,
             IsInWatchList = isInWatchListResult.Data,
+            OwnRating = ratingResult.Data
         };
         
         return Result<MovieWithUserInfoDto>.Success(actorWithInfo);
+    }
+
+    public async Task<Result> RateMovieAsync(Guid id, Guid userId, int rating)
+    {
+        var rateResult = await movieRepository.RateMovieAsync(id, userId, rating);
+        
+        return rateResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(rateResult.ErrorMessage!);
     }
 }

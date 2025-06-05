@@ -8,12 +8,15 @@ export interface MovieActorsCarouselProps {
   title: string;
 }
 
-const MovieActorsCarousel: React.FC<MovieActorsCarouselProps> = ({ actors, title }) => (
-  <Carousel title={title}>
-    {actors.map((actor) => (
-      <ActorCard actor={actor} />
-    ))}
-  </Carousel>
-);
+const MovieActorsCarousel: React.FC<MovieActorsCarouselProps> = ({ actors, title }) => {
+  if (actors.length === 0) return null;
+
+  return (
+    <Carousel title={title}>
+      {actors.map((actor) => (
+        <ActorCard actor={actor} key={actor.id}/>
+      ))}
+    </Carousel>
+  )};
 
 export default MovieActorsCarousel;
