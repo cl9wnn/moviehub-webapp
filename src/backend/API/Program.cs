@@ -28,13 +28,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerDocumentation(builder.Environment);
 builder.Services.AddPostgresDb(builder.Configuration);
 builder.Services.AddMinioStorage(builder.Configuration);
+builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAutoMapper();
 builder.Services.AddValidators();
-builder.Services.AddAuthorization(o =>
-{
-    o.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
-});
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
 
 var app = builder.Build();
 

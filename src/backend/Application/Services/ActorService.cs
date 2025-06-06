@@ -6,11 +6,28 @@ using Domain.Utils;
 
 namespace Application.Services;
 
-public class ActorService(IActorRepository actorRepository, IUserRepository userRepository): IActorService
+public class ActorService(IActorRepository actorRepository, IUserRepository userRepository,
+    IDistributedCacheService cacheService): IActorService
 {
+    private const string ActorsCacheKey = "actors:all";
     public async Task<Result<List<Actor>>> GetAllActorsAsync()
     {
+        var cachedActors = await cacheService.GetAsync<List<Actor>>(ActorsCacheKey);
+
+        if (cachedActors != null)
+        {
+            return Result<List<Actor>>.Success(cachedActors);
+        }
+        
         var getResult = await actorRepository.GetAllAsync();
+
+        if (!getResult.IsSuccess)
+        {
+            return Result<List<Actor>>.Failure(getResult.ErrorMessage!)!;
+        }
+        
+        var actors = getResult.Data;
+        await cacheService.SetAsync(ActorsCacheKey, actors, TimeSpan.FromMinutes(10));
         
         return Result<List<Actor>>.Success(getResult.Data.ToList());
     }
@@ -27,17 +44,27 @@ public class ActorService(IActorRepository actorRepository, IUserRepository user
     public async Task<Result<Actor>> CreateActorAsync(Actor movie)
     {
         var createResult = await actorRepository.AddAsync(movie);
-        
-        return Result<Actor>.Success(createResult.Data);
+
+        if (createResult.IsSuccess)
+        {
+            await cacheService.RemoveAsync(ActorsCacheKey);
+            return Result<Actor>.Success(createResult.Data);
+        }
+
+        return Result<Actor>.Failure(createResult.ErrorMessage!)!;
     }
 
     public async Task<Result> DeleteActorAsync(Guid id)
     {
         var deleteResult = await actorRepository.DeleteAsync(id);
+
+        if (deleteResult.IsSuccess)
+        {
+            await cacheService.RemoveAsync(ActorsCacheKey);
+            return Result.Success();
+        }
         
-        return deleteResult.IsSuccess
-            ? Result.Success()
-            : Result.Failure(deleteResult.ErrorMessage!);
+        return Result.Failure(deleteResult.ErrorMessage!)!;
     }
 
     public async Task<Result> AddOrUpdatePortraitPhotoAsync(string url, Guid id)

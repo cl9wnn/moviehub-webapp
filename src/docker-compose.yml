@@ -22,6 +22,7 @@ services:
       - seq
       - db
       - minio
+      - redis
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PostgresDbConnection=Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -29,6 +30,8 @@ services:
       - MinioOptions__SecretKey=${MINIO_ROOT_PASSWORD}
       - MinioOptions__PublicEndpoint=minio:9000
       - MinioOptions__InternalEndpoint=localhost:9000
+      - RedisOptions__Host=redis
+      - RedisOptions__Port=6379
       - AdminOptions__SecretKey=${ADMIN_SECRET_KEY}
       
   db:
@@ -56,6 +59,16 @@ services:
     volumes:
       - minio_data:/data
 
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
   seq:
     container_name: seq
     image: datalust/seq:latest
@@ -70,4 +83,5 @@ volumes:
   pgdata:
   minio_data:
   seqdata:
+  redis_data:
 

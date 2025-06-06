@@ -22,7 +22,7 @@ const App: React.FC = () => {
       <Route path="/movies/:movieId" element={<PrivateRoute><MoviePage/></PrivateRoute>} />
       <Route path="/actors/:actorId" element={<PrivateRoute><ActorPage/></PrivateRoute>} />
     </Routes>
-  <ToastContainer position="top-right" autoClose={3000} />
+  <ToastContainer position="top-right" autoClose={3000} style={{ top: "70px" }} />
     </>);
 };
 

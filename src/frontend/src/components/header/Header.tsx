@@ -119,7 +119,7 @@ const Header: React.FC = () => {
                 <img
                   src={`http://${user.avatarUrl}`}
                   alt="Avatar"
-                  className="w-12 h-12 rounded-full object-cover cursor-pointer"
+                  className="w-10 h-10 rounded-full object-cover cursor-pointer"
                   onClick={() => setMenuOpen(!menuOpen)}
                 />
               ) : (

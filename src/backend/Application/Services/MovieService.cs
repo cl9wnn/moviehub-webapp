@@ -6,11 +6,29 @@ using Domain.Utils;
 
 namespace Application.Services;
 
-public class MovieService(IMovieRepository movieRepository, IUserRepository userRepository): IMovieService
+public class MovieService(IMovieRepository movieRepository, IUserRepository userRepository,
+    IDistributedCacheService cacheService): IMovieService
 {
+    private const string MoviesCacheKey = "movies:all";
     public async Task<Result<List<Movie>>> GetAllMoviesAsync()
     {
+        var cachedMovies = await cacheService.GetAsync<List<Movie>>(MoviesCacheKey);
+        
+        if (cachedMovies != null)
+        {
+            return Result<List<Movie>>.Success(cachedMovies);
+        }
+        
         var getResult = await movieRepository.GetAllAsync();
+
+        if (!getResult.IsSuccess)
+        {
+            return Result<List<Movie>>.Failure(getResult.ErrorMessage!)!;
+        }
+        
+        var movies = getResult.Data;
+        await cacheService.SetAsync(MoviesCacheKey, movies, TimeSpan.FromMinutes(10));
+        
         return Result<List<Movie>>.Success(getResult.Data.ToList());
     }
 
@@ -26,19 +44,27 @@ public class MovieService(IMovieRepository movieRepository, IUserRepository user
     public async Task<Result<Movie>> CreateMovieAsync(Movie movie)
     {
         var createResult = await movieRepository.AddAsync(movie); 
-        
-        return createResult.IsSuccess
-            ? Result<Movie>.Success(createResult.Data)
-            : Result<Movie>.Failure(createResult.ErrorMessage!)!;
+    
+        if (createResult.IsSuccess)
+        {
+            await cacheService.RemoveAsync(MoviesCacheKey);
+            return Result<Movie>.Success(createResult.Data);
+        }
+
+        return Result<Movie>.Failure(createResult.ErrorMessage!)!;
     }
 
     public async Task<Result> DeleteMovieAsync(Guid id)
     {
         var deleteResult = await movieRepository.DeleteAsync(id);
-        
-        return deleteResult.IsSuccess
-            ? Result.Success()
-            : Result.Failure(deleteResult.ErrorMessage!);
+
+        if (deleteResult.IsSuccess)
+        {
+            await cacheService.RemoveAsync(MoviesCacheKey);
+            return Result.Success();
+        }
+      
+        return Result.Failure(deleteResult.ErrorMessage!);
     }
 
     public async Task<Result> AddActorsAsync(List<MovieActorDto> actors)

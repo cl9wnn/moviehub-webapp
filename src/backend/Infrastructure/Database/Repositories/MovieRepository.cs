@@ -104,6 +104,7 @@ public class MovieRepository(AppDbContext dbContext, IMapper mapper): IMovieRepo
             .ToListAsync();
         
         var movies = mapper.Map<List<Movie>>(movieEntities);
+        
         return Result<ICollection<Movie>>.Success(movies);
     }
 
