@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.Services;
 
 public class UserService(IUserRepository userRepository, ITokenService tokenService,
-    IRefreshTokenRepository refreshTokenRepository, ILogger<UserService> logger): IUserService
+    IRefreshTokenRepository refreshTokenRepository): IUserService
 {
     public async Task<Result<List<User>>> GetAllUsersAsync()
     {
@@ -21,8 +21,6 @@ public class UserService(IUserRepository userRepository, ITokenService tokenServ
     public async Task<Result<User>> GetByIdAsync(Guid id)
     {
         var getResult = await userRepository.GetByIdAsync(id);
-        
-        logger.LogInformation("user: {@user}", getResult.Data);
         
         return getResult.IsSuccess
             ? Result<User>.Success(getResult.Data)

@@ -1,5 +1,5 @@
 import { getTestProtectedResource } from '../services/getTestProtectedResource.ts';
-import Header from "../components/common/Header.tsx";
+import Header from "../components/header/Header.tsx";
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";

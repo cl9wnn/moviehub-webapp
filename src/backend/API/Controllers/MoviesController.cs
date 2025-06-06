@@ -19,6 +19,16 @@ namespace API.Controllers;
 [ApiController]
 public class MoviesController(IMovieService movieService, IMapper mapper): ControllerBase
 {
+    [HttpGet("all")]
+    public async Task<IActionResult> GetMoviesAsync()
+    {
+        var getResult = await movieService.GetAllMoviesAsync();
+        
+        var movies = mapper.Map<List<MovieResponse>>(getResult.Data);
+        
+        return Ok(movies);
+    }
+    
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetMovieWithUserInfoAsync(Guid id)
     {

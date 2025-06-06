@@ -8,7 +8,7 @@ import ActorTitle from "../components/actors/ActorTitle.tsx";
 import ActorInfo from "../components/actors/ActorInfo.tsx";
 import PhotoCarousel from "../components/common/PhotosCarousel.tsx";
 import ActorMoviesCarousel from "../components/actors/ActorMoviesCarousel.tsx";
-import Header from "../components/common/Header.tsx";
+import Header from "../components/header/Header.tsx";
 import Divider from "../components/common/Divider.tsx";
 import {addFavoriteActor, removeFavoriteActor} from "../services/users/toggleFavoriteActor.ts";
 

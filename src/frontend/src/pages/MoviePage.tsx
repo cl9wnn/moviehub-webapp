@@ -10,7 +10,7 @@ import PhotoCarousel from "../components/common/PhotosCarousel.tsx";
 import MovieInfo from "../components/movies/MovieInfo.tsx";
 import MovieTitle from "../components/movies/MovieTitle.tsx";
 import PageWrapper from "../components/common/PageWrapper.tsx";
-import Header from "../components/common/Header.tsx";
+import Header from "../components/header/Header.tsx";
 import Divider from "../components/common/Divider.tsx";
 import {addToWatchlist, removeFromWatchlist} from "../services/users/toggleToWatchlist.ts";
 

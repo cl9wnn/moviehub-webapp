@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import type {UserResponse} from "../models/user.ts";
 import {getUserById} from "../services/users/getUserById.ts";
 import PageWrapper from "../components/common/PageWrapper.tsx";
-import Header from "../components/common/Header.tsx";
+import Header from "../components/header/Header.tsx";
 import Avatar from "../components/account/Avatar.tsx";
 import AccountTitle from "../components/account/AccountTitle.tsx";
 import {uploadAvatar} from "../services/users/uploadAvatar.ts";

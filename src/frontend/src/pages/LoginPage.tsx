@@ -9,6 +9,7 @@ import RedirectMessage from "../components/auth/RedirectMessage.tsx";
 import { validateLogin } from "../utils/validation/authValidation.ts";
 import { type LoginRequest, loginUser } from "../services/auth/loginUser.ts";
 import { useAuth } from "../hooks/UseAuth";
+import { getCurrentUserId } from "../hooks/useCurrentUserId";
 
 export interface LoginFormData {
   name: string;
@@ -19,7 +20,6 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { setIsAuthenticated } = useAuth();
-  const from = location.state?.from?.pathname || "/";
 
   const [formData, setFormData] = useState<LoginFormData>({
     name: "",
@@ -59,8 +59,15 @@ const LoginPage: React.FC = () => {
       const loginData = await loginUser(requestData);
       localStorage.setItem("accessToken", loginData.token);
       setIsAuthenticated(true);
-      navigate(from, { state: { successMessage: "Успешный вход!" }, replace: true });
-    } catch (err) {
+      const userId = getCurrentUserId();
+      if (userId) {
+        navigate(`/users/${userId}`, {
+          replace: true,
+          state: { successMessage: "Успешный вход!" },
+        });
+      } else {
+        navigate("/", { replace: true });
+      }    } catch (err) {
       setGlobalError(err instanceof Error ? err.message : "Что-то пошло не так. Попробуйте снова.");
     }
   };

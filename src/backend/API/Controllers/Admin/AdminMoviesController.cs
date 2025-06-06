@@ -17,16 +17,6 @@ namespace API.Controllers.Admin;
 [ApiController]
 public class AdminMoviesController(IMovieService movieService, IMediaService mediaService, IMapper mapper): ControllerBase
 {
-    [HttpGet("all")]
-    public async Task<IActionResult> GetMoviesAsync()
-    {
-        var getResult = await movieService.GetAllMoviesAsync();
-        
-        var movies = mapper.Map<List<MovieResponse>>(getResult.Data);
-        
-        return Ok(movies);
-    }
-    
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetMovieAsync(Guid id)
     {
