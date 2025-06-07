@@ -10,9 +10,6 @@ public static class MovieSeeder
         using var scope = serviceProvider.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        if (db.Movies.Any())
-            return;
-
         var genres = db.Genres.ToList();
 
         // ===== АКТЁРЫ  =====
@@ -286,19 +283,289 @@ public static class MovieSeeder
             IsDeleted = false
         };
         actors.Add(matthew);
+        
+        // "Заклятие" (The Conjuring)
+        var patrick = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Патрик",
+            LastName = "Уилсон",
+            Biography = "Патрик Джозеф Уилсон — американский актёр и певец, известный по ролям в фильмах ужасов.",
+            BirthDate = new DateOnly(1973, 7, 3),
+            IsDeleted = false
+        };
+        actors.Add(patrick);
 
+        var vera = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Вера",
+            LastName = "Фармига",
+            Biography = "Вера Энн Фармига — американская актриса, режиссёр и продюсер украинского происхождения.",
+            BirthDate = new DateOnly(1973, 8, 6),
+            IsDeleted = false
+        };
+        actors.Add(vera);
+
+        var lili = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Лили",
+            LastName = "Тейлор",
+            Biography = "Лили Тейлор — американская актриса, известная своими ролями в независимых фильмах и ужасах.",
+            BirthDate = new DateOnly(1967, 2, 20),
+            IsDeleted = false
+        };
+        actors.Add(lili);
+
+        var ron = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Рон",
+            LastName = "Ливингстон",
+            Biography = "Рон Ливингстон — американский актёр, снявшийся в фильмах ужасов и драмах.",
+            BirthDate = new DateOnly(1967, 6, 5),
+            IsDeleted = false
+        };
+        actors.Add(ron);
+
+        var shanley = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Шанли",
+            LastName = "Касвелл",
+            Biography = "Шанли Касвелл — американская актриса, снималась в жанре ужасов и подростковых фильмах.",
+            BirthDate = new DateOnly(1991, 12, 3),
+            IsDeleted = false
+        };
+        actors.Add(shanley);
+        
+        // Властелин колец: Братство кольца" (The Lord of the Rings: The Fellowship of the Ring)
+        var elijah = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Элайджа",
+            LastName = "Вуд",
+            Biography = "Элайджа Вуд — американский актёр, наиболее известный по роли Фродо Бэггинса.",
+            BirthDate = new DateOnly(1981, 1, 28),
+            IsDeleted = false
+        };
+        actors.Add(elijah);
+
+        var ian = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Иэн",
+            LastName = "Маккеллен",
+            Biography = "Сэр Иэн Маккеллен — британский актёр театра и кино, исполнивший роль Гэндальфа.",
+            BirthDate = new DateOnly(1939, 5, 25),
+            IsDeleted = false
+        };
+        actors.Add(ian);
+
+        var viggo = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Вигго",
+            LastName = "Мортенсен",
+            Biography = "Вигго Мортенсен — американский актёр и поэт, исполнивший роль Арагорна.",
+            BirthDate = new DateOnly(1958, 10, 20),
+            IsDeleted = false
+        };
+        actors.Add(viggo);
+
+        var orlando = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Орландо",
+            LastName = "Блум",
+            Biography = "Орландо Блум — британский актёр, сыгравший эльфа Леголаса.",
+            BirthDate = new DateOnly(1977, 1, 13),
+            IsDeleted = false
+        };
+        actors.Add(orlando);
+
+        var sean = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Шон",
+            LastName = "Эстин",
+            Biography = "Шон Эстин — американский актёр, наиболее известный по роли Сэма.",
+            BirthDate = new DateOnly(1971, 2, 25),
+            IsDeleted = false
+        };
+        actors.Add(sean);
+        
+        // "Остров проклятых" (Shutter Island)
+        var mark = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Марк",
+            LastName = "Руффало",
+            Biography = "Марк Руффало — американский актёр, сыгравший Чака в 'Острове проклятых'.",
+            BirthDate = new DateOnly(1967, 11, 22),
+            IsDeleted = false
+        };
+        actors.Add(mark);
+
+        var ben = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Бен",
+            LastName = "Кингсли",
+            Biography = "Сэр Бен Кингсли — британский актёр, известный по ролям в психологических триллерах.",
+            BirthDate = new DateOnly(1943, 12, 31),
+            IsDeleted = false
+        };
+        actors.Add(ben);
+
+        var michelle = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Мишель",
+            LastName = "Уильямс",
+            Biography = "Мишель Уильямс — американская актриса, снявшаяся в драме 'Остров проклятых'.",
+            BirthDate = new DateOnly(1980, 9, 9),
+            IsDeleted = false
+        };
+        actors.Add(michelle);
+
+        var emily = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Эмили",
+            LastName = "Мортимер",
+            Biography = "Эмили Мортимер — британская актриса, сыгравшая психически нестабильного пациента.",
+            BirthDate = new DateOnly(1971, 12, 1),
+            IsDeleted = false
+        };
+        actors.Add(emily);
+        
+        // "Король Лев" (The Lion King
+        var matthewBro = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Мэттью",
+            LastName = "Бродерик",
+            Biography = "Мэттью Бродерик — американский актёр, озвучивший взрослого Симбу в 'Короле Льве'.",
+            BirthDate = new DateOnly(1962, 3, 21),
+            IsDeleted = false
+        };
+        actors.Add(matthewBro);
+
+        var jeremy = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джереми",
+            LastName = "Айронс",
+            Biography = "Джереми Айронс — британский актёр, озвучивший Шрама в оригинальной версии.",
+            BirthDate = new DateOnly(1948, 9, 19),
+            IsDeleted = false
+        };
+        actors.Add(jeremy);
+
+        var james = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джеймс",
+            LastName = "Джонс",
+            Biography = "Джеймс Эрл Джонс — американский актёр, озвучивший Муфасу.",
+            BirthDate = new DateOnly(1931, 1, 17),
+            IsDeleted = false
+        };
+        actors.Add(james);
+
+        var nathan = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Нэйтан",
+            LastName = "Лейн",
+            Biography = "Нэйтан Лейн — американский актёр и комик, озвучивший Тимуна.",
+            BirthDate = new DateOnly(1956, 2, 3),
+            IsDeleted = false
+        };
+        actors.Add(nathan);
+
+        var ernie = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Эрни",
+            LastName = "Сабелла",
+            Biography = "Эрни Сабелла — американский актёр, озвучивший Пумбу.",
+            BirthDate = new DateOnly(1949, 9, 19),
+            IsDeleted = false
+        };
+        actors.Add(ernie);
+        
+        // "Индиана Джонс: В поисках утраченного ковчега" (Indiana Jones: Raiders of the Lost Ark
+        var harrison = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Харрисон",
+            LastName = "Форд",
+            Biography = "Харрисон Форд — американский актёр, прославившийся ролями в приключенческом и научно-фантастическом кино.",
+            BirthDate = new DateOnly(1942, 7, 13),
+            IsDeleted = false
+        };
+        actors.Add(harrison);
+
+        var karen = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Карен",
+            LastName = "Аллен",
+            Biography = "Карен Джейн Аллен — американская актриса, известная по роли Мэрион в фильмах об Индиане Джонсе.",
+            BirthDate = new DateOnly(1951, 10, 5),
+            IsDeleted = false
+        };
+        actors.Add(karen);
+
+        var paul = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Пол",
+            LastName = "Фриман",
+            Biography = "Пол Фриман — британский актёр, известный по роли антагониста Беллока.",
+            BirthDate = new DateOnly(1943, 1, 18),
+            IsDeleted = false
+        };
+        actors.Add(paul);
+
+        var ronald = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Рональд",
+            LastName = "Лейси",
+            Biography = "Рональд Лейси — английский актёр, сыгравший нацистского агента в 'Индиане Джонсе'.",
+            BirthDate = new DateOnly(1935, 9, 28),
+            IsDeleted = false
+        };
+        actors.Add(ronald);
+
+        var johnRhys = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джон",
+            LastName = "Рис-Дэвис",
+            Biography = "Джон Рис-Дэвис — валлийский актёр, сыгравший Саллу в приключенческой серии фильмов.",
+            BirthDate = new DateOnly(1944, 5, 5),
+            IsDeleted = false
+        };
+        actors.Add(johnRhys);
+        
+        
         // ===== ФИЛЬМЫ =====
         var movies = new List<MovieEntity>();
 
         // Начало (Inception)
-        var nolanDirector1 = new MovieDirectorEntity
+        var nolanDirector = new MovieDirectorEntity
         {
             Id = Guid.NewGuid(),
             FirstName = "Кристофер",
             LastName = "Нолан"
         };
 
-        var nolanWriter1 = new MovieWriterEntity
+        var nolanWriter = new MovieWriterEntity
         {
             Id = Guid.NewGuid(),
             FirstName = "Кристофер",
@@ -316,8 +583,8 @@ public static class MovieSeeder
             RatingCount = 0,
             RatingSum = 0,
             IsDeleted = false,
-            Directors = new List<MovieDirectorEntity> { nolanDirector1 },
-            Writers = new List<MovieWriterEntity> { nolanWriter1 },
+            Directors = new List<MovieDirectorEntity> { nolanDirector },
+            Writers = new List<MovieWriterEntity> { nolanWriter },
             Genres = genres.Where(g => g.Name == "Action" || g.Name == "Sci-Fi" || g.Name == "Thriller").ToList(),
             MovieActors = new List<MovieActorEntity>
             {
@@ -331,13 +598,6 @@ public static class MovieSeeder
         movies.Add(inception);
 
         // Тёмный рыцарь (The Dark Knight)
-        var nolanDirector2 = new MovieDirectorEntity
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "Кристофер",
-            LastName = "Нолан"
-        };
-
         var jonathanNolanWriter = new MovieWriterEntity
         {
             Id = Guid.NewGuid(),
@@ -356,7 +616,7 @@ public static class MovieSeeder
             RatingCount = 0,
             RatingSum = 0,
             IsDeleted = false,
-            Directors = new List<MovieDirectorEntity> { nolanDirector2 },
+            Directors = new List<MovieDirectorEntity> { nolanDirector },
             Writers = new List<MovieWriterEntity> { jonathanNolanWriter },
             Genres = genres.Where(g => g.Name == "Action" || g.Name == "Crime" || g.Name == "Drama").ToList(),
             MovieActors = new List<MovieActorEntity>
@@ -490,8 +750,216 @@ public static class MovieSeeder
         };
         movies.Add(wolfOfWallStreet);
         
-        db.Actors.AddRange(actors);
-        db.Movies.AddRange(movies);
+        // "Заклятие" (The Conjuring)
+        var wanDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джеймс",
+            LastName = "Ван"
+        };
+
+        var hayesWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Чад",
+            LastName = "Хэйс"
+        };
+
+        var conjuring = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Заклятие",
+            Description = "Паранормальные исследователи помогают семье, страдающей от демонической одержимости в их доме на ферме.",
+            Year = 2013,
+            DurationAtMinutes = 112,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { wanDirector },
+            Writers = new List<MovieWriterEntity> { hayesWriter },
+            Genres = genres.Where(g => g.Name == "Horror" || g.Name == "Thriller").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = patrick, CharacterName = "Эд Уоррен" },
+                new() { Actor = vera, CharacterName = "Лоррейн Уоррен" },
+                new() { Actor = lili, CharacterName = "Кэролин Перрон" },
+                new() { Actor = ron, CharacterName = "Роджер Перрон" },
+                new() { Actor = shanley, CharacterName = "Андреа Перрон" }
+            }
+        };
+        movies.Add(conjuring);
+        
+        // "Властелин колец: Братство кольца" (The Lord of the Rings: The Fellowship of the Ring)
+        var jacksonDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Питер",
+            LastName = "Джексон"
+        };
+
+        var tolkienWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Дж. Р. Р.",
+            LastName = "Толкин"
+        };
+
+        var lotr = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Властелин колец: Братство кольца",
+            Description = "Молодой хоббит получает могущественное кольцо и отправляется в путешествие, чтобы уничтожить его.",
+            Year = 2001,
+            DurationAtMinutes = 178,
+            AgeRating = "PG-13",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { jacksonDirector },
+            Writers = new List<MovieWriterEntity> { tolkienWriter },
+            Genres = genres.Where(g => g.Name == "Fantasy").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = elijah, CharacterName = "Фродо Бэггинс" },
+                new() { Actor = ian, CharacterName = "Гэндальф" },
+                new() { Actor = viggo, CharacterName = "Арагорн" },
+                new() { Actor = orlando, CharacterName = "Леголас" },
+                new() { Actor = sean, CharacterName = "Сэм Гэмджи" }
+            }
+        };
+        movies.Add(lotr);
+        
+        // "Остров проклятых" (Shutter Island)
+        var lehaneWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Деннис",
+            LastName = "Лихэйн"
+        };
+
+        var shutter = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Остров проклятых",
+            Description = "Детектив расследует исчезновение пациентки с психиатрической клиники на удалённом острове.",
+            Year = 2010,
+            DurationAtMinutes = 138,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { scorseseDirector },
+            Writers = new List<MovieWriterEntity> { lehaneWriter },
+            Genres = genres.Where(g => g.Name == "Mystery" || g.Name == "Thriller").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = leo, CharacterName = "Тедди Дэниелс" },
+                new() { Actor = mark, CharacterName = "Чак Аул" },
+                new() { Actor = ben, CharacterName = "Доктор Коли" },
+                new() { Actor = michelle, CharacterName = "Долорес Чанал" },
+                new() { Actor = emily, CharacterName = "Рэйчел Соландо" }
+            }
+        };
+        movies.Add(shutter);
+        
+        // "Король Лев" (The Lion King
+        var allersDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Роджер",
+            LastName = "Аллерс"
+        };
+
+        var minkerWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Айрин",
+            LastName = "Мекки"
+        };
+
+        var lionKing = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Король Лев",
+            Description = "Молодой лев по имени Симба должен найти своё место в круге жизни после гибели отца.",
+            Year = 1994,
+            DurationAtMinutes = 88,
+            AgeRating = "G",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { allersDirector },
+            Writers = new List<MovieWriterEntity> { minkerWriter },
+            Genres = genres.Where(g => g.Name == "Animation" || g.Name == "Adventure").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = matthewBro, CharacterName = "Симба" },
+                new() { Actor = jeremy, CharacterName = "Шрам" },
+                new() { Actor = james, CharacterName = "Муфаса" },
+                new() { Actor = nathan, CharacterName = "Тимон" },
+                new() { Actor = ernie, CharacterName = "Пумба" }
+            }
+        };
+        movies.Add(lionKing);
+        
+        // "Индиана Джонс: В поисках утраченного ковчега" (Indiana Jones: Raiders of the Lost Ark
+        var spielbergDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Стивен",
+            LastName = "Спилберг"
+        };
+
+        var lucasWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джордж",
+            LastName = "Лукас"
+        };
+
+        var raiders = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Индиана Джонс: В поисках утраченного ковчега",
+            Description = "Археолог Индиана Джонс пытается обогнать нацистов в поисках Ковчега Завета.",
+            Year = 1981,
+            DurationAtMinutes = 115,
+            AgeRating = "PG",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { spielbergDirector },
+            Writers = new List<MovieWriterEntity> { lucasWriter },
+            Genres = genres.Where(g => g.Name == "Adventure").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = harrison, CharacterName = "Индиана Джонс" },
+                new() { Actor = karen, CharacterName = "Мэрион Рэйвенвуд" },
+                new() { Actor = paul, CharacterName = "Рене Беллок" },
+                new() { Actor = ronald, CharacterName = "Тот" },
+                new() { Actor = johnRhys, CharacterName = "Салла" }
+            }
+        };
+        movies.Add(raiders);
+        
+        // Заполнение
+        foreach (var actor in actors)
+        {
+            if (!db.Actors.Any(a => a.FirstName == actor.FirstName && a.LastName == actor.LastName && a.BirthDate == actor.BirthDate))
+            {
+                db.Actors.Add(actor);
+            }
+        }
+        
+        foreach (var movie in movies)
+        {
+            if (!db.Movies.Any(m => m.Title == movie.Title))
+            {
+                db.Movies.Add(movie);
+            }
+        }
+        
         db.SaveChanges();
     }
 }
