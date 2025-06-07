@@ -82,25 +82,30 @@ public class ApiMappingProfile: Profile
         
         CreateMap<Actor, ActorCardResponse>()
             .ForMember(dest => dest.CharacterName, opt => opt.Ignore());
+
+        CreateMap<Actor, ActorSearchResponse>();
         
         CreateMap<ActorWithUserInfoDto, ActorWithUserInfoResponse>();
         
         CreateMap<Movie, MovieResponse>()
             .ForMember(dest => dest.MovieActors, opt => opt.MapFrom(src => src.Actors))
             .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)));
-
+        
+        CreateMap<Movie, MovieSearchResponse>()
+            .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)));
+        
         CreateMap<Movie, RatedMovieCardResponse>()
             .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)))
             .ForMember(dest => dest.OwnRating, opt => opt.Ignore());
-
-        CreateMap<MovieRating, RatedMovieCardResponse>()
-            .IncludeMembers(src => src.Movie)
-            .ForMember(dest => dest.OwnRating, opt => opt.MapFrom(src => src.Rating));
         
         CreateMap<Movie, MovieCardResponse>()
             .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)))
             .ForMember(dest => dest.CharacterName, opt => opt.Ignore());
-
+        
+        CreateMap<MovieRating, RatedMovieCardResponse>()
+            .IncludeMembers(src => src.Movie)
+            .ForMember(dest => dest.OwnRating, opt => opt.MapFrom(src => src.Rating));
+        
         CreateMap<MovieWithUserInfoDto, MovieWithUserInfoResponse>();
         
         CreateMap<Person, PersonResponse>();
@@ -113,6 +118,9 @@ public class ApiMappingProfile: Profile
         
         CreateMap<MovieActor, MovieCardResponse>()
             .IncludeMembers(src => src.Movie);
+        
+        CreateMap<MovieActor, ActorSearchResponse>()
+            .IncludeMembers(src => src.Actor);
     }
     
     private static double CalculateUserRating(Movie movie)

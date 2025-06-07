@@ -8,12 +8,20 @@ type MovieTitleProps = {
   onToggleWatchlist: () => void;
 }
 
+const getTitleSize = (title: string) => {
+  if (title.length > 45) return "text-2xl";
+  if (title.length > 25) return "text-3xl";
+  return "text-5xl";
+};
+
 const MovieTitle: React.FC<MovieTitleProps> = ({ title, isInWatchList, onToggleWatchlist }) => {
+  const titleSize = getTitleSize(title);
+
   return (
     <div className="space-y-4">
-      <h1 className="text-5xl font-bold">{title}</h1>
+      <h1 className={`${titleSize} font-bold`}>{title}</h1>
       <div className="flex gap-4 flex-wrap">
-        <TagButton
+      <TagButton
           onClick={onToggleWatchlist}
           className={
             isInWatchList

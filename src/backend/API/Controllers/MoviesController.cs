@@ -20,11 +20,11 @@ namespace API.Controllers;
 public class MoviesController(IMovieService movieService, IMapper mapper): ControllerBase
 {
     [HttpGet("all")]
-    public async Task<IActionResult> GetMoviesAsync()
+    public async Task<IActionResult> GetMoviesForSearchAsync()
     {
         var getResult = await movieService.GetAllMoviesAsync();
         
-        var movies = mapper.Map<List<MovieResponse>>(getResult.Data);
+        var movies = mapper.Map<List<MovieSearchResponse>>(getResult.Data);
         
         return Ok(movies);
     }

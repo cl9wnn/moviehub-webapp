@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { getAllMovies } from "../services/movies/getAllMovies";
-import type { MovieData, ActorCardResponse } from "../models/movie";
+import type {ActorSearchResponse, MovieSearchResponse} from "../models/movie";
 
 export const useSearch = () => {
-  const [movies, setMovies] = useState<MovieData[]>([]);
+  const [movies, setMovies] = useState<MovieSearchResponse[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchType, setSearchType] = useState<"movies" | "actors">("movies");
   const [hasFetched, setHasFetched] = useState(false);
@@ -28,9 +28,9 @@ export const useSearch = () => {
   );
 
   const allActors = useMemo(() => {
-    const map = new Map<string, ActorCardResponse>();
+    const map = new Map<string, ActorSearchResponse>();
     movies.forEach((m) =>
-      m.movieActors.forEach((actor) => {
+      m.actors.forEach((actor) => {
         if (!map.has(actor.id)) map.set(actor.id, actor);
       })
     );

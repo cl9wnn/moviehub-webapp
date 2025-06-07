@@ -1,11 +1,11 @@
 import api from "../../utils/api.ts";
-import type {MovieData} from "../../models/movie";
+import type {MovieSearchResponse} from "../../models/movie";
 import type { AxiosError } from "axios";
 import type {ErrorResponse} from "../../models/ErrorReposnse.ts";
 
-export const getAllMovies = async (): Promise<MovieData[]> => {
+export const getAllMovies = async (): Promise<MovieSearchResponse[]> => {
   try {
-    const response = await api.get<MovieData[]>(`/movies/all`);
+    const response = await api.get<MovieSearchResponse[]>(`/movies/all`);
     return response.data;
   } catch (err) {
     const error = err as AxiosError<ErrorResponse>;

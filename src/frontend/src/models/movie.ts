@@ -28,8 +28,25 @@ export interface MovieData {
   genres: string[];
   photos: string[];
 }
+
+export interface MovieSearchResponse {
+  id: string;
+  title: string;
+  year: number;
+  userRating: number;
+  actors: ActorSearchResponse[];
+}
+
+export interface ActorSearchResponse {
+  id: string;
+  firstName: string;
+  lastName: string;
+  photoUrl: string;
+}
+
 export interface MovieResponse {
   movie: MovieData;
   isInWatchList: boolean;
   ownRating?: number;
 }
+
