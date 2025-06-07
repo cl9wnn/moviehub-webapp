@@ -19,6 +19,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options): DbContext(opt
     public DbSet<PhotoEntity> Photos { get; set; }
     public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
     public DbSet<UserEntity> Users { get; set; }
+    public DbSet<DiscussionTopicEntity> DiscussionTopics { get; set; }
+    public DbSet<CommentEntity> Comments { get; set; }
+    public DbSet<CommentLikeEntity> CommentLikes { get; set; }
+    public DbSet<TopicTagEntity> TopicTags { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,6 +36,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options): DbContext(opt
         modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new MovieRatingConfiguration());
+        modelBuilder.ApplyConfiguration(new DiscussionTopicConfiguration());
+        modelBuilder.ApplyConfiguration(new CommentConfiguration());
+        modelBuilder.ApplyConfiguration(new TopicTagConfiguration());
+        modelBuilder.ApplyConfiguration(new CommentLikeConfiguration());
         
         base.OnModelCreating(modelBuilder);
     }
