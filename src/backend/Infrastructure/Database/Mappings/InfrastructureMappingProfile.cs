@@ -61,7 +61,25 @@ public class InfrastructureMappingProfile: Profile
         CreateMap<MovieActor, MovieActorEntity>()
             .ReverseMap();
 
-        CreateMap<MovieRatingEntity, MovieRating>()
+        CreateMap<MovieRating, MovieRatingEntity>()
             .ReverseMap();
+        
+        CreateMap<DiscussionTopic, DiscussionTopicEntity>()
+            .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
+            .ReverseMap();
+        
+        CreateMap<TopicTag, TopicTagEntity>()
+            .ForMember(dest => dest.Topics, opt => opt.Ignore())
+            .ReverseMap();
+        
+        CreateMap<CommentEntity, Comment>()
+            .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes.Count))
+            .ReverseMap()
+            .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
+            .ForMember(dest => dest.Likes, opt => opt.Ignore());
+        
+        CreateMap<CommentLike, CommentLikeEntity>()
+            .ReverseMap();
+        
     }
 }

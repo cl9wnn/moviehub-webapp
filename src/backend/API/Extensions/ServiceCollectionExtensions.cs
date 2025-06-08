@@ -91,6 +91,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IValidator<RegisterUserRequest>, RegisterUserValidator>();
         services.AddScoped<IValidator<RegisterAdminRequest>, RegisterAdminValidator>();
         services.AddScoped<IValidator<PersonalizeUserRequest>, PersonalizeUserValidator>();
+        services.AddScoped<IValidator<CreateDiscussionTopicRequest>, CreateDiscussionTopicValidator>();
         return services;
     }
     

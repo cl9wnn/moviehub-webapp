@@ -20,7 +20,9 @@ public class ApiMappingProfile: Profile
             .ForMember(dest => dest.FavoriteActors, opt => opt.Ignore())
             .ForMember(dest => dest.WatchList, opt => opt.Ignore())
             .ForMember(dest => dest.PreferredGenres, opt => opt.Ignore())
-            .ForMember(dest => dest.MovieRatings, opt => opt.Ignore());
+            .ForMember(dest => dest.MovieRatings, opt => opt.Ignore())
+            .ForMember(dest => dest.Topics, opt => opt.Ignore())
+            .ForMember(dest => dest.Comments, opt => opt.Ignore());
         
         CreateMap<RegisterAdminRequest, User>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
@@ -31,7 +33,9 @@ public class ApiMappingProfile: Profile
             .ForMember(dest => dest.FavoriteActors, opt => opt.Ignore())
             .ForMember(dest => dest.WatchList, opt => opt.Ignore())
             .ForMember(dest => dest.PreferredGenres, opt => opt.Ignore())
-            .ForMember(dest => dest.MovieRatings, opt => opt.Ignore());
+            .ForMember(dest => dest.MovieRatings, opt => opt.Ignore())
+            .ForMember(dest => dest.Topics, opt => opt.Ignore())
+            .ForMember(dest => dest.Comments, opt => opt.Ignore());
         
         CreateMap<LoginUserRequest, User>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -43,7 +47,9 @@ public class ApiMappingProfile: Profile
             .ForMember(dest => dest.FavoriteActors, opt => opt.Ignore())
             .ForMember(dest => dest.WatchList, opt => opt.Ignore())
             .ForMember(dest => dest.PreferredGenres, opt => opt.Ignore())
-            .ForMember(dest => dest.MovieRatings, opt => opt.Ignore());
+            .ForMember(dest => dest.MovieRatings, opt => opt.Ignore())
+            .ForMember(dest => dest.Topics, opt => opt.Ignore())
+            .ForMember(dest => dest.Comments, opt => opt.Ignore());
         
         CreateMap<CreateActorRequest, Actor>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
@@ -66,7 +72,8 @@ public class ApiMappingProfile: Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
             .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.GenreIds.Select(id => new Genre { Id = id }).ToList()))
             .ForMember(dest => dest.RatingCount, opt => opt.Ignore())
-            .ForMember(dest => dest.RatingSum, opt => opt.Ignore());
+            .ForMember(dest => dest.RatingSum, opt => opt.Ignore())
+            .ForMember(dest => dest.Topics, opt => opt.Ignore());
 
         CreateMap<PersonalizeUserRequest, PersonalizeUserDto>();
         
@@ -121,6 +128,16 @@ public class ApiMappingProfile: Profile
         
         CreateMap<MovieActor, ActorSearchResponse>()
             .IncludeMembers(src => src.Actor);
+        
+        CreateMap<TopicTag, string>().ConvertUsing(src => src.Name);
+
+        CreateMap<User, UserTopicResponse>();
+            
+        CreateMap<Movie, MovieTopicResponse>();
+
+        CreateMap<Comment, CommentResponse>();
+        
+        CreateMap<DiscussionTopic, DiscussionTopicResponse>();
     }
     
     private static double CalculateUserRating(Movie movie)
