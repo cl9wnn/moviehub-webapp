@@ -20,6 +20,8 @@ public class MovieRepository(AppDbContext dbContext, IMapper mapper): IMovieRepo
             .Include(m => m.Writers)
             .Include(m => m.Genres)
             .Include(m => m.Photos)
+            .Include(m => m.Topics)
+                .ThenInclude(t => t.User)
             .Include(a => a.MovieActors)
                 .ThenInclude(a => a.Actor)
             .FirstOrDefaultAsync(a => a.Id == id);
@@ -216,5 +218,19 @@ public class MovieRepository(AppDbContext dbContext, IMapper mapper): IMovieRepo
             await transaction.RollbackAsync();
             return Result.Failure("Rating failed!")!;
         }
+    }
+
+    public async Task<Result<List<DiscussionTopic>>> GetTopicsByMovieIdAsync(Guid movieId)
+    {
+        var topicEntities = await dbContext.DiscussionTopics
+            .Where(t => t.MovieId == movieId && !t.IsDeleted)
+            .Include(t => t.Movie)
+            .Include(t => t.Tags)
+            .AsNoTracking()
+            .ToListAsync();
+
+        var topics = mapper.Map<List<DiscussionTopic>>(topicEntities);
+        
+        return Result<List<DiscussionTopic>>.Success(topics);
     }
 }

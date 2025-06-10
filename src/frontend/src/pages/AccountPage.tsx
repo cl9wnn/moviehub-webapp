@@ -12,6 +12,7 @@ import ActorMoviesCarousel from "../components/actors/ActorMoviesCarousel.tsx";
 import MovieActorsCarousel from "../components/movies/MovieActorsCarousel.tsx";
 import Tabs from "../components/common/Tabs.tsx";
 import RatedMoviesCarousel from "../components/movies/RatedMoviesCarousel.tsx";
+import MovieTopicsCarousel from "../components/topics/UsersTopicsCarousel.tsx";
 
 
 const AccountPage: React.FC = () => {
@@ -99,7 +100,8 @@ const AccountPage: React.FC = () => {
           <div className="w-full mt-12 mb-4 max-w-5xl">
             {(user?.favoriteActors?.length || 0) > 0 ||
             (user?.movieRatings?.length || 0) > 0 ||
-            (user?.isCurrentUser && (user?.watchList?.length || 0) > 0) ? (
+            (user?.isCurrentUser && (user?.watchList?.length || 0) > 0) ||
+            (user?.topics?.length || 0) > 0 ? (
               <Tabs
                 tabs={[
                   ...(user?.favoriteActors?.length
@@ -136,6 +138,20 @@ const AccountPage: React.FC = () => {
                           <ActorMoviesCarousel
                             movies={user.watchList}
                             title="Смотреть позже"
+                          />
+                        ),
+                      },
+                    ]
+                    : []),
+                  ...(user?.topics?.length
+                    ? [
+                      {
+                        label: "Обсуждения",
+                        content: (
+                          <MovieTopicsCarousel
+                            topics={user.topics}
+                            title="Обсуждения"
+                            onCreateTopic = {() => navigate("/create-topic")}
                           />
                         ),
                       },

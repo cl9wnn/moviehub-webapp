@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {getMovieById} from "../services/movies/getMovieById.ts";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import type {MovieData} from "../models/movie.ts";
 import MoviePoster from "../components/movies/MoviePoster.tsx";
 import MovieRating from "../components/movies/MovieRating.tsx";
@@ -13,6 +13,7 @@ import PageWrapper from "../components/common/PageWrapper.tsx";
 import Header from "../components/header/Header.tsx";
 import Divider from "../components/common/Divider.tsx";
 import {addToWatchlist, removeFromWatchlist} from "../services/users/toggleToWatchlist.ts";
+import MoviesTopicsCarousel from "../components/topics/MoviesTopicsCarousel.tsx";
 
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();
@@ -21,6 +22,7 @@ const MoviePage: React.FC = () => {
   const [ownRating, setOwnRating] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const toggleWatchlist = async () => {
     if (!movieId) return;
@@ -129,6 +131,19 @@ const MoviePage: React.FC = () => {
                 <Divider/>
                 <div className="mt-10 mb-12">
                   <PhotoCarousel photos={movie?.photos ?? []}/>
+                </div>
+              </>
+            )}
+
+            {(movie?.topics ?? []).length > 0 && (
+              <>
+                <Divider/>
+                <div className="mt-10 mb-12">
+                  <MoviesTopicsCarousel
+                    topics={movie?.topics ?? []}
+                    title="Обсуждения"
+                    onCreateTopic = {() => navigate("/create-topic")}
+                  />
                 </div>
               </>
             )}

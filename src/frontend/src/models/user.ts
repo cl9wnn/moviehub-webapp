@@ -1,4 +1,5 @@
 import type {RatedMovieCardResponse} from "./ratedMovie.ts";
+import type {UserDiscussionTopicResponse} from "./topic.ts";
 
 export interface UserResponse {
   id: string;
@@ -10,6 +11,7 @@ export interface UserResponse {
   favoriteActors: ActorCardResponse[];
   watchList: MovieCardResponse[];
   movieRatings: RatedMovieCardResponse[];
+  topics: UserDiscussionTopicResponse[];
 }
 
 export interface ActorCardResponse {

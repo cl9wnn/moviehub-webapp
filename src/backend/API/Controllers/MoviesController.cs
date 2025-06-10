@@ -65,4 +65,16 @@ public class MoviesController(IMovieService movieService, IMapper mapper): Contr
             ? Ok()
             : BadRequest(new {Error = rateResult.ErrorMessage});
     }
+    
+    [HttpPost("{id:guid}/topics")]
+    public async Task<IActionResult> GetTopicsByUserIdAsync(Guid id)
+    {
+        var getResult = await movieService.GetTopicsByMovieIdAsync(id);
+
+        var topic = mapper.Map<List<MovieDiscussionTopicResponse>>(getResult.Data);
+        
+        return getResult.IsSuccess
+            ? Ok(topic)
+            : NotFound(getResult.ErrorMessage);
+    }
 }

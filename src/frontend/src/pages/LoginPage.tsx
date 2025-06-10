@@ -74,7 +74,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <FormWrapper title="Войти" topPaddingClass="pt-48">
-      <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
+      <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
         <InputField
           label="Username"
           name="name"
@@ -93,20 +93,24 @@ const LoginPage: React.FC = () => {
           error={errors.password}
         />
 
-        <Button type="submit">Войти</Button>
+        <div className="mt-6">
+          <Button type="submit">Войти</Button>
+        </div>
 
         {globalError && (
           <p className="text-sm text-red-600 text-center">{globalError}</p>
         )}
       </form>
 
-      <RedirectMessage
-        message="Впервые на сайте?"
-        linkTo="/register"
-        linkText="Зарегистрироваться"
-      />
+      <div className="mt-3">
+        <RedirectMessage
+          message="Впервые на сайте?"
+          linkTo="/register"
+          linkText="Зарегистрироваться"
+        />
+      </div>
 
-      <p className="text-center text-sm mt-2">
+      <p className="text-center text-sm mt-0">
         <Link to="/" className="text-blue-800 hover:underline">
           На главную
         </Link>

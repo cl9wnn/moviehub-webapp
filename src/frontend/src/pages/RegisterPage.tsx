@@ -64,7 +64,7 @@ const RegisterPage: React.FC = () => {
 
   return (
     <FormWrapper title="Создать аккаунт" stepLabel="Шаг 1" topPaddingClass="pt-32">
-      <form onSubmit={handleSubmit} className="space-y-5" autoComplete="off">
+      <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
         <InputField
           label="Никнейм"
           name="name"
@@ -93,10 +93,12 @@ const RegisterPage: React.FC = () => {
         />
 
         {globalError && (
-          <p className="text-sm text-red-600 text-center -mt-2">{globalError}</p>
+          <p className="text-sm text-red-600 text-center">{globalError}</p>
         )}
 
-        <Button type="submit">Создать аккаунт</Button>
+        <div className="mt-6">
+          <Button type="submit">Создать аккаунт</Button>
+        </div>
       </form>
 
       <div className="mt-6">

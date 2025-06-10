@@ -11,7 +11,7 @@ const Button: React.FC<AuthButtonProps> = ({children, fullWidth = true, classNam
     <button
       {...props}
       className = {clsx(
-        "bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 rounded transition-colors duration-200 !mt-8",
+        "w-full px-4 py-3.5 rounded-xl bg-yellow-500 text-gray-800 font-semibold hover:bg-yellow-550",
       fullWidth && "w-full",
       className
     )}>

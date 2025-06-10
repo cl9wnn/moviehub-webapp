@@ -1,3 +1,5 @@
+import type {MovieDiscussionTopicResponse} from "./topic.ts";
+
 export interface PersonResponse {
   id: string;
   firstName: string;
@@ -25,6 +27,7 @@ export interface MovieData {
   directors: PersonResponse[];
   writers: PersonResponse[];
   movieActors: ActorCardResponse[];
+  topics:MovieDiscussionTopicResponse[];
   genres: string[];
   photos: string[];
 }

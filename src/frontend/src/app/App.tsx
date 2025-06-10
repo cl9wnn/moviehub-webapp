@@ -9,6 +9,7 @@ import PrivateRoute from "../routes/PrivateRoute.tsx";
 import MoviePage from "../pages/MoviePage.tsx";
 import ActorPage from "../pages/ActorPage.tsx";
 import PersonalizePage from "../pages/PersonalizePage.tsx";
+import CreateTopicPage from "../pages/CreateTopicPage.tsx";
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage/>}/>
       <Route path="/personalize" element={<PersonalizePage/>}></Route>
+      <Route path="/create-topic" element={<CreateTopicPage/>}></Route>
       <Route path="/users/:userId" element={<PrivateRoute><AccountPage/></PrivateRoute>} />
       <Route path="/movies/:movieId" element={<PrivateRoute><MoviePage/></PrivateRoute>} />
       <Route path="/actors/:actorId" element={<PrivateRoute><ActorPage/></PrivateRoute>} />

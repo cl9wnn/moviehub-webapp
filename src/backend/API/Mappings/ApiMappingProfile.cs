@@ -163,6 +163,8 @@ public class ApiMappingProfile: Profile
             
         CreateMap<DiscussionTopic, DiscussionTopicResponse>();
         
+        CreateMap<DiscussionTopic, MovieDiscussionTopicResponse>();
+
         CreateMap<Movie, TopicMovieResponse>();
 
         CreateMap<Comment, CommentResponse>();

@@ -3,7 +3,7 @@ import FormWrapper from "../components/auth/FormWrapper";
 import Button from "../components/auth/Button";
 import { personalizeUser } from "../services/auth/personalizeUser";
 import GenreTag from "../components/common/GenreTag";
-import {useLocation, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 
 const GENRES = [
@@ -69,12 +69,8 @@ const PersonalizePage: React.FC = () => {
     }
   };
 
-  const handleSkip = async () => {
-      navigate("/");
-  };
-
   return (
-    <FormWrapper title="Расскажите нам о себе" stepLabel="Шаг 2">
+    <FormWrapper title="Расскажите нам о себе" stepLabel="Шаг 2" containerMaxWidthClass="max-w-lg">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -121,16 +117,14 @@ const PersonalizePage: React.FC = () => {
 
         <Button type="submit">Продолжить</Button>
 
-        <button
-          type="button"
-          onClick={handleSkip}
-          className="text-sm text-gray-500 underline hover:text-gray-700 block mx-auto mt-2"
-        >
-          Пропустить сейчас
-        </button>
+          <p className="text-center text-sm mt-2">
+            <Link to="/" className="text-blue-800 hover:underline">
+              Пропустить сейчас
+            </Link>
+          </p>
       </form>
     </FormWrapper>
-  );
+);
 };
 
 export default PersonalizePage;

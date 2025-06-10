@@ -5,22 +5,37 @@ interface FormWrapperProps {
   stepLabel?: string;
   children: React.ReactNode;
   topPaddingClass?: string;
+  containerMaxWidthClass?: string;
 }
 
-const FormWrapper: React.FC<FormWrapperProps> = ({ title, stepLabel, children, topPaddingClass = "pt-20" }) => (
-  <div className={`min-h-screen flex flex-col items-center bg-gray-100 ${topPaddingClass} px-4`}>
-    {stepLabel && (
-      <h3 className="text-2xl font-bold text-center mb-4">{stepLabel}</h3>
-    )}
-    <div className="bg-white p-6 rounded border border-gray-300 w-full max-w-md shadow">
-      <div className="flex justify-center mb-4">
-        <div className="bg-yellow-500 text-black px-4 py-2 font-bold rounded">MovieHub</div>
-      </div>
-      {title && (
-        <h2 className="text-xl font-semibold mb-4 text-center">{title}</h2>
+const FormWrapper: React.FC<FormWrapperProps> = ({
+                                                   title,
+                                                   stepLabel,
+                                                   children,
+                                                   topPaddingClass = "pt-16 md:pt-20",
+                                                   containerMaxWidthClass = "max-w-md"
+                                                 }) => (
+  <div className={`min-h-screen flex flex-col items-center bg-gray-450 ${topPaddingClass} px-4`}>
+    <div className={`w-full ${containerMaxWidthClass}`}>
+      {stepLabel && (
+        <div className="mb-6 text-center">
+          <span className="inline-block px-6 py-3 text-sm font-medium text-xl text-blue-600 bg-blue-50 rounded-full">
+            {stepLabel}
+          </span>
+        </div>
       )}
 
-      {children}
+      <div className="bg-white p-6 md:p-8 rounded-3xl">
+        {title && (
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            {title}
+          </h2>
+        )}
+
+        <div className="space-y-6">
+          {children}
+        </div>
+      </div>
     </div>
   </div>
 );

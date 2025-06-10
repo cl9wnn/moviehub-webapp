@@ -1,14 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { getRatingColor } from "../../services/movies/getRatingColor";
-import type { MovieData, ActorCardResponse } from "../../models/movie";
+import type {MovieSearchResponse, ActorSearchResponse} from "../../models/movie";
 import { useAuth } from "../../hooks/UseAuth";
 
 type Props = {
   searchQuery: string;
   searchType: "movies" | "actors";
-  filteredMovies: MovieData[];
-  filteredActors: ActorCardResponse[];
+  filteredMovies: MovieSearchResponse[];
+  filteredActors: ActorSearchResponse[];
   onSelect: () => void;
 };
 

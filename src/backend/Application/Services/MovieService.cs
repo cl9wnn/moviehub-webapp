@@ -142,4 +142,13 @@ public class MovieService(IMovieRepository movieRepository, IUserRepository user
             ? Result.Success()
             : Result.Failure(rateResult.ErrorMessage!);
     }
+
+    public async Task<Result<List<DiscussionTopic>>> GetTopicsByMovieIdAsync(Guid movieId)
+    {
+        var getResult = await movieRepository.GetTopicsByMovieIdAsync(movieId);
+        
+        return getResult.IsSuccess
+            ? Result<List<DiscussionTopic>>.Success(getResult.Data.ToList())
+            : Result<List<DiscussionTopic>>.Failure(getResult.ErrorMessage!)!;
+    }
 }

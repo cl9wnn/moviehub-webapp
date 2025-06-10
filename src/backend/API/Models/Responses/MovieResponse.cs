@@ -15,6 +15,7 @@ public class MovieResponse
     public List<PersonResponse> Directors { get; set; } 
     public List<PersonResponse> Writers { get; set; } 
     public List<ActorCardResponse> MovieActors { get; set; } 
+    public List<MovieDiscussionTopicResponse> Topics { get; set; }
     public List<string> Genres { get; set; } 
     public List<string> Photos { get; set; }
 }
