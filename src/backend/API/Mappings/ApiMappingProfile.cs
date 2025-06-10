@@ -68,6 +68,9 @@ public class ApiMappingProfile: Profile
         CreateMap<int, Genre>()
             .ConvertUsing(id => new Genre { Id = id });
         
+        CreateMap<int, TopicTag>()
+            .ConvertUsing(id => new TopicTag { Id = id });
+        
         CreateMap<CreateMovieRequest, Movie>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
             .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.GenreIds.Select(id => new Genre { Id = id }).ToList()))
@@ -80,7 +83,30 @@ public class ApiMappingProfile: Profile
         CreateMap<CreateMovieActorByIdRequest, MovieActorDto>()
             .ForMember(dest => dest.MovieId, opt => opt.MapFrom((_, _, _, context) =>
                 (Guid)context.Items["MovieId"]));
-        
+
+        CreateMap<CreateCommentRequest, Comment>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
+            .ForMember(dest => dest.Likes, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.Likes, opt => opt.Ignore())
+            .ForMember(dest => dest.TopicId, opt => opt.Ignore())
+            .ForMember(dest => dest.Topic, opt => opt.Ignore())
+            .ForMember(dest => dest.UserId, opt => opt.Ignore())
+            .ForMember(dest => dest.User, opt => opt.Ignore())
+            .ForMember(dest => dest.ParentComment, opt => opt.Ignore())
+            .ForMember(dest => dest.ParentCommentId, opt => opt.Ignore())
+            .ForMember(dest => dest.Replies, opt => opt.Ignore());
+
+        CreateMap<CreateDiscussionTopicRequest, DiscussionTopic>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
+            .ForMember(dest => dest.Views, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.Movie, opt => opt.Ignore())
+            .ForMember(dest => dest.UserId, opt => opt.Ignore())
+            .ForMember(dest => dest.User, opt => opt.Ignore())
+            .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.TagIds.Select(id => new TopicTag { Id = id }).ToList()))
+            .ForMember(dest => dest.Comments, opt => opt.Ignore());
+            
         CreateMap<Photo, string>().ConvertUsing(src => src.ImageUrl);
         
         CreateMap<Genre, string>().ConvertUsing(src => src.Name);
@@ -132,12 +158,20 @@ public class ApiMappingProfile: Profile
         CreateMap<TopicTag, string>().ConvertUsing(src => src.Name);
 
         CreateMap<User, UserTopicResponse>();
+
+        CreateMap<DiscussionTopic, UserDiscussionTopicResponse>();
             
-        CreateMap<Movie, MovieTopicResponse>();
+        CreateMap<DiscussionTopic, DiscussionTopicResponse>();
+        
+        CreateMap<Movie, TopicMovieResponse>();
 
         CreateMap<Comment, CommentResponse>();
         
-        CreateMap<DiscussionTopic, DiscussionTopicResponse>();
+        CreateMap<Comment, UserCommentResponse>();
+
+        CreateMap<TopicMovieDto, TopicMovieResponse>();
+        
+        CreateMap<TopicUserDto, UserTopicResponse>();
     }
     
     private static double CalculateUserRating(Movie movie)

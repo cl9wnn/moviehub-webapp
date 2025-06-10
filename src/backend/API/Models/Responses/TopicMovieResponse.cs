@@ -1,6 +1,6 @@
 ﻿namespace API.Models.Responses;
 
-public class MovieTopicResponse
+public class TopicMovieResponse
 {
     public Guid Id { get; set; }
     public string Title { get; set; }

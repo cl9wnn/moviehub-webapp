@@ -21,6 +21,9 @@ builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IDiscussionTopicService, DiscussionTopicService>();
 builder.Services.AddScoped<IDiscussionTopicRepository, DiscussionTopicRepository>();
 
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
 builder.Services.AddScoped<IMediaService, MediaService>();
 
 builder.ConfigureSerilog();

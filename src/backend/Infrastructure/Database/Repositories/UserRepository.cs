@@ -149,6 +149,36 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         return Result<int?>.Success(existingMovieRating.Rating);
     }
 
+    public async Task<Result<List<Comment>>> GetCommentsByUserIdAsync(Guid userId)
+    {
+        var commentEntities =  await context.Comments
+            .Where(c => c.UserId == userId && c.ParentCommentId == null && !c.IsDeleted)
+            .Include(c => c.User)
+            .Include(c => c.Likes)
+            .Include(c => c.Replies.Where(r => !r.IsDeleted))
+            .ThenInclude(r => r.User)
+            .Include(c => c.Replies)
+            .ThenInclude(r => r.Likes)
+            .AsNoTracking()
+            .ToListAsync();
+        
+        return Result<List<Comment>>.Success(mapper.Map<List<Comment>>(commentEntities));
+    }
+
+    public async Task<Result<List<DiscussionTopic>>> GetTopicsByUserIdAsync(Guid userId)
+    {
+        var topicEntities = await context.DiscussionTopics
+            .Where(t => t.UserId == userId && !t.IsDeleted)
+            .Include(t => t.Movie)
+            .Include(t => t.Tags)
+            .AsNoTracking()
+            .ToListAsync();
+
+        var topics = mapper.Map<List<DiscussionTopic>>(topicEntities);
+        
+        return Result<List<DiscussionTopic>>.Success(topics);
+    }
+
     public async Task<Result<bool>> IsActorFavoriteAsync(Guid userId, Guid actorId)
     {
         var userEntity = await ActiveUsers

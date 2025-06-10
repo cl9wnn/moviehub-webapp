@@ -1,6 +1,6 @@
 ﻿namespace API.Models.Responses;
 
-public class DiscussionTopicResponse
+public class UserDiscussionTopicResponse
 {
     public Guid Id { get; set; }
     public string Title { get; set; }
@@ -8,7 +8,4 @@ public class DiscussionTopicResponse
     public int Views { get; set; }
     public DateTime CreatedAt { get; set; }
     public TopicMovieResponse Movie { get; set; }
-    public UserTopicResponse User { get; set; }
-    public List<string> Tags { get; set; } 
-    public List<CommentResponse> Comments { get; set; }
 }

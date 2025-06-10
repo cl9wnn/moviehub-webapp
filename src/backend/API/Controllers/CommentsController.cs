@@ -1,0 +1,72 @@
+﻿using API.Attributes;
+using API.Extensions;
+using API.Models.Requests;
+using API.Models.Responses;
+using AutoMapper;
+using Domain.Abstractions.Services;
+using Domain.Models;
+using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace API.Controllers;
+
+[ApiController]
+[Authorize]
+[EntityExists<ICommentService, Comment>]
+[Route("api/[controller]")]
+public class CommentsController(ICommentService commentService, IMapper mapper): ControllerBase
+{
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetCommentAsync(Guid id)
+    {
+        var getResult = await commentService.GetByIdAsync(id);
+
+        var comment = mapper.Map<CommentResponse>(getResult.Data);
+        
+        return getResult.IsSuccess
+            ? Ok(comment)
+            : NotFound(getResult.ErrorMessage);
+    }
+    
+    [HttpPost("{id:guid}/replies")]
+    public async Task<IActionResult> CreateReplyCommentAsync(Guid id, [FromBody] CreateCommentRequest request,
+        [FromServices] IValidator<CreateCommentRequest> validator)
+    {
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+        
+        var validationResult = await validator.ValidateAsync(request);
+        
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors
+                .Select(e => new { e.PropertyName, e.ErrorMessage });
+            return BadRequest(errors);
+        }
+        
+        var comment = mapper.Map<Comment>(request);
+        comment.UserId = userId;
+        comment.ParentCommentId = id;
+        
+        var createResult = await commentService.CreateReplyCommentAsync(comment);
+        
+        return createResult.IsSuccess
+            ? Created()
+            : BadRequest(createResult.ErrorMessage);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteCommentAsync(Guid id)
+    {
+        var deleteResult = await commentService.DeleteCommentAsync(id);
+        
+        return deleteResult.IsSuccess
+            ? Ok()
+            : NotFound(deleteResult.ErrorMessage);
+    }
+    
+    // поставить лайк 
+}

@@ -114,4 +114,22 @@ public class UserService(IUserRepository userRepository, ITokenService tokenServ
             ? Result.Success()
             : Result.Failure(addOrUpdateResult.ErrorMessage!);
     }
+
+    public async Task<Result<List<Comment>>> GetCommentsByUserIdAsync(Guid id)
+    {
+        var getResult = await userRepository.GetCommentsByUserIdAsync(id);
+        
+        return getResult.IsSuccess
+            ? Result<List<Comment>>.Success(getResult.Data.ToList())
+            : Result<List<Comment>>.Failure(getResult.ErrorMessage!)!;
+    }
+
+    public async Task<Result<List<DiscussionTopic>>> GetTopicsByUserIdAsync(Guid id)
+    {
+        var getResult = await userRepository.GetTopicsByUserIdAsync(id);
+        
+        return getResult.IsSuccess
+            ? Result<List<DiscussionTopic>>.Success(getResult.Data.ToList())
+            : Result<List<DiscussionTopic>>.Failure(getResult.ErrorMessage!)!;
+    }
 }

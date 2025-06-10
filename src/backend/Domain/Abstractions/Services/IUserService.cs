@@ -15,4 +15,6 @@ public interface IUserService: IEntityService<User>
     Task<Result> DeleteFromWatchListAsync(Guid userId, Guid movieId);
     Task<Result> PersonalizeUserAsync(PersonalizeUserDto personalizeUserDto, Guid userId);
     Task<Result> AddOrUpdateAvatarAsync(string url, Guid userId);
+    Task<Result<List<Comment>>> GetCommentsByUserIdAsync(Guid id);
+    Task<Result<List<DiscussionTopic>>> GetTopicsByUserIdAsync(Guid id);
 }

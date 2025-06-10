@@ -9,11 +9,13 @@ public class CreateDiscussionTopicValidator: AbstractValidator<CreateDiscussionT
     {
         RuleFor(x => x.Title)
             .NotEmpty()
+            .WithMessage("Title is required.")
             .MaximumLength(128)
             .WithMessage("Title must be maximum 128 characters long.");
         
         RuleFor(x => x.Content)
             .NotEmpty()
+            .WithMessage("Content is required.")
             .MaximumLength(1024)
             .WithMessage("Content must be maximum 1024 characters long.");
         

@@ -15,14 +15,15 @@ namespace API.Controllers;
 [Authorize]
 [EntityExists<IDiscussionTopicService, DiscussionTopic>]
 [Route("api/[controller]")]
-public class DiscussionTopicsController(IDiscussionTopicService topicService, IMapper mapper): ControllerBase
+public class DiscussionTopicsController(IDiscussionTopicService topicService, ICommentService commentService,
+    IMapper mapper): ControllerBase
 {
     [HttpGet("all")]
     public async Task<IActionResult> GetDiscussionTopicsAsync()
     {
         var getResult = await topicService.GetAllTopicsAsync();
         
-        var topics = mapper.Map<List<DiscussionTopicResponse>>(getResult.Data);
+        var topics = mapper.Map<List<UserDiscussionTopicResponse>>(getResult.Data);
         
         return Ok(topics);
     }
@@ -33,6 +34,18 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IM
         var getResult = await topicService.GetByIdAsync(id);
 
         var topic = mapper.Map<DiscussionTopicResponse>(getResult.Data);
+        
+        return getResult.IsSuccess
+            ? Ok(topic)
+            : NotFound(getResult.ErrorMessage);
+    }
+    
+    [HttpGet("{id:guid}/comments")]
+    public async Task<IActionResult> GetCommentsByTopicIdAsync(Guid id)
+    {
+        var getResult = await topicService.GetCommentsByTopicIdAsync(id);
+
+        var topic = mapper.Map<List<CommentResponse>>(getResult.Data);
         
         return getResult.IsSuccess
             ? Ok(topic)
@@ -58,7 +71,9 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IM
         }
         
         var topic = mapper.Map<DiscussionTopic>(request);
-        var createResult = await topicService.CreateTopicAsync(topic, userId);
+        topic.UserId = userId;
+        
+        var createResult = await topicService.CreateTopicAsync(topic);
         
         return createResult.IsSuccess
             ? Created()
@@ -73,5 +88,34 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IM
         return deleteResult.IsSuccess
             ? Ok()
             : NotFound(deleteResult.ErrorMessage);
+    }
+    
+    [HttpPost("{id:guid}/comments")]
+    public async Task<IActionResult> CreateCommentToTopicAsync(Guid id, [FromBody] CreateCommentRequest request,
+        [FromServices] IValidator<CreateCommentRequest> validator)
+    {
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+        
+        var validationResult = await validator.ValidateAsync(request);
+        
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors
+                .Select(e => new { e.PropertyName, e.ErrorMessage });
+            return BadRequest(errors);
+        }
+        
+        var comment = mapper.Map<Comment>(request);
+        comment.UserId = userId;
+        comment.TopicId = id;
+        
+        var createResult = await commentService.CreateTopicCommentAsync(comment);
+        
+        return createResult.IsSuccess
+            ? Created()
+            : BadRequest(createResult.ErrorMessage);
     }
 }

@@ -24,9 +24,8 @@ public class DiscussionTopicService(IDiscussionTopicRepository topicRepository):
             : Result<DiscussionTopic>.Failure(getResult.ErrorMessage!)!;
     }
 
-    public async Task<Result<DiscussionTopic>> CreateTopicAsync(DiscussionTopic topic, Guid userId)
+    public async Task<Result<DiscussionTopic>> CreateTopicAsync(DiscussionTopic topic)
     {
-        topic.UserId = userId;
         var addResult = await topicRepository.AddAsync(topic);
         
         return addResult.IsSuccess
@@ -41,5 +40,14 @@ public class DiscussionTopicService(IDiscussionTopicRepository topicRepository):
         return deleteResult.IsSuccess
             ? Result.Success()
             : Result.Failure(deleteResult.ErrorMessage!);
+    }
+
+    public async Task<Result<List<Comment>>> GetCommentsByTopicIdAsync(Guid id)
+    {
+        var getResult = await topicRepository.GetCommentsByTopicIdAsync(id);
+        
+        return getResult.IsSuccess
+            ? Result<List<Comment>>.Success(getResult.Data.ToList())
+            : Result<List<Comment>>.Failure(getResult.ErrorMessage!)!;
     }
 }

@@ -34,7 +34,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("ActorEntityUserEntity");
+                    b.ToTable("ActorEntityUserEntity", (string)null);
                 });
 
             modelBuilder.Entity("DiscussionTopicEntityTopicTagEntity", b =>
@@ -49,7 +49,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasIndex("TopicsId");
 
-                    b.ToTable("DiscussionTopicEntityTopicTagEntity");
+                    b.ToTable("DiscussionTopicEntityTopicTagEntity", (string)null);
                 });
 
             modelBuilder.Entity("GenreEntityMovieEntity", b =>
@@ -64,7 +64,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("GenreEntityMovieEntity");
+                    b.ToTable("GenreEntityMovieEntity", (string)null);
                 });
 
             modelBuilder.Entity("GenreEntityUserEntity", b =>
@@ -79,7 +79,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("GenreEntityUserEntity");
+                    b.ToTable("GenreEntityUserEntity", (string)null);
                 });
 
             modelBuilder.Entity("Infrastructure.Database.Entities.ActorEntity", b =>
@@ -634,7 +634,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("MovieDirectorEntityMovieEntity");
+                    b.ToTable("MovieDirectorEntityMovieEntity", (string)null);
                 });
 
             modelBuilder.Entity("MovieEntityMovieWriterEntity", b =>
@@ -649,7 +649,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasIndex("WritersId");
 
-                    b.ToTable("MovieEntityMovieWriterEntity");
+                    b.ToTable("MovieEntityMovieWriterEntity", (string)null);
                 });
 
             modelBuilder.Entity("MovieEntityUserEntity", b =>
@@ -664,7 +664,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasIndex("WatchListId");
 
-                    b.ToTable("MovieEntityUserEntity");
+                    b.ToTable("MovieEntityUserEntity", (string)null);
                 });
 
             modelBuilder.Entity("Infrastructure.Database.Entities.ActorPhotoEntity", b =>

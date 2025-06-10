@@ -145,6 +145,29 @@ public class UsersController(
             : BadRequest(addOrUpdateResult.ErrorMessage);
     }
 
+    [HttpGet("{id:guid}/comments")]
+    public async Task<IActionResult> GetCommentsByUserIdAsync(Guid id)
+    {
+        var getResult = await userService.GetCommentsByUserIdAsync(id);
+
+        var comment = mapper.Map<List<UserCommentResponse>>(getResult.Data);
+        
+        return getResult.IsSuccess
+            ? Ok(comment)
+            : NotFound(getResult.ErrorMessage);
+    }
+    
+    [HttpGet("{id:guid}/topics")]
+    public async Task<IActionResult> GetTopicsByUserIdAsync(Guid id)
+    {
+        var getResult = await userService.GetTopicsByUserIdAsync(id);
+
+        var topic = mapper.Map<List<UserDiscussionTopicResponse>>(getResult.Data);
+        
+        return getResult.IsSuccess
+            ? Ok(topic)
+            : NotFound(getResult.ErrorMessage);
+    }
 
     [HttpPost("favorite-actors/{actorId:guid}")]
     public async Task<IActionResult> AddFavoriteActorAsync(Guid actorId)

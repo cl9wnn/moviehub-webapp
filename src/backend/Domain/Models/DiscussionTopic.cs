@@ -1,4 +1,6 @@
-﻿namespace Domain.Models;
+﻿using Domain.Dtos;
+
+namespace Domain.Models;
 
 public class DiscussionTopic
 {
@@ -8,10 +10,10 @@ public class DiscussionTopic
     public int Views { get; set; }
     public DateTime CreatedAt { get; set; }
     
-    public Movie Movie { get; set; }
+    public TopicMovieDto Movie { get; set; }
     public Guid MovieId { get; set; }
     
-    public User User { get; set; }
+    public TopicUserDto User { get; set; }
     public Guid UserId { get; set; }
 
     public List<TopicTag> Tags { get; set; } = new();
