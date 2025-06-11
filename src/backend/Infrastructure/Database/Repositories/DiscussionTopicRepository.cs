@@ -65,6 +65,7 @@ public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper, I
                 .ThenInclude(r => r.User)
             .Include(c => c.Replies)
                 .ThenInclude(r => r.Likes)
+            .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
         
         topicEntity.Comments = parentComments;
