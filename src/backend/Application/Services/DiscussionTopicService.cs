@@ -1,5 +1,6 @@
 ﻿using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
+using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 
@@ -49,5 +50,14 @@ public class DiscussionTopicService(IDiscussionTopicRepository topicRepository):
         return getResult.IsSuccess
             ? Result<List<Comment>>.Success(getResult.Data.ToList())
             : Result<List<Comment>>.Failure(getResult.ErrorMessage!)!;
+    }
+
+    public async Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedTopicsAsync(int page, int pageSize)
+    {
+        var getResult = await topicRepository.GetPaginatedAsync(page, pageSize);
+        
+        return getResult.IsSuccess
+            ? Result<PaginatedDto<DiscussionTopic>>.Success(getResult.Data)
+            : Result<PaginatedDto<DiscussionTopic>>.Failure(getResult.ErrorMessage!)!;
     }
 }

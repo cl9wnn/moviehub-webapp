@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Abstractions.Repositories;
+using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 using Infrastructure.Database.Entities;
@@ -28,6 +29,36 @@ public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper, I
         return Result<ICollection<DiscussionTopic>>.Success(topics);
     }
 
+    public async Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedAsync(int page, int pageSize)
+    {
+        var skip = (page - 1) * pageSize;
+
+        var query = ActiveTopics
+            .Include(t => t.Comments).ThenInclude(c => c.User)
+            .Include(t => t.Tags)
+            .Include(t => t.User)
+            .Include(t => t.Movie)
+            .AsNoTracking();
+
+        var totalCount = await query.CountAsync();
+
+        var topicEntities = await query
+            .OrderByDescending(t => t.CreatedAt)
+            .Skip(skip)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var topics = mapper.Map<ICollection<DiscussionTopic>>(topicEntities);
+
+        var result = new PaginatedDto<DiscussionTopic>
+        {
+            Items = topics,
+            TotalCount = totalCount
+        };
+
+        return Result<PaginatedDto<DiscussionTopic>>.Success(result);
+    }
+    
     public async Task<Result<List<Comment>>> GetCommentsByTopicIdAsync(Guid id)
     {
         var commentEntities =  await dbContext.Comments

@@ -1,14 +1,18 @@
 import React, { useEffect, useState, useMemo } from "react";
 import TopicHeader from "../components/topics/TopicHeader.tsx";
-import { getAllTopics } from "../services/topics/getAllTopics.ts";
 import {type ListDiscussionTopicResponse, TAGS} from "../models/topic.ts";
 import Header from "../components/header/Header.tsx";
 import PageWrapper from "../components/common/PageWrapper.tsx";
 import { useNavigate } from "react-router-dom";
+import {getPaginatedTopics} from "../services/topics/getPaginatedTopics.ts";
+import Pagination from "../components/common/Pagination.tsx";
 
 const DiscussionListPage: React.FC = () => {
   const navigate = useNavigate();
   const [topics, setTopics] = useState<ListDiscussionTopicResponse[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const [totalCount, setTotalCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState<"date" | "views">("date");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -17,9 +21,11 @@ const DiscussionListPage: React.FC = () => {
 
   useEffect(() => {
     const fetchTopics = async () => {
+      setLoading(true);
       try {
-        const data = await getAllTopics();
-        setTopics(data);
+        const data = await getPaginatedTopics(currentPage, pageSize);
+        setTopics(data.items);
+        setTotalCount(data.totalCount);
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -28,7 +34,7 @@ const DiscussionListPage: React.FC = () => {
     };
 
     fetchTopics();
-  }, []);
+  }, [currentPage]);
 
   const filteredTopics = useMemo(() => {
     let filtered = topics.filter((topic) =>
@@ -52,7 +58,7 @@ const DiscussionListPage: React.FC = () => {
 
   return (
     <PageWrapper backgroundClass="bg-[#d8d8d8]">
-      <Header />
+      <Header/>
       <div className="max-w-4xl mx-auto px-4 py-8">
 
         <div className="flex items-center mb-6">
@@ -120,6 +126,12 @@ const DiscussionListPage: React.FC = () => {
           ))
         )}
       </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(totalCount / pageSize)}
+        onPageChange={setCurrentPage}
+      />
     </PageWrapper>
   );
 };

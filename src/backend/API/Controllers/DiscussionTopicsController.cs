@@ -40,6 +40,23 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IC
             : NotFound(getResult.ErrorMessage);
     }
     
+    [HttpGet("paginated")]
+    public async Task<IActionResult> GetDiscussionTopicsPaginated([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await topicService.GetPaginatedTopicsAsync(page, pageSize);
+
+        if (!result.IsSuccess)
+            return BadRequest(result.ErrorMessage);
+
+        var response = new PaginatedResponse<ListDiscussionTopicResponse>
+        {
+            Items = mapper.Map<ICollection<ListDiscussionTopicResponse>>(result.Data.Items),
+            TotalCount = result.Data.TotalCount
+        };
+
+        return Ok(response);
+    }
+    
     [HttpGet("{id:guid}/comments")]
     public async Task<IActionResult> GetCommentsByTopicIdAsync(Guid id)
     {
