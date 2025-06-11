@@ -76,7 +76,7 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IC
         var createResult = await topicService.CreateTopicAsync(topic);
         
         return createResult.IsSuccess
-            ? Created()
+            ? Ok( new {Id = createResult.Data.Id})
             : BadRequest(createResult.ErrorMessage);
     }
 

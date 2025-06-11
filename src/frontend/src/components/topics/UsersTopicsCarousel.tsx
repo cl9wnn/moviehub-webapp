@@ -20,7 +20,7 @@ const MovieTopicsCarousel: React.FC<MovieTopicsCarouselProps> = ({ topics, title
           <UsersTopicCard key={topic.id} topic={topic}/>
         ))}
       </Carousel>
-      <div className="mt-6">
+      <div className="mt-6 flex justify-center">
         <TagButton onClick={onCreateTopic}>Создать обсуждение</TagButton>
       </div>
     </div>

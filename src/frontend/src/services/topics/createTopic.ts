@@ -9,7 +9,11 @@ export interface CreateDiscussionTopicRequest {
   tagIds: number[];
 }
 
-export async function createTopic(data: CreateDiscussionTopicRequest): Promise<void> {
+export interface CreateDiscussionTopicResponse {
+  id: string;
+}
+
+export async function createTopic(data: CreateDiscussionTopicRequest): Promise<CreateDiscussionTopicResponse> {
   try{
     const response = await api.post("/discussionTopics/", data);
     return response.data;

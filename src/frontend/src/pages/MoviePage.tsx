@@ -135,18 +135,14 @@ const MoviePage: React.FC = () => {
               </>
             )}
 
-            {(movie?.topics ?? []).length > 0 && (
-              <>
-                <Divider/>
-                <div className="mt-10 mb-12">
-                  <MoviesTopicsCarousel
-                    topics={movie?.topics ?? []}
-                    title="Обсуждения"
-                    onCreateTopic = {() => navigate("/create-topic")}
-                  />
-                </div>
-              </>
-            )}
+            <Divider/>
+            <div className="mt-10 mb-12">
+              <h2 className="text-xl font-bold mb-4">Обсуждения</h2>
+              <MoviesTopicsCarousel
+                topics={movie?.topics ?? []}
+                onCreateTopic = {() => navigate("/create-topic")}
+              />
+            </div>
           </div>
         </div>
       </PageWrapper>

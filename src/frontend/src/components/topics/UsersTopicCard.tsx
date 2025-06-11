@@ -26,7 +26,6 @@ const UsersTopicCard: React.FC<TopicCardProps> = ({ topic }) => {
         />
         <div className="p-3">
           <h3 className="text-base font-bold truncate">{topic.title}</h3>
-          <p className="text-sm text-gray-600 line-clamp-2">{topic.content}</p>
           <p className="text-xs text-gray-500 mt-2 truncate">
             {topic.movie.title} ({topic.movie.year})
           </p>

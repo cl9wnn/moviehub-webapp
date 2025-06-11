@@ -85,14 +85,14 @@ const CreateTopicPage: React.FC = () => {
     }
 
     try {
-      await createTopic({
+      const result = await createTopic({
         title,
         content,
         movieId: selectedMovie.id,
         tagIds: selectedTags.map(tag => TAG_ID_MAP[tag])
       });
 
-      navigate("/", { state: { successMessage: "Топик успешно создан!" } });
+      navigate(`/topics/${result.id}`, { state: { successMessage: "Топик успешно создан!" } });
     } catch (err) {
       setError("Не удалось создать топик. Попробуйте позже.");
       console.error(err);

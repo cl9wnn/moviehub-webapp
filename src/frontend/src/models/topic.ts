@@ -1,3 +1,5 @@
+import type {CommentResponse} from "./comment.ts";
+
 export interface UserDiscussionTopicResponse{
   id: string;
   title: string;
@@ -27,4 +29,16 @@ export interface UserTopicResponse{
   id: string;
   username: string;
   avatarUrl: string;
+}
+
+export interface DiscussionTopicResponse{
+  id: string;
+  title: string;
+  content: string;
+  views:number;
+  createdAt: string;
+  movie:TopicMovieResponse;
+  user: UserTopicResponse;
+  tags: string[];
+  comments: CommentResponse[];
 }

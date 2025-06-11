@@ -10,6 +10,7 @@ import MoviePage from "../pages/MoviePage.tsx";
 import ActorPage from "../pages/ActorPage.tsx";
 import PersonalizePage from "../pages/PersonalizePage.tsx";
 import CreateTopicPage from "../pages/CreateTopicPage.tsx";
+import DiscussionTopicPage from "../pages/DiscussionTopicPage.tsx";
 
 const App: React.FC = () => {
   return (
@@ -19,10 +20,11 @@ const App: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage/>}/>
       <Route path="/personalize" element={<PersonalizePage/>}></Route>
-      <Route path="/create-topic" element={<CreateTopicPage/>}></Route>
+      <Route path="/create-topic" element={<PrivateRoute><CreateTopicPage/></PrivateRoute>}></Route>
       <Route path="/users/:userId" element={<PrivateRoute><AccountPage/></PrivateRoute>} />
       <Route path="/movies/:movieId" element={<PrivateRoute><MoviePage/></PrivateRoute>} />
       <Route path="/actors/:actorId" element={<PrivateRoute><ActorPage/></PrivateRoute>} />
+      <Route path="/topics/:topicId" element={<PrivateRoute><DiscussionTopicPage/></PrivateRoute>} />
     </Routes>
   <ToastContainer position="top-right" autoClose={3000} style={{ top: "70px" }} />
     </>);

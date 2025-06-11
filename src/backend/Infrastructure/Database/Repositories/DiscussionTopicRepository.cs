@@ -62,9 +62,9 @@ public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper, I
             .Include(c => c.User)
             .Include(c => c.Likes)
             .Include(c => c.Replies.Where(r => !r.IsDeleted))
-            .ThenInclude(r => r.User)
+                .ThenInclude(r => r.User)
             .Include(c => c.Replies)
-            .ThenInclude(r => r.Likes)
+                .ThenInclude(r => r.Likes)
             .ToListAsync();
         
         topicEntity.Comments = parentComments;
