@@ -59,14 +59,47 @@ public class CommentsController(ICommentService commentService, IMapper mapper):
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteCommentAsync(Guid id)
+    public async Task<IActionResult> DeleteOwnCommentAsync(Guid id)
     {
-        var deleteResult = await commentService.DeleteCommentAsync(id);
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+        
+        var deleteResult = await commentService.DeleteOwnCommentAsync(id, userId);
         
         return deleteResult.IsSuccess
             ? Ok()
-            : NotFound(deleteResult.ErrorMessage);
+            : BadRequest(deleteResult.ErrorMessage);
+    }
+
+    [HttpPost("{id:guid}/like")]
+    public async Task<IActionResult> LikeCommentAsync(Guid id)
+    {
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+        
+        var addResult = await commentService.LikeCommentAsync(userId, id);
+
+        return addResult.IsSuccess
+            ? Ok()
+            : BadRequest(new { Error = addResult.ErrorMessage });
     }
     
-    // поставить лайк 
+    [HttpDelete("{id:guid}/like")]
+    public async Task<IActionResult> UnlikeCommentAsync(Guid id)
+    {
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+        
+        var deleteResult = await commentService.UnlikeCommentAsync(userId, id);
+
+        return deleteResult.IsSuccess
+            ? Ok()
+            : BadRequest(new { Error = deleteResult.ErrorMessage });
+    }
 }

@@ -47,6 +47,61 @@ public class CommentRepository(AppDbContext dbContext, IMapper mapper, ILogger<C
             : Result<DiscussionTopic>.Success(mapper.Map<DiscussionTopic>(topicEntity));
     }
 
+    public async Task<Result> IsOwnedByUser(Guid id, Guid userId)
+    {
+        var commentEntity = await ActiveComments
+            .FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
+
+        return commentEntity == null 
+            ? Result.Failure("User is not the owner of the comment")
+            : Result.Success();
+    }
+
+    public async Task<Result> LikeCommentAsync(Guid userId, Guid id)
+    {
+        var commentEntity = await ActiveComments
+            .Include(c => c.Likes)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (commentEntity == null)
+        {
+            return Result.Failure("Comment not found");
+        }
+
+        if (commentEntity.Likes.Any(l => l.UserId == userId))
+        {
+            return Result.Failure("You already liked this comment");
+        }
+
+        var like = new CommentLikeEntity
+        {
+            Id = Guid.NewGuid(),
+            CommentId = id,
+            UserId = userId,
+        };
+        
+        await dbContext.CommentLikes.AddAsync(like);
+        await dbContext.SaveChangesAsync();
+        
+        return Result.Success();
+    }
+
+    public async Task<Result> UnlikeCommentAsync(Guid userId, Guid id)
+    {
+        var likeEntity = await dbContext.CommentLikes
+                .FirstOrDefaultAsync(c => c.CommentId == id && c.UserId == userId);
+
+        if (likeEntity == null)
+        {
+            return Result.Failure("Comment is not liked yet");
+        }
+        
+        dbContext.CommentLikes.Remove(likeEntity);
+        await dbContext.SaveChangesAsync();
+        
+        return Result.Success();
+    }
+
     public async Task<Result<Comment>> GetByIdAsync(Guid id)
     {
         var commentEntity = await ActiveComments

@@ -39,6 +39,6 @@ public class AdminUsersController(
 
         return deleteResult.IsSuccess
             ? Ok()
-            : NotFound(deleteResult.ErrorMessage);
+            : BadRequest(deleteResult.ErrorMessage);
     }
 }

@@ -6,7 +6,7 @@ import { getCurrentUserId } from "../../hooks/useCurrentUserId.ts";
 import { useSearch } from "../../hooks/useSearch.ts";
 import { SearchInput } from "./SearchInput.tsx";
 import { SearchResults } from "./SearchResults.tsx";
-import { Home } from "lucide-react";
+import {Home, MessageCircle} from "lucide-react";
 import type { UserResponse } from "../../models/user.ts";
 import { getUserById } from "../../services/users/getUserById.ts";
 
@@ -87,29 +87,41 @@ const Header: React.FC = () => {
 
   return (
     <header className="w-full fixed top-0 left-0 bg-black z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between space-x-4">
-        <div
-          className="flex items-center space-x-1 cursor-pointer"
-          onClick={() => navigate("/")}
-        >
-          <Home className="text-gray-300" />
-          <span className="text-white font-bold text-2xl">MovieHub</span>
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between relative">
+        <div className="flex items-center space-x-6 mr-12">
+          <div
+            className="flex items-center space-x-1 cursor-pointer text-white hover:text-gray-300 transition"
+            onClick={() => navigate("/")}
+          >
+            <Home className="w-5 h-5"/>
+            <span className="font-medium">Главная</span>
+          </div>
+
+          <div
+            className="flex items-center space-x-1 cursor-pointer text-white hover:text-gray-300 transition"
+            onClick={() => navigate("/topics")}
+          >
+            <MessageCircle className="w-5 h-5"/>
+            <span className="font-medium">Обсуждения</span>
+          </div>
         </div>
 
-        <div className="flex-grow mx-4 relative max-w-xl">
-          <SearchInput
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            searchType={searchType}
-            setSearchType={setSearchType}
-          />
-          <SearchResults
-            searchQuery={searchQuery}
-            searchType={searchType}
-            filteredMovies={filteredMovies}
-            filteredActors={filteredActors}
-            onSelect={() => setSearchQuery("")}
-          />
+        <div className="absolute left-1/2 -translate-x-1/2 w-full max-w-xl px-4">
+          <div className="relative">
+            <SearchInput
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              searchType={searchType}
+              setSearchType={setSearchType}
+            />
+            <SearchResults
+              searchQuery={searchQuery}
+              searchType={searchType}
+              filteredMovies={filteredMovies}
+              filteredActors={filteredActors}
+              onSelect={() => setSearchQuery("")}
+            />
+          </div>
         </div>
 
         <div className="relative flex items-center space-x-2" ref={avatarRef}>
@@ -133,8 +145,7 @@ const Header: React.FC = () => {
 
               {menuOpen && (
                 <div
-                  className="absolute right-0 top-full mt-[12px] w-40 bg-[#474747] rounded-md shadow-lg py-1 text-white text-sm z-50"
-                >
+                  className="absolute right-0 top-full mt-[12px] w-40 bg-[#474747] rounded-md shadow-lg py-1 text-white text-sm z-50">
                   <button
                     onClick={handleProfile}
                     className="block w-full text-left px-4 py-2 hover:bg-[#696969]"
@@ -151,7 +162,7 @@ const Header: React.FC = () => {
               )}
             </>
           ) : (
-            <div>
+            <div className="flex space-x-2">
               <a
                 href="#"
                 onClick={() => navigate("/login")}

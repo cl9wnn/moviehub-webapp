@@ -117,6 +117,6 @@ public class AdminActorsController(IActorService actorService, IMediaService med
         
         return deleteResult.IsSuccess
             ? Ok()
-            : NotFound(deleteResult.ErrorMessage);
+            : BadRequest(deleteResult.ErrorMessage);
     }
 }

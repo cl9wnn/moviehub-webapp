@@ -64,9 +64,34 @@ public class CommentService(ICommentRepository commentRepository, ILogger<Commen
             : Result<Comment>.Failure(addResult.ErrorMessage!)!;
     }
 
-    public async Task<Result> DeleteCommentAsync(Guid id)
+    public async Task<Result> DeleteOwnCommentAsync(Guid id, Guid userId)
     {
+        var isOwnCommentResult = await commentRepository.IsOwnedByUser(id, userId);
+
+        if (!isOwnCommentResult.IsSuccess)
+        {
+            return Result.Failure(isOwnCommentResult.ErrorMessage!)!;
+        }
+        
         var deleteResult = await commentRepository.DeleteAsync(id);
+        
+        return deleteResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(deleteResult.ErrorMessage!);
+    }
+
+    public async Task<Result> LikeCommentAsync(Guid userId, Guid id)
+    {
+        var addResult = await commentRepository.LikeCommentAsync(userId, id);
+        
+        return addResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(addResult.ErrorMessage!);
+    }
+
+    public async Task<Result> UnlikeCommentAsync(Guid userId, Guid id)
+    {
+        var deleteResult = await commentRepository.UnlikeCommentAsync(userId, id);
         
         return deleteResult.IsSuccess
             ? Result.Success()

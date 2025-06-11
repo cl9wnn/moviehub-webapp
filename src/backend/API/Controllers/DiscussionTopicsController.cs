@@ -23,7 +23,7 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IC
     {
         var getResult = await topicService.GetAllTopicsAsync();
         
-        var topics = mapper.Map<List<UserDiscussionTopicResponse>>(getResult.Data);
+        var topics = mapper.Map<List<ListDiscussionTopicResponse>>(getResult.Data);
         
         return Ok(topics);
     }
@@ -87,7 +87,7 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IC
         
         return deleteResult.IsSuccess
             ? Ok()
-            : NotFound(deleteResult.ErrorMessage);
+            : BadRequest(deleteResult.ErrorMessage);
     }
     
     [HttpPost("{id:guid}/comments")]

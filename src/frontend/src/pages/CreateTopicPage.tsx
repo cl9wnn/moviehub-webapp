@@ -5,12 +5,7 @@ import Button from "../components/auth/Button";
 import { createTopic } from "../services/topics/createTopic";
 import GenreTag from "../components/common/GenreTag";
 import { useSearch } from "../hooks/useSearch";
-
-const TAGS = [
-  "Спойлеры", "Фан-теории", "Рецензия", "Сюжетные дыры", "Ошибки и ляпы",
-  "Анализ персонажей", "Саундтрек", "Классика", "Новинки", "Недооценённое",
-  "Операторская работа"
-];
+import {TAGS} from "../models/topic.ts";
 
 const TAG_ID_MAP = TAGS.reduce((acc, tag, index) => {
   acc[tag] = index + 1;
@@ -100,7 +95,7 @@ const CreateTopicPage: React.FC = () => {
   };
 
   return (
-    <FormWrapper title="Создать обсуждение" containerMaxWidthClass="max-w-2xl">
+    <FormWrapper title="Создать обсуждение" containerMaxWidthClass="max-w-2xl" topPaddingClass="pt-12 md:pt-12">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Заголовок</label>

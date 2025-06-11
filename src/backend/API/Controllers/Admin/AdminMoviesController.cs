@@ -131,6 +131,6 @@ public class AdminMoviesController(IMovieService movieService, IMediaService med
         
         return deleteResult.IsSuccess
             ? Ok()
-            : NotFound(deleteResult.ErrorMessage);
+            : BadRequest(deleteResult.ErrorMessage);
     }
 }

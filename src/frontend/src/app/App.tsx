@@ -11,16 +11,18 @@ import ActorPage from "../pages/ActorPage.tsx";
 import PersonalizePage from "../pages/PersonalizePage.tsx";
 import CreateTopicPage from "../pages/CreateTopicPage.tsx";
 import DiscussionTopicPage from "../pages/DiscussionTopicPage.tsx";
+import DiscussionListPage from "../pages/DiscussionListPage.tsx";
 
 const App: React.FC = () => {
   return (
     <>
     <Routes>
       <Route path="/" element={<MainPage />} />
+      <Route path="/topics" element={<PrivateRoute><DiscussionListPage /></PrivateRoute>} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage/>}/>
       <Route path="/personalize" element={<PersonalizePage/>}></Route>
-      <Route path="/create-topic" element={<PrivateRoute><CreateTopicPage/></PrivateRoute>}></Route>
+      <Route path="/create-topic" element={<PrivateRoute><CreateTopicPage/></PrivateRoute>} />
       <Route path="/users/:userId" element={<PrivateRoute><AccountPage/></PrivateRoute>} />
       <Route path="/movies/:movieId" element={<PrivateRoute><MoviePage/></PrivateRoute>} />
       <Route path="/actors/:actorId" element={<PrivateRoute><ActorPage/></PrivateRoute>} />

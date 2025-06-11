@@ -76,7 +76,7 @@ public class InfrastructureMappingProfile: Profile
             .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes.Count))
             .ForMember(dest => dest.ParentComment, opt => opt.Ignore())
             .ForMember(dest => dest.Topic, opt => opt.Ignore());
-
+        
         CreateMap<Comment, CommentEntity>()
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.ParentComment, opt => opt.Ignore())
@@ -94,6 +94,5 @@ public class InfrastructureMappingProfile: Profile
         
         CreateMap<CommentLike, CommentLikeEntity>()
             .ReverseMap();
-        
     }
 }
