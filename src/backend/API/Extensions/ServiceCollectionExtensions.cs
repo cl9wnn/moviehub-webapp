@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
 using API.Filters;
 using API.Mappings;
 using API.Models;
@@ -93,6 +94,58 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IValidator<PersonalizeUserRequest>, PersonalizeUserValidator>();
         services.AddScoped<IValidator<CreateDiscussionTopicRequest>, CreateDiscussionTopicValidator>();
         services.AddScoped<IValidator<CreateCommentRequest>, CreateCommentValidator>();
+        return services;
+    }
+
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddScoped<IActorService, ActorService>();
+        services.AddScoped<IActorRepository, ActorRepository>();
+
+        services.AddScoped<IMovieService, MovieService>();
+        services.AddScoped<IMovieRepository, MovieRepository>();
+
+        services.AddScoped<IDiscussionTopicService, DiscussionTopicService>();
+        services.AddScoped<IDiscussionTopicRepository, DiscussionTopicRepository>();
+
+        services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
+
+        services.AddScoped<IMediaService, MediaService>();
+
+        return services;
+    }
+    
+    public static IServiceCollection AddAuthorizationPolicies(this IServiceCollection services)
+    {
+        services.AddAuthorizationBuilder()
+            .AddPolicy("AdminOnly", policy =>
+            {
+                policy.RequireClaim("Admin");
+            });
+
+        return services;
+    }
+    
+    public static IServiceCollection AddGlobalRateLimiting(this IServiceCollection services)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+                RateLimitPartition.GetFixedWindowLimiter("GlobalLimiter", key => new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 10,
+                    Window = TimeSpan.FromSeconds(10),
+                    QueueLimit = 2,
+                    QueueProcessingOrder = QueueProcessingOrder.OldestFirst
+                }));
+
+            options.RejectionStatusCode = 429;
+        });
+
         return services;
     }
     

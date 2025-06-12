@@ -9,24 +9,8 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-builder.Services.AddScoped<IActorService, ActorService>();
-builder.Services.AddScoped<IActorRepository, ActorRepository>();
-
-builder.Services.AddScoped<IMovieService, MovieService>();
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-
-builder.Services.AddScoped<IDiscussionTopicService, DiscussionTopicService>();
-builder.Services.AddScoped<IDiscussionTopicRepository, DiscussionTopicRepository>();
-
-builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-
-builder.Services.AddScoped<IMediaService, MediaService>();
-
 builder.ConfigureSerilog();
+builder.Services.AddApplicationServices();
 builder.Services.AddControllers();
 builder.Services.AddCustomCors();
 builder.Services.AddFilters();
@@ -37,9 +21,9 @@ builder.Services.AddMinioStorage(builder.Configuration);
 builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAutoMapper();
+builder.Services.AddGlobalRateLimiting();
 builder.Services.AddValidators();
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+builder.Services.AddAuthorizationPolicies();
 
 var app = builder.Build();
 
@@ -50,6 +34,7 @@ if (app.Environment.IsDevelopment())
     app.SeedDatabase();
 }
 
+app.UseRateLimiter();
 app.UseRequestResponseLogging();
 app.UseCors();
 app.UseAuthentication();
