@@ -552,6 +552,523 @@ public static class MovieSeeder
             IsDeleted = false
         };
         actors.Add(johnRhys);
+
+        // Documentary — "Free Solo"
+        var alex = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Алекс",
+            LastName = "Хоннольд",
+            Biography = "Алекс Хоннольд — американский скалолаз, главный герой документального фильма 'Free Solo'.",
+            BirthDate = new DateOnly(1985, 8, 17),
+            IsDeleted = false
+        };
+        actors.Add(alex);
+
+        var tommy = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Томми",
+            LastName = "Колдуэлл",
+            Biography = "Томми Колдуэлл — американский скалолаз, друг Алекса Хоннольда, выступает в фильме 'Free Solo'.",
+            BirthDate = new DateOnly(1978, 8, 11),
+            IsDeleted = false
+        };
+        actors.Add(tommy);
+
+        var jimmy = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джимми",
+            LastName = "Чин",
+            Biography = "Джимми Чин — режиссёр и альпинист, снявший 'Free Solo'.",
+            BirthDate = new DateOnly(1973, 10, 12),
+            IsDeleted = false
+        };
+        actors.Add(jimmy);
+
+        var elizabeth = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Элизабет",
+            LastName = "Чай",
+            Biography = "Элизабет Чай Васархели — режиссёр документального фильма 'Free Solo'.",
+            BirthDate = new DateOnly(1976, 3, 15),
+            IsDeleted = false
+        };
+        actors.Add(elizabeth);
+
+        var sany = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Санни",
+            LastName = "МакКэндлесс",
+            Biography = "Санни МакКэндлесс — партнёр Алекса Хоннольда, также показана в фильме.",
+            BirthDate = new DateOnly(1989, 6, 5),
+            IsDeleted = false
+        };
+        actors.Add(sany);
+
+        // Western — "The Good, the Bad and the Ugly"
+        var clint = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Клинт",
+            LastName = "Иствуд",
+            Biography = "Клинт Иствуд — американский актёр, сыграл Безымянного в 'Хороший, плохой, злой'.",
+            BirthDate = new DateOnly(1930, 5, 31),
+            IsDeleted = false
+        };
+        actors.Add(clint);
+
+        var eli = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Элай",
+            LastName = "Уоллак",
+            Biography = "Элай Уоллак — американский актёр, исполнил роль Туко.",
+            BirthDate = new DateOnly(1915, 12, 7),
+            IsDeleted = false
+        };
+        actors.Add(eli);
+
+        var lee = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Ли",
+            LastName = "Ван Клиф",
+            Biography = "Ли Ван Клиф — американский актёр, сыграл Ангела Глаза.",
+            BirthDate = new DateOnly(1925, 1, 9),
+            IsDeleted = false
+        };
+        actors.Add(lee);
+
+        var mario = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Марио",
+            LastName = "Брега",
+            Biography = "Марио Брега — итальянский актёр, сыграл Маленького Джона.",
+            BirthDate = new DateOnly(1923, 3, 25),
+            IsDeleted = false
+        };
+        actors.Add(mario);
+
+        var aldo = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Альдо",
+            LastName = "Джуффре",
+            Biography = "Альдо Джуффре — итальянский актёр, сыграл капитана армии Союза.",
+            BirthDate = new DateOnly(1924, 4, 10),
+            IsDeleted = false
+        };
+        actors.Add(aldo);
+
+        // Comedy — "The Grand Budapest Hotel"
+        var ralph = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Рэйф",
+            LastName = "Файнс",
+            Biography = "Рэйф Файнс — британский актёр, сыграл Густава в 'Отеле 'Гранд Будапешт'.",
+            BirthDate = new DateOnly(1962, 12, 22),
+            IsDeleted = false
+        };
+        actors.Add(ralph);
+
+        var tony = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Тони",
+            LastName = "Револори",
+            Biography = "Тони Револори — американский актёр, сыграл Зеро Мустафу.",
+            BirthDate = new DateOnly(1996, 4, 28),
+            IsDeleted = false
+        };
+        actors.Add(tony);
+
+        var adrien = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Эдриен",
+            LastName = "Броуди",
+            Biography = "Эдриен Броуди — американский актёр, исполнил роль Дмитрия.",
+            BirthDate = new DateOnly(1973, 4, 14),
+            IsDeleted = false
+        };
+        actors.Add(adrien);
+
+        var willem = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Уиллем",
+            LastName = "Дефо",
+            Biography = "Уиллем Дефо — американский актёр, сыграл Джоплин.",
+            BirthDate = new DateOnly(1955, 7, 22),
+            IsDeleted = false
+        };
+        actors.Add(willem);
+
+        var saoirse = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Сирша",
+            LastName = "Ронан",
+            Biography = "Сирша Ронан — ирландская актриса, исполнила Агату.",
+            BirthDate = new DateOnly(1994, 4, 12),
+            IsDeleted = false
+        };
+        actors.Add(saoirse);
+
+        // Horror — "Get Out"
+        var daniel = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Даниэл",
+            LastName = "Калуя",
+            Biography = "Даниэл Калуя — британский актёр, сыграл Криса в фильме 'Прочь'.",
+            BirthDate = new DateOnly(1989, 2, 24),
+            IsDeleted = false
+        };
+        actors.Add(daniel);
+
+        var allison = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Эллисон",
+            LastName = "Уильямс",
+            Biography = "Эллисон Уильямс — американская актриса, сыграла Роуз.",
+            BirthDate = new DateOnly(1988, 4, 13),
+            IsDeleted = false
+        };
+        actors.Add(allison);
+
+        var bradley = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Брэдли",
+            LastName = "Уитфорд",
+            Biography = "Брэдли Уитфорд — американский актёр, сыграл отца Роуз.",
+            BirthDate = new DateOnly(1959, 10, 10),
+            IsDeleted = false
+        };
+        actors.Add(bradley);
+
+        var catherine = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Кэтрин",
+            LastName = "Кинер",
+            Biography = "Кэтрин Кинер — актриса, исполнила мать Роуз.",
+            BirthDate = new DateOnly(1959, 3, 23),
+            IsDeleted = false
+        };
+        actors.Add(catherine);
+
+        var lilrel = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Лил Рел",
+            LastName = "Хаури",
+            Biography = "Лил Рел Хаури — актёр, сыграл Рода, друга Криса.",
+            BirthDate = new DateOnly(1979, 12, 17),
+            IsDeleted = false
+        };
+        actors.Add(lilrel);
+
+        // Sci-Fi — "Interstellar"
+        var anne = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Энн",
+            LastName = "Хэтэуэй",
+            Biography = "Энн Хэтэуэй — актриса, сыграла доктора Бренд.",
+            BirthDate = new DateOnly(1982, 11, 12),
+            IsDeleted = false
+        };
+        actors.Add(anne);
+
+        var jessica = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джессика",
+            LastName = "Честейн",
+            Biography = "Джессика Честейн — актриса, сыграла взрослую Мёрф.",
+            BirthDate = new DateOnly(1977, 3, 24),
+            IsDeleted = false
+        };
+        actors.Add(jessica);
+        
+        var casey = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Кейси",
+            LastName = "Аффлек",
+            Biography = "Кейси Аффлек — актёр, сыграл Тома, сына Купера.",
+            BirthDate = new DateOnly(1975, 8, 12),
+            IsDeleted = false
+        };
+        actors.Add(casey);
+        
+        // "Гарри Поттер и философский камень"
+        var danielRed = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Дэниел",
+            LastName = "Рэдклифф",
+            Biography = "Дэниел Рэдклифф — британский актёр, сыгравший главную роль Гарри Поттера в одноимённой серии фильмов.",
+            BirthDate = new DateOnly(1989, 7, 23),
+            IsDeleted = false
+        };
+        actors.Add(daniel);
+
+        var rupert = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Руперт",
+            LastName = "Гринт",
+            Biography = "Руперт Гринт — британский актёр, исполнивший роль Рона Уизли, лучшего друга Гарри Поттера.",
+            BirthDate = new DateOnly(1988, 8, 24),
+            IsDeleted = false
+        };
+        actors.Add(rupert);
+
+        var emma = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Эмма",
+            LastName = "Уотсон",
+            Biography = "Эмма Уотсон — британская актриса, сыгравшая Гермиону Грейнджер, одну из главных героинь серии о Гарри Поттере.",
+            BirthDate = new DateOnly(1990, 4, 15),
+            IsDeleted = false
+        };
+        actors.Add(emma);
+
+        var alan = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Алан",
+            LastName = "Рикман",
+            Biography = "Алан Рикман — британский актёр, исполнивший роль профессора Северуса Снегга.",
+            BirthDate = new DateOnly(1946, 2, 21),
+            IsDeleted = false
+        };
+        actors.Add(alan);
+
+        var richard = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Ричард",
+            LastName = "Харрис",
+            Biography = "Ричард Харрис — ирландский актёр, сыгравший роль профессора Альбуса Дамблдора в первых двух фильмах о Гарри Поттере.",
+            BirthDate = new DateOnly(1930, 10, 1),
+            IsDeleted = false
+        };
+        actors.Add(richard);
+        
+        // Титаник
+        var kate = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Кейт",
+            LastName = "Уинслет",
+            Biography = "Кейт Уинслет — британская актриса, исполнившая роль Розы Дьюитт Бьюкейтер.",
+            BirthDate = new DateOnly(1975, 10, 5),
+            IsDeleted = false
+        };
+        actors.Add(kate);
+
+        var billy = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Билли",
+            LastName = "Зейн",
+            Biography = "Билли Зейн — американский актёр, сыгравший Кэла Хокли, жениха Розы.",
+            BirthDate = new DateOnly(1966, 2, 24),
+            IsDeleted = false
+        };
+        actors.Add(billy);
+
+        var kathy = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Кэти",
+            LastName = "Бейтс",
+            Biography = "Кэти Бейтс — американская актриса, сыгравшая Молли Браун, пассажирку первого класса.",
+            BirthDate = new DateOnly(1948, 6, 28),
+            IsDeleted = false
+        };
+        actors.Add(kathy);
+
+        var francis = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Фрэнсис",
+            LastName = "Фишер",
+            Biography = "Фрэнсис Фишер — американская актриса, сыгравшая Рут, мать Розы.",
+            BirthDate = new DateOnly(1952, 5, 11),
+            IsDeleted = false
+        };
+        actors.Add(francis);
+        
+        // Унесенные призраками
+        var rumi = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Руми",
+            LastName = "Хиираги",
+            Biography = "Руми Хиираги — японская актриса, озвучившая Чихиро в оригинальной версии фильма.",
+            BirthDate = new DateOnly(1987, 8, 1),
+            IsDeleted = false
+        };
+        actors.Add(rumi);
+
+        var miyu = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Мию",
+            LastName = "Ирино",
+            Biography = "Мию Ирино — японский актёр, озвучивший Хаку.",
+            BirthDate = new DateOnly(1988, 2, 19),
+            IsDeleted = false
+        };
+        actors.Add(miyu);
+
+        var mari = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Мари",
+            LastName = "Нацуки",
+            Biography = "Мари Нацуки — японская актриса, озвучившая Юбабу и Зенибабу.",
+            BirthDate = new DateOnly(1952, 5, 2),
+            IsDeleted = false
+        };
+        actors.Add(mari);
+
+        var takashi = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Такаши",
+            LastName = "Наито",
+            Biography = "Такаши Наито — японский актёр, озвучивший отца Чихиро.",
+            BirthDate = new DateOnly(1955, 5, 27),
+            IsDeleted = false
+        };
+        actors.Add(takashi);
+
+        var bunta = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Бунта",
+            LastName = "Суговара",
+            Biography = "Бунта Суговара — японский актёр, озвучивший Камадзи.",
+            BirthDate = new DateOnly(1933, 8, 16),
+            IsDeleted = false
+        };
+        actors.Add(bunta);
+        
+        // Социальная дилема
+        var tristan = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Тристан",
+            LastName = "Харрис",
+            Biography = "Тристан Харрис — бывший специалист Google по этике дизайна, один из центральных участников фильма.",
+            BirthDate = new DateOnly(1984, 1, 1),
+            IsDeleted = false
+        };
+        actors.Add(tristan);
+
+        var jaron = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джарон",
+            LastName = "Ланье",
+            Biography = "Джарон Ланье — пионер виртуальной реальности, философ и автор, выступающий в фильме.",
+            BirthDate = new DateOnly(1960, 5, 3),
+            IsDeleted = false
+        };
+        actors.Add(jaron);
+
+        var shoshana = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Шошана",
+            LastName = "Зубофф",
+            Biography = "Шошана Зубофф — профессор Гарварда и эксперт в области цифрового капитализма.",
+            BirthDate = new DateOnly(1951, 11, 18),
+            IsDeleted = false
+        };
+        actors.Add(shoshana);
+
+        var aza = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Аза",
+            LastName = "Раскин",
+            Biography = "Аза Раскин — сооснователь Center for Humane Technology, выступает как эксперт в фильме.",
+            BirthDate = new DateOnly(1984, 2, 1),
+            IsDeleted = false
+        };
+        actors.Add(aza);
+
+        var randy = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Рэнди",
+            LastName = "Фернер",
+            Biography = "Рэнди Фернер — бывший инженер Facebook, делится опытом изнутри индустрии.",
+            BirthDate = new DateOnly(1980, 6, 15),
+            IsDeleted = false
+        };
+        actors.Add(randy);
+        
+        // Безумный Макс
+        var charlize = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Шарлиз",
+            LastName = "Терон",
+            Biography = "Шарлиз Терон — южноафриканская актриса, исполнившая роль Фуриосы.",
+            BirthDate = new DateOnly(1975, 8, 7),
+            IsDeleted = false
+        };
+        actors.Add(charlize);
+
+        var nicholas = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Николас",
+            LastName = "Холт",
+            Biography = "Николас Холт — британский актёр, сыгравший Накса, воителя.",
+            BirthDate = new DateOnly(1989, 12, 7),
+            IsDeleted = false
+        };
+        actors.Add(nicholas);
+
+        var hugh = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Хью",
+            LastName = "Кияс-Бёрн",
+            Biography = "Хью Кияс-Бёрн — австралийский актёр, исполнивший роль Несмертного Джо.",
+            BirthDate = new DateOnly(1947, 5, 18),
+            IsDeleted = false
+        };
+        actors.Add(hugh);
+
+        var zoe = new ActorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Зои",
+            LastName = "Кравиц",
+            Biography = "Зои Кравиц — американская актриса, сыгравшая Тост — одну из жён Несмертного Джо.",
+            BirthDate = new DateOnly(1988, 12, 1),
+            IsDeleted = false
+        };
+        actors.Add(zoe);
+        
         
         
         // ===== ФИЛЬМЫ =====
@@ -943,6 +1460,399 @@ public static class MovieSeeder
         };
         movies.Add(raiders);
         
+        // Documentary — "Free Solo"
+        var chinDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джимми",
+            LastName = "Чин"
+        };
+
+        var elizWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Элизабет",
+            LastName = "Васархели"
+        };
+
+        var freeSolo = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Фри-соло",
+            Description = "История Алекса Хоннольда, который без страховки покоряет вершину Эль-Капитан.",
+            Year = 2018,
+            DurationAtMinutes = 100,
+            AgeRating = "PG-13",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { chinDirector },
+            Writers = new List<MovieWriterEntity> { elizWriter },
+            Genres = genres.Where(g => g.Name == "Documentary").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = alex, CharacterName = "Сам себя" },
+                new() { Actor = tommy, CharacterName = "Сам себя" },
+                new() { Actor = jimmy, CharacterName = "Сам себя" },
+                new() { Actor = elizabeth, CharacterName = "Сама себя" },
+                new() { Actor = sany, CharacterName = "Сама себя" }
+            }
+        };
+        movies.Add(freeSolo);
+
+        // Western — "The Good, the Bad and the Ugly"
+        var leoneDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Серджо",
+            LastName = "Леоне"
+        };
+
+        var vincenzoniWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Лучано",
+            LastName = "Винченцони"
+        };
+
+        var goodBadUgly = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Хороший, плохой, злой",
+            Description = "Трое стрелков в поисках клада времён Гражданской войны в США.",
+            Year = 1966,
+            DurationAtMinutes = 161,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { leoneDirector },
+            Writers = new List<MovieWriterEntity> { vincenzoniWriter },
+            Genres = genres.Where(g => g.Name == "Western").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = clint, CharacterName = "Безымянный (Блонди)" },
+                new() { Actor = eli, CharacterName = "Туко" },
+                new() { Actor = lee, CharacterName = "Ангел Глаза" },
+                new() { Actor = mario, CharacterName = "Маленький Джон" },
+                new() { Actor = aldo, CharacterName = "Капитан Союза" }
+            }
+        };
+        movies.Add(goodBadUgly);
+
+        // Comedy — "The Grand Budapest Hotel"
+        var wesDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Уэс",
+            LastName = "Андерсон"
+        };
+
+        var hugoWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Хьюго",
+            LastName = "Гиннесс"
+        };
+
+        var grandBudapest = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Отель 'Гранд Будапешт'",
+            Description = "Консьерж и юный портье оказываются в центре интригующего наследственного спора.",
+            Year = 2014,
+            DurationAtMinutes = 99,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { wesDirector },
+            Writers = new List<MovieWriterEntity> { hugoWriter },
+            Genres = genres.Where(g => g.Name == "Comedy").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = ralph, CharacterName = "Густав" },
+                new() { Actor = tony, CharacterName = "Зеро Мустафа" },
+                new() { Actor = adrien, CharacterName = "Дмитрий" },
+                new() { Actor = willem, CharacterName = "Джоплин" },
+                new() { Actor = saoirse, CharacterName = "Агата" }
+            }
+        };
+        movies.Add(grandBudapest);
+
+        // Horror — "Get Out"
+        var jordanDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джордан",
+            LastName = "Пил"
+        };
+
+        var jordanWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джордан",
+            LastName = "Пил"
+        };
+
+        var getOut = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Прочь",
+            Description = "Чернокожий парень узнаёт зловещую правду о семье своей девушки.",
+            Year = 2017,
+            DurationAtMinutes = 104,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { jordanDirector },
+            Writers = new List<MovieWriterEntity> { jordanWriter },
+            Genres = genres.Where(g => g.Name == "Horror").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = daniel, CharacterName = "Крис Вашингтон" },
+                new() { Actor = allison, CharacterName = "Роуз Армитаж" },
+                new() { Actor = bradley, CharacterName = "Дин Армитаж" },
+                new() { Actor = catherine, CharacterName = "Мисси Армитаж" },
+                new() { Actor = lilrel, CharacterName = "Род Уильямс" }
+            }
+        };
+        movies.Add(getOut);
+
+        // Sci-Fi — "Interstellar"
+        var jonathanWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джонатан",
+            LastName = "Нолан"
+        };
+
+        var interstellar = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Интерстеллар",
+            Description = "Группа астронавтов отправляется через червоточину в поисках нового дома для человечества.",
+            Year = 2014,
+            DurationAtMinutes = 169,
+            AgeRating = "PG-13",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { nolanDirector },
+            Writers = new List<MovieWriterEntity> { jonathanWriter },
+            Genres = genres.Where(g => g.Name == "Sci-Fi").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = matthew, CharacterName = "Купер" },
+                new() { Actor = anne, CharacterName = "Амелия Бренд" },
+                new() { Actor = jessica, CharacterName = "Мёрф Купер" },
+                new() { Actor = michaelCaine, CharacterName = "Профессор Бренд" },
+                new() { Actor = casey, CharacterName = "Том Купер" }
+            }
+        };
+        movies.Add(interstellar);
+        
+        // Fantasy — "Гарри Поттер и философский камень"
+        var chrisDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Крис",
+            LastName = "Коламбус"
+        };
+
+        var steveWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Стив",
+            LastName = "Кловз"
+        };
+
+        var harryPotter = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Гарри Поттер и философский камень",
+            Description = "Юный волшебник Гарри Поттер поступает в школу Хогвартс, где узнаёт правду о своём прошлом и сражается с тёмными силами.",
+            Year = 2001,
+            DurationAtMinutes = 152,
+            AgeRating = "PG",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { chrisDirector },
+            Writers = new List<MovieWriterEntity> { steveWriter },
+            Genres = genres.Where(g => g.Name == "Fantasy").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = danielRed, CharacterName = "Гарри Поттер" },
+                new() { Actor = rupert, CharacterName = "Рон Уизли" },
+                new() { Actor = emma, CharacterName = "Гермиона Грейнджер" },
+                new() { Actor = alan, CharacterName = "Северус Снегг" },
+                new() { Actor = richard, CharacterName = "Альбус Дамблдор" }
+            }
+        };
+        movies.Add(harryPotter); 
+        
+        // Romance — "Титаник"
+        var cameronDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джеймс",
+            LastName = "Кэмерон"
+        };
+
+        var cameronWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джеймс",
+            LastName = "Кэмерон"
+        };
+        
+        var titanic = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Титаник",
+            Description = "История любви Джека и Роуз на борту обречённого лайнера.",
+            Year = 1997,
+            DurationAtMinutes = 195,
+            AgeRating = "PG-13",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { cameronDirector },
+            Writers = new List<MovieWriterEntity> { cameronWriter },
+            Genres = genres.Where(g => g.Name == "Romance").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = leo, CharacterName = "Джек Доусон" },
+                new() { Actor = kate, CharacterName = "Роуз Дьюитт Бьюкейтер" },
+                new() { Actor = billy, CharacterName = "Кэл Хокли" },
+                new() { Actor = francis, CharacterName = "Рут Дьюитт" },
+                new() { Actor = kathy, CharacterName = "Молли Браун" }
+            }
+        };
+        movies.Add(titanic);
+
+        // Animation — "Унесённые призраками"
+        var miyazakiDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Хаяо",
+            LastName = "Миядзаки"
+        };
+
+        var hayaoWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Хаяо",
+            LastName = "Миядзаки"
+        };
+
+        var spiritedAway = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Унесённые призраками",
+            Description = "Девочка Чихиро попадает в волшебный мир духов, где ей предстоит спасти своих родителей.",
+            Year = 2001,
+            DurationAtMinutes = 125,
+            AgeRating = "PG",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { miyazakiDirector },
+            Writers = new List<MovieWriterEntity> { hayaoWriter },
+            Genres = genres.Where(g => g.Name == "Animation").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = rumi, CharacterName = "Юбаба (озвучка)" },
+                new() { Actor = miyu, CharacterName = "Чихиро (озвучка)" },
+                new() { Actor = mari, CharacterName = "Мама (озвучка)" },
+                new() { Actor = takashi, CharacterName = "Отец (озвучка)" },
+                new() { Actor = bunta, CharacterName = "Камадзи (озвучка)" }
+            }
+        };
+        movies.Add(spiritedAway);
+
+        // Documentary — "The Social Dilemma"
+        var jeffDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джефф",
+            LastName = "Орловски"
+        };
+
+        var davisWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Дэвис",
+            LastName = "Кумб"
+        };
+
+        var socialDilemma = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Социальная дилемма",
+            Description = "Документальный фильм о том, как соцсети манипулируют поведением людей.",
+            Year = 2020,
+            DurationAtMinutes = 94,
+            AgeRating = "PG-13",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { jeffDirector },
+            Writers = new List<MovieWriterEntity> { davisWriter },
+            Genres = genres.Where(g => g.Name == "Documentary").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = tristan, CharacterName = "Сам себя (эксперт)" },
+                new() { Actor = jaron, CharacterName = "Сам себя (теоретик)" },
+                new() { Actor = shoshana, CharacterName = "Сама себя (экономист)" },
+                new() { Actor = aza, CharacterName = "Сам себя (UX-дизайнер)" },
+                new() { Actor = randy, CharacterName = "Сам себя (Facebook engineer)" }
+            }
+        };
+        movies.Add(socialDilemma);
+
+        // Action — "Безумный Макс: Дорога ярости"
+        var georgeDirector = new MovieDirectorEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Джордж",
+            LastName = "Миллер"
+        };
+
+        var brendanWriter = new MovieWriterEntity
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Брендан",
+            LastName = "Маккарти"
+        };
+
+        var furyRoad = new MovieEntity
+        {
+            Id = Guid.NewGuid(),
+            Title = "Безумный Макс: Дорога ярости",
+            Description = "Макс и Императрица Фуриоза бегут от тирана через постапокалиптическую пустошь.",
+            Year = 2015,
+            DurationAtMinutes = 120,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { georgeDirector },
+            Writers = new List<MovieWriterEntity> { brendanWriter },
+            Genres = genres.Where(g => g.Name == "Action").ToList(),
+            MovieActors = new List<MovieActorEntity>
+            {
+                new() { Actor = tom, CharacterName = "Макс Рокатански" },
+                new() { Actor = charlize, CharacterName = "Фуриоса" },
+                new() { Actor = nicholas, CharacterName = "Накс" },
+                new() { Actor = hugh, CharacterName = "Несмертный Джо" },
+                new() { Actor = zoe, CharacterName = "Тост" }
+            }
+        };
+        movies.Add(furyRoad);
+
         // Заполнение
         foreach (var actor in actors)
         {
