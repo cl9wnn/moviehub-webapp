@@ -21,7 +21,9 @@ public class CreateDiscussionTopicValidator: AbstractValidator<CreateDiscussionT
         
         RuleFor(u => u.TagIds)
             .NotNull().
-            WithMessage("TopicIds is required.")
+             WithMessage("TopicIds is required.")
+            .NotEmpty()
+            .WithMessage("TopicIds is required.")
             .Must(g => g.Count <= 3)
             .WithMessage("TopicIds must contain 3 or less items.");
     }

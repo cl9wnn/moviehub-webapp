@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class CommentService(ICommentRepository commentRepository, ILogger<CommentService> logger): ICommentService
+public class CommentService(ICommentRepository commentRepository): ICommentService
 {
     public async Task<Result<List<Comment>>> GetAllComments()
     {
@@ -19,7 +19,6 @@ public class CommentService(ICommentRepository commentRepository, ILogger<Commen
 
     public async Task<Result<Comment>> CreateTopicCommentAsync(Comment comment)
     {
-        logger.LogInformation("new comment: {@comment}", comment);
         var createResult = await commentRepository.AddAsync(comment);
         
         return createResult.IsSuccess
@@ -31,7 +30,6 @@ public class CommentService(ICommentRepository commentRepository, ILogger<Commen
     {
         var getTopicIdResult = await commentRepository.GetTopicByCommentId(comment.ParentCommentId);
 
-        logger.LogInformation("topicId: {@topicId}", getTopicIdResult.Data.Id);
         if (!getTopicIdResult.IsSuccess)
         {
             return Result<Comment>.Failure("Topic of comment not found!")!;
@@ -53,7 +51,16 @@ public class CommentService(ICommentRepository commentRepository, ILogger<Commen
             ? Result<Comment>.Success(getResult.Data)
             : Result<Comment>.Failure(getResult.ErrorMessage!)!;
     }
-    
+
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var existsResult = await commentRepository.ExistsAsync(id);
+        
+        return existsResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(existsResult.ErrorMessage!)!;
+    }
+
     public async Task<Result<Comment>> CreateCommentAsync(Comment comment, Guid userId)
     {
         comment.UserId = userId;

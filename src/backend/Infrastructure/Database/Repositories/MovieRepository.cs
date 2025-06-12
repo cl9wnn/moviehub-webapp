@@ -34,6 +34,17 @@ public class MovieRepository(AppDbContext dbContext, IMapper mapper): IMovieRepo
         var movie =  mapper.Map<Movie?>(movieEntity);
         return Result<Movie?>.Success(movie);
     }
+    
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var exists = await dbContext.Movies
+            .AsNoTracking()
+            .AnyAsync(c => c.Id == id && !c.IsDeleted);
+
+        return exists
+            ? Result.Success()
+            : Result.Failure("Movie not found!");
+    }
 
     public async Task<Result<Movie>> AddAsync(Movie movieDto)
     {

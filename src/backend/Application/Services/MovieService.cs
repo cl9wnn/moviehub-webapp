@@ -40,6 +40,15 @@ public class MovieService(IMovieRepository movieRepository, IUserRepository user
             ? Result<Movie>.Success(getResult.Data)
             : Result<Movie>.Failure(getResult.ErrorMessage!)!;
     }
+    
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var existsResult = await movieRepository.ExistsAsync(id);
+        
+        return existsResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(existsResult.ErrorMessage!)!;
+    }
 
     public async Task<Result<Movie>> CreateMovieAsync(Movie movie)
     {

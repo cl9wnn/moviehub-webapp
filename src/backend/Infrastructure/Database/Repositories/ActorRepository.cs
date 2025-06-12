@@ -30,6 +30,17 @@ public class ActorRepository(AppDbContext dbContext, IMapper mapper): IActorRepo
         return Result<Actor>.Success(actor);
     }
 
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var exists = await dbContext.Actors
+            .AsNoTracking()
+            .AnyAsync(c => c.Id == id && !c.IsDeleted);
+
+        return exists
+            ? Result.Success()
+            : Result.Failure("Actor not found!");
+    }
+    
     public async Task<Result<Actor>> AddAsync(Actor actorDto)
     {
         var actorEntity = mapper.Map<ActorEntity>(actorDto);

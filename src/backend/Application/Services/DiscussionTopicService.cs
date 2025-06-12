@@ -25,6 +25,15 @@ public class DiscussionTopicService(IDiscussionTopicRepository topicRepository):
             : Result<DiscussionTopic>.Failure(getResult.ErrorMessage!)!;
     }
 
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var existsResult = await topicRepository.ExistsAsync(id);
+        
+        return existsResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(existsResult.ErrorMessage!)!;
+    }
+
     public async Task<Result<DiscussionTopic>> CreateTopicAsync(DiscussionTopic topic)
     {
         var addResult = await topicRepository.AddAsync(topic);

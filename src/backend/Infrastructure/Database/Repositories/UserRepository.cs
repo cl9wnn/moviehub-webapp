@@ -43,6 +43,17 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
             : Result<User>.Success(mapper.Map<User>(userEntity));
     }
     
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var exists = await context.Users
+            .AsNoTracking()
+            .AnyAsync(c => c.Id == id && !c.IsDeleted);
+
+        return exists
+            ? Result.Success()
+            : Result.Failure("User not found!");
+    }
+    
     public async Task<Result<User>> GetByUsernameAsync(string username)
     {
         var userEntity = await ActiveUsers

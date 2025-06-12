@@ -74,6 +74,11 @@ const CreateTopicPage: React.FC = () => {
       return;
     }
 
+    if (selectedTags.length === 0) {
+      setError("Выберите хотя бы один тег");
+      return;
+    }
+
     if (!selectedMovie) {
       setError("Выберите фильм");
       return;

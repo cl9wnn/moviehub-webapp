@@ -40,6 +40,15 @@ public class ActorService(IActorRepository actorRepository, IUserRepository user
             ? Result<Actor>.Success(getResult.Data)
             : Result<Actor>.Failure(getResult.ErrorMessage!)!;
     }
+    
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var existsResult = await actorRepository.ExistsAsync(id);
+        
+        return existsResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(existsResult.ErrorMessage!)!;
+    }
 
     public async Task<Result<Actor>> CreateActorAsync(Actor movie)
     {

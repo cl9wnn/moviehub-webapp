@@ -11,11 +11,11 @@ public class EntityExistsFilter<TService, TDto>(TService service, string paramNa
     {
         if (context.ActionArguments.TryGetValue(paramName, out var idObj) && idObj is Guid id)
         {
-            var getResult = await service.GetByIdAsync(id);
+            var existsResult = await service.ExistsAsync(id);
             
-            if (!getResult.IsSuccess)
+            if (!existsResult.IsSuccess)
             {
-                context.Result = new NotFoundObjectResult(new {Error = getResult.ErrorMessage});
+                context.Result = new NotFoundObjectResult(new {Error = existsResult.ErrorMessage});
                 return;
             }
         }

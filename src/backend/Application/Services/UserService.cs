@@ -26,6 +26,15 @@ public class UserService(IUserRepository userRepository, ITokenService tokenServ
             ? Result<User>.Success(getResult.Data)
             : Result<User>.Failure(getResult.ErrorMessage!)!;
     }
+    
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var existsResult = await userRepository.ExistsAsync(id);
+        
+        return existsResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(existsResult.ErrorMessage!)!;
+    }
 
     public async Task<Result<AuthDto>> RegisterAsync(User userDto)
     {

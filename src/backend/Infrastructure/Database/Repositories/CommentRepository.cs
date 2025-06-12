@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Database.Repositories;
 
-public class CommentRepository(AppDbContext dbContext, IMapper mapper, ILogger<CommentRepository> logger): ICommentRepository
+public class CommentRepository(AppDbContext dbContext, IMapper mapper): ICommentRepository
 {
     private IQueryable<CommentEntity> ActiveComments => dbContext.Comments.Where(c => !c.IsDeleted);
     
@@ -45,6 +45,17 @@ public class CommentRepository(AppDbContext dbContext, IMapper mapper, ILogger<C
         return topicEntity == null
             ? Result<DiscussionTopic>.Failure("Topic not found")!
             : Result<DiscussionTopic>.Success(mapper.Map<DiscussionTopic>(topicEntity));
+    }
+    
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var exists = await dbContext.Comments
+            .AsNoTracking()
+            .AnyAsync(c => c.Id == id && !c.IsDeleted);
+
+        return exists
+            ? Result.Success()
+            : Result.Failure("Comment not found!");
     }
 
     public async Task<Result> IsOwnedByUser(Guid id, Guid userId)
@@ -129,24 +140,7 @@ public class CommentRepository(AppDbContext dbContext, IMapper mapper, ILogger<C
         
         commentEntity.CreatedAt = DateTime.UtcNow;
         
-        logger.LogInformation("entity:{@commentEntity}", commentEntity);
         await dbContext.Comments.AddAsync(commentEntity);
-        
-        var deletedComments = dbContext.ChangeTracker.Entries<CommentEntity>()
-            .Where(e => e.State == EntityState.Deleted)
-            .Select(e => e.Entity.Id)
-            .ToList();
-        if (deletedComments.Any())
-        {
-            logger.LogWarning("Перед SaveChanges: будут удалены комментарии с Id: {DeletedIds}", deletedComments);
-        }
-        
-        foreach (var entry in dbContext.ChangeTracker.Entries<CommentEntity>())
-        {
-            logger.LogInformation("ChangeTracker: Comment Id={Id}, State={State}, ParentCommentId={ParentId}",
-                entry.Entity.Id, entry.State, entry.Entity.ParentCommentId);
-        }
-        
         await dbContext.SaveChangesAsync();
         
         var comment = mapper.Map<Comment>(commentEntity);

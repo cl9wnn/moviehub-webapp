@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Database.Repositories;
 
-public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper, ILogger<DiscussionTopicRepository> logger): IDiscussionTopicRepository
+public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper): IDiscussionTopicRepository
 {
     private IQueryable<DiscussionTopicEntity> ActiveTopics => dbContext.DiscussionTopics.Where(t => !t.IsDeleted);
    
@@ -87,29 +87,33 @@ public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper, I
         {
             return Result<DiscussionTopic>.Failure("Topic not found!")!;
         }
-        
-        var parentComments = await dbContext.Comments
-            .Where(c => c.TopicId == id && c.ParentCommentId == null && !c.IsDeleted)
+
+        var allComments = await dbContext.Comments
+            .Where(c => c.TopicId == id && !c.IsDeleted)
             .Include(c => c.User)
             .Include(c => c.Likes)
-            .Include(c => c.Replies.Where(r => !r.IsDeleted))
-                .ThenInclude(r => r.User)
-            .Include(c => c.Replies)
-                .ThenInclude(r => r.Likes)
-            .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
-        
-        topicEntity.Comments = parentComments;
-        
+
+        topicEntity.Comments = BuildCommentTree(allComments);
+
         var topic = mapper.Map<DiscussionTopic>(topicEntity);
-        
+
         return Result<DiscussionTopic>.Success(topic);
+    }
+    
+    public async Task<Result> ExistsAsync(Guid id)
+    {
+        var exists = await dbContext.DiscussionTopics
+            .AsNoTracking()
+            .AnyAsync(c => c.Id == id && !c.IsDeleted);
+
+        return exists
+            ? Result.Success()
+            : Result.Failure("Topic not found!");
     }
 
     public async Task<Result<DiscussionTopic>> AddAsync(DiscussionTopic topicDto)
     {
-        logger.LogInformation("dto: {@topicDto}", topicDto);
-
         var tagIds = topicDto.Tags.Select(t => t.Id).ToList();
         
         var tagEntities = await dbContext.TopicTags
@@ -127,8 +131,6 @@ public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper, I
         
         topicEntity.Tags = tagEntities;
         topicEntity.CreatedAt = DateTime.UtcNow;
-
-        logger.LogInformation("entity: {@topicEntity}", topicEntity);
         
         await dbContext.DiscussionTopics.AddAsync(topicEntity);
         await dbContext.SaveChangesAsync();
@@ -170,5 +172,24 @@ public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper, I
         await dbContext.SaveChangesAsync();
         
         return Result.Success();
+    }
+    
+    private List<CommentEntity> BuildCommentTree(List<CommentEntity> allComments)
+    {
+        var commentLookup = allComments.ToLookup(c => c.ParentCommentId);
+
+        List<CommentEntity> Build(Guid? parentId)
+        {
+            return commentLookup[parentId]
+                .OrderByDescending(c => c.CreatedAt)
+                .Select(c =>
+                {
+                    c.Replies = Build(c.Id);
+                    return c;
+                })
+                .ToList();
+        }
+
+        return Build(null);
     }
 }
