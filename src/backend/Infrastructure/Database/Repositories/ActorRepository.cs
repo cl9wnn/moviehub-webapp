@@ -96,7 +96,7 @@ public class ActorRepository(AppDbContext dbContext, IMapper mapper): IActorRepo
             .AsNoTracking()
             .ToListAsync();
         
-        var actors = mapper.Map<List<Actor>>(actorEntities);
+        var actors = mapper.Map<ICollection<Actor>>(actorEntities);
 
         return Result<ICollection<Actor>>.Success(actors);
     }

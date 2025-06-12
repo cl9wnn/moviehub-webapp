@@ -22,7 +22,7 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
             .AsNoTracking()
             .ToListAsync();
         
-        var users = mapper.Map<List<User>>(usersEntities);
+        var users = mapper.Map<ICollection<User>>(usersEntities);
             
         return Result<ICollection<User>>.Success(users);
     }

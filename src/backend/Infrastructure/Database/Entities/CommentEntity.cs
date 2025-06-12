@@ -16,6 +16,5 @@ public class CommentEntity
     public Guid? ParentCommentId { get; set; }   
     public CommentEntity? ParentComment { get; set; }
     public ICollection<CommentEntity> Replies { get; set; } =  new List<CommentEntity>();
-    
     public ICollection<CommentLikeEntity> Likes { get; set; } = new List<CommentLikeEntity>();
 }

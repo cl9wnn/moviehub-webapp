@@ -116,7 +116,7 @@ public class MovieRepository(AppDbContext dbContext, IMapper mapper): IMovieRepo
             .AsNoTracking()
             .ToListAsync();
         
-        var movies = mapper.Map<List<Movie>>(movieEntities);
+        var movies = mapper.Map<ICollection<Movie>>(movieEntities);
         
         return Result<ICollection<Movie>>.Success(movies);
     }

@@ -10,7 +10,7 @@ public class ActorEntity
     public string? PhotoUrl { get; set; }
     public bool IsDeleted { get; set; }
     
-    public ICollection<ActorPhotoEntity>? Photos { get; set; } 
+    public ICollection<ActorPhotoEntity>? Photos { get; set; }  = new List<ActorPhotoEntity>();
     public ICollection<MovieActorEntity> MovieActors { get; set; } = new List<MovieActorEntity>();
     public ICollection<UserEntity> Users { get; set; } = new List<UserEntity>();
 }

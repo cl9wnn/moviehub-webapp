@@ -12,10 +12,10 @@ public class User
     public UserRole Role { get; set; }
     public DateOnly RegistrationDate { get; set; }
     public string Password { get; set; }
-    public List<Actor> FavoriteActors { get; set; }
-    public List<Movie> WatchList { get; set; }
-    public List<Genre> PreferredGenres { get; set; }
-    public List<MovieRating> MovieRatings { get; set; }
-    public List<Comment> Comments { get; set; }
-    public List<DiscussionTopic> Topics { get; set; }
+    public List<Actor> FavoriteActors { get; set; } = new();
+    public List<Movie> WatchList { get; set; } = new();
+    public List<Genre> PreferredGenres { get; set; } = new();
+    public List<MovieRating> MovieRatings { get; set; } = new();
+    public List<Comment> Comments { get; set; } = new();
+    public List<DiscussionTopic> Topics { get; set; } = new();
 }
