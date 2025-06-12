@@ -114,6 +114,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<ICommentRepository, CommentRepository>();
 
+        services.AddScoped<IRecommendationService, RecommendationService>();
+        services.AddScoped<IRecommendationRepository, RecommendationRepository>();
+        
         services.AddScoped<IMediaService, MediaService>();
 
         return services;

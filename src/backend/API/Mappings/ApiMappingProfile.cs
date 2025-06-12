@@ -134,6 +134,9 @@ public class ApiMappingProfile: Profile
         CreateMap<Movie, MovieCardResponse>()
             .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)))
             .ForMember(dest => dest.CharacterName, opt => opt.Ignore());
+
+        CreateMap<Movie, RecommendationMovieResponse>()
+            .ForMember(dest => dest.UserRating, opt => opt.MapFrom(src => CalculateUserRating(src)));
         
         CreateMap<MovieRating, RatedMovieCardResponse>()
             .IncludeMembers(src => src.Movie)

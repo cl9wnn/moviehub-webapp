@@ -53,3 +53,10 @@ export interface MovieResponse {
   ownRating?: number;
 }
 
+export interface RecommendationMovieResponse {
+  id: string;
+  title: string;
+  year: number;
+  posterUrl: string;
+  userRating: number;
+}
