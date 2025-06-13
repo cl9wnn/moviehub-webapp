@@ -7,6 +7,6 @@ namespace Domain.Abstractions.Repositories;
 public interface IDiscussionTopicRepository: IRepository<Guid, DiscussionTopic>
 {
     Task<Result<List<Comment>>> GetCommentsByTopicIdAsync(Guid id);
-    Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedAsync(int page, int pageSize);
+    Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedAsync(Guid userId, int page, int pageSize);
 
 }

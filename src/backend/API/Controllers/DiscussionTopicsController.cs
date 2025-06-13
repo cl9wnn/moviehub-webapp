@@ -43,7 +43,12 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IC
     [HttpGet("paginated")]
     public async Task<IActionResult> GetDiscussionTopicsPaginated([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
-        var result = await topicService.GetPaginatedTopicsAsync(page, pageSize);
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+
+        var result = await topicService.GetPaginatedTopicsAsync(userId, page, pageSize);
 
         if (!result.IsSuccess)
             return BadRequest(result.ErrorMessage);

@@ -10,6 +10,6 @@ public interface IDiscussionTopicService: IEntityService<DiscussionTopic>
     Task<Result<DiscussionTopic>> CreateTopicAsync(DiscussionTopic topic);
     Task<Result> DeleteTopicAsync(Guid id);
     Task<Result<List<Comment>>> GetCommentsByTopicIdAsync(Guid id);
-    Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedTopicsAsync(int page, int pageSize);
+    Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedTopicsAsync(Guid userId, int page, int pageSize);
 
 }

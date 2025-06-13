@@ -54,8 +54,8 @@ const MainPage: React.FC = () => {
   if (error) return <div className="text-center mt-10 text-red-600">{error}</div>;
 
   return (
-    <div className="bg-white min-h-screen pt-16">
-      <Header />
+    <div className="bg-white min-h-screen pt-16 pb-16">
+      <Header/>
       <MovieCarousel
         title="Лучшие фильмы"
         movies={topMovies}

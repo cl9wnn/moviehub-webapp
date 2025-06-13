@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Abstractions.Repositories;
+using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -8,89 +9,78 @@ namespace Infrastructure.Database.Repositories;
 
 public class RecommendationRepository(AppDbContext dbContext, IMapper mapper) : IRecommendationRepository
 {
-    public async Task<Result<List<Movie>>> GetMovieRecommendationsByUserAsync(Guid userId, int topN = 10)
+    public async Task<Result<UserRecommendationDataDto>> GetUserWithRecommendationDataAsync(Guid userId)
     {
         var user = await dbContext.Users
             .Include(u => u.PreferredGenres)
-            .Include(u => u.WatchList)
-                .ThenInclude(m => m.Genres)
+            .Include(u => u.WatchList).ThenInclude(m => m.Genres)
             .Include(u => u.NotInterestedMovies)
+            .Include(u => u.Topics).ThenInclude(t => t.Movie).ThenInclude(m => m.Genres)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
         if (user == null)
-            return Result<List<Movie>>.Failure("User not found")!;
+        {
+            return Result<UserRecommendationDataDto>.Failure("User not found")!;
+        };
 
-        // 1. Получаем жанры пользователя
-        var preferredGenreIds = user.PreferredGenres.Select(g => g.Id).ToList();
-
-        // 2. Получаем ID понравившихся фильмов
+        var genresFromUserTopics = user.Topics
+            .SelectMany(t => t.Movie.Genres.Select(g => g.Id))
+            .Distinct()
+            .ToList();
+        
+        var recommendationData = new UserRecommendationDataDto
+        {
+            PreferredGenreIds = user.PreferredGenres.Select(g => g.Id).ToList(),
+            WatchListGenreIds = user.WatchList.SelectMany(m => m.Genres.Select(g => g.Id)).Distinct().ToList(),
+            NotInterestedMovieIds = user.NotInterestedMovies.Select(m => m.Id).ToList(),
+            GenresFromUserTopics = genresFromUserTopics
+        };
+        
+        return Result<UserRecommendationDataDto>.Success(recommendationData);
+    }
+    
+    public async Task<Result<List<int>>> GetGenresFromLikedMoviesAsync(Guid userId)
+    {
         var likedMovieIds = await dbContext.MovieRatings
-            .Where(r => r.UserId == userId && r.Rating >= 7)
+            .Where(r => r.UserId == userId && r.Rating >= 8)
             .Select(r => r.MovieId)
             .Distinct()
             .ToListAsync();
-
-        // 3. Получаем жанры из понравившихся фильмов
-        var likedGenreIds = await dbContext.Movies
+        
+        var likedGenres = await dbContext.Movies
             .Where(m => likedMovieIds.Contains(m.Id))
             .SelectMany(m => m.Genres.Select(g => g.Id))
             .Distinct()
             .ToListAsync();
+        
+        return Result<List<int>>.Success(likedGenres);
+    }
 
-        // 4. Получаем жанры из WatchList
-        var watchListGenreIds = user.WatchList
-            .SelectMany(m => m.Genres.Select(g => g.Id))
-            .Distinct()
-            .ToList();
-
-        // 5. Подсчитываем веса жанров
-        var genreWeights = new Dictionary<int, double>();
-        foreach (var gid in preferredGenreIds)
-            AddWeight(genreWeights, gid, 1.0);
-        foreach (var gid in likedGenreIds)
-            AddWeight(genreWeights, gid, 0.7);
-        foreach (var gid in watchListGenreIds)
-            AddWeight(genreWeights, gid, 0.5);
-
-        // 6. Фильмы, которые пользователь уже оценивал
-        var notInterestedIds = user.NotInterestedMovies.Select(m => m.Id).ToList();
-
-        // 7. Фильмы которые пользователь пометил как "Не интересно" 
-        var seenMovieIds = await dbContext.MovieRatings
+    public async Task<Result<List<Guid>>> GetSeenMovieIdsAsync(Guid userId)
+    {
+        var seenMovies = await dbContext.MovieRatings
             .Where(r => r.UserId == userId)
             .Select(r => r.MovieId)
             .ToListAsync();
         
-        // 7. Кандидаты на рекомендацию (не удалены и не видны)
-        var candidates = await dbContext.Movies
+        return Result<List<Guid>>.Success(seenMovies);
+    }
+    
+    public async Task<Result<List<Movie>>> GetCandidateMoviesAsync(List<Guid> seenMovieIds, List<Guid> notInterestedIds)
+    {
+        var recommendationCandidates = await dbContext.Movies
             .Include(m => m.Genres)
             .Where(m =>
                 !m.IsDeleted &&
                 !seenMovieIds.Contains(m.Id) &&
-                !notInterestedIds.Contains(m.Id)) 
+                !notInterestedIds.Contains(m.Id))
             .ToListAsync();
         
-        // 8. Расчёт score и ранжирование
-        var scored = candidates
-            .Select(m =>
-            {
-                double score = m.Genres.Sum(g => genreWeights.GetValueOrDefault(g.Id, 0));
-                return new { Movie = m, Score = score };
-            })
-            .Where(x => x.Score > 0)
-            .OrderByDescending(x => x.Score)
-            .ThenByDescending(x =>
-                x.Movie.RatingCount > 0
-                    ? x.Movie.RatingSum / x.Movie.RatingCount
-                    : 0.0)
-            .Take(topN)
-            .Select(x => x.Movie)
-            .ToList();
-
-        var movies = mapper.Map<List<Movie>>(scored);
+        var movies = mapper.Map<List<Movie>>(recommendationCandidates);
+        
         return Result<List<Movie>>.Success(movies);
     }
-
+    
     public async Task<Result<List<Movie>>> GetMovieRecommendationsByRatingAsync(int topN = 10)
     {
         var movieEntities = await dbContext.Movies
@@ -105,13 +95,5 @@ public class RecommendationRepository(AppDbContext dbContext, IMapper mapper) : 
         var movies = mapper.Map<List<Movie>>(movieEntities);
         
         return Result<List<Movie>>.Success(movies);
-    }
-
-    private void AddWeight(Dictionary<int, double> weights, int genreId, double weight)
-    {
-        if (weights.TryGetValue(genreId, out var current))
-            weights[genreId] = current + weight;
-        else
-            weights[genreId] = weight;
     }
 }

@@ -61,9 +61,9 @@ public class DiscussionTopicService(IDiscussionTopicRepository topicRepository):
             : Result<List<Comment>>.Failure(getResult.ErrorMessage!)!;
     }
 
-    public async Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedTopicsAsync(int page, int pageSize)
+    public async Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedTopicsAsync(Guid userId, int page, int pageSize)
     {
-        var getResult = await topicRepository.GetPaginatedAsync(page, pageSize);
+        var getResult = await topicRepository.GetPaginatedAsync(userId, page, pageSize);
         
         return getResult.IsSuccess
             ? Result<PaginatedDto<DiscussionTopic>>.Success(getResult.Data)
