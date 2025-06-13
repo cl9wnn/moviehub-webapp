@@ -2079,13 +2079,6 @@ public static class MovieSeeder
         movies.Add(getOut);
 
         // Sci-Fi — "Interstellar"
-        var jonathanWriter = new MovieWriterEntity
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "Джонатан",
-            LastName = "Нолан"
-        };
-
         var interstellar = new MovieEntity
         {
             Id = Guid.NewGuid(),
@@ -2098,7 +2091,7 @@ public static class MovieSeeder
             RatingSum = 0,
             IsDeleted = false,
             Directors = new List<MovieDirectorEntity> { nolanDirector },
-            Writers = new List<MovieWriterEntity> { jonathanWriter },
+            Writers = new List<MovieWriterEntity> { jonathanNolanWriter },
             Genres = genres.Where(g => g.Name == "Sci-Fi").ToList(),
             MovieActors = new List<MovieActorEntity>
             {

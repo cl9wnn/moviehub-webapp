@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace Application.Services;
 
-public class CommentService(ICommentRepository commentRepository, IEmailService emailService, ILogger<CommentService> logger): ICommentService
+public class CommentService(ICommentRepository commentRepository, IEmailService emailService): ICommentService
 {
     public async Task<Result<List<Comment>>> GetAllComments()
     {
@@ -47,7 +47,6 @@ public class CommentService(ICommentRepository commentRepository, IEmailService 
 
         if (addResult.IsSuccess)
         {
-            logger.LogInformation("{url}", url);
             await NotifyParentCommentAuthor(parentResult.Data, comment.TopicId, userId, url, addResult.Data.Content);
         }
 

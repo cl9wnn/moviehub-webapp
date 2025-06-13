@@ -23,7 +23,6 @@ public class EmailService(IOptions<EmailOptions> options, ILogger<EmailService> 
         try
         {
             await smtpClient.SendMailAsync(message);
-            logger.LogInformation("Email sent successfully to {Recipient}", receptor);
         }
         catch (SmtpException ex)
         {
