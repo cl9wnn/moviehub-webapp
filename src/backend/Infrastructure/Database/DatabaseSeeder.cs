@@ -1069,7 +1069,465 @@ public static class MovieSeeder
         };
         actors.Add(zoe);
         
+        // Animation — "Toy Story"
+        var tim = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Тим",
+            LastName = "Эллен",
+            Biography = "Тим Эллен — американский актёр, озвучил Базза Лайтера в «Toy Story».",
+            BirthDate = new DateOnly(1953, 6, 13),
+            IsDeleted = false
+        };
+        actors.Add(tim);
+
+        var don = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Дон",
+            LastName = "Риклз",
+            Biography = "Дон Риклз — американский комик и актёр, озвучил мистера Картофанчика в «Toy story».",
+            BirthDate = new DateOnly(1926, 5, 8),
+            IsDeleted = false
+        };
+        actors.Add(don);
+
+        var jim = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джим",
+            LastName = "Варни",
+            Biography = "Джим Варни — американский актёр, озвучил Слинки Дога в «Toy Story».",
+            BirthDate = new DateOnly(1949, 6, 15),
+            IsDeleted = false
+        };
+        actors.Add(jim);
+
+        var wallace = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Уоллес",
+            LastName = "Шон",
+            Biography = "Уоллес Шон — американский актёр, озвучил Рекса, нервозного динозавра в «Toy story».",
+            BirthDate = new DateOnly(1943, 11, 12),
+            IsDeleted = false
+        };
+        actors.Add(wallace);
+
+        // Animation — "Finding Nemo"
+        var albert = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Альберт",
+            LastName = "Брукс",
+            Biography = "Альберт Брукс — американский актёр, озвучил Марлина, отца Немо в «В поисках Немо».",
+            BirthDate = new DateOnly(1947, 7, 22),
+            IsDeleted = false
+        };
+        actors.Add(albert);
+
+        var ellen = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Эллен",
+            LastName = "Дедженерес",
+            Biography = "Эллен Дедженерес — американская актриса и комедийная актриса, озвучила Дори в «В поисках Немо».",
+            BirthDate = new DateOnly(1958, 1, 26),
+            IsDeleted = false
+        };
+        actors.Add(ellen);
+
+        var alexandr = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Александер",
+            LastName = "Гулд",
+            Biography = "Александер Гулд — канадский актёр, озвучил Немо в «В поисках Немо».",
+            BirthDate = new DateOnly(1994, 11, 28),
+            IsDeleted = false
+        };
+        actors.Add(alex);
+
+        var will = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Уилл",
+            LastName = "Рэндл",
+            Biography = "Вилл Рэндл — американский актёр, озвучил Бруно, рыбку-ангела в «В поисках Немо».",
+            BirthDate = new DateOnly(1953, 12, 13),
+            IsDeleted = false
+        };
+        actors.Add(will);
+
+        var geoff = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джефф",
+            LastName = "Голдблюм",
+            Biography = "Джефф Голдблюм — американский актёр, озвучил Джека Хэд Вейла – маску монахоморя в «В поисках Немо».",
+            BirthDate = new DateOnly(1952, 10, 22),
+            IsDeleted = false
+        };
+        actors.Add(geoff);
+
+        // Animation — "Shrek"
+        var mike = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Майк",
+            LastName = "Майерс",
+            Biography = "Майк Майерс — канадско-американский актёр, озвучил Шрека в «Шреке».",
+            BirthDate = new DateOnly(1963, 5, 25),
+            IsDeleted = false
+        };
+        actors.Add(mike);
+
+        var eddy = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Эдди",
+            LastName = "Мерфи",
+            Biography = "Эдди Мерфи — американский актёр и комик, озвучил Осла в «Шреке».",
+            BirthDate = new DateOnly(1961, 4, 3),
+            IsDeleted = false
+        };
+        actors.Add(eddy);
+
+        var cameron = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Кэмерон",
+            LastName = "Диас",
+            Biography = "Кэмерон Диас — американская актриса, озвучила Фиону в «Шреке».",
+            BirthDate = new DateOnly(1972, 8, 30),
+            IsDeleted = false
+        };
+        actors.Add(cameron);
+
+        var johnLitgo = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джон",
+            LastName = "Литгоу",
+            Biography = "Джон Литгоу — американский актёр, озвучил Лорда Фаркуада в «Шреке».",
+            BirthDate = new DateOnly(1947, 10, 7),
+            IsDeleted = false
+        };
+        actors.Add(john);
+
+        var vincent = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Винсент",
+            LastName = "Кассель",
+            Biography = "Винсент Кассель — французский актёр, озвучил короля Гарольда во французской версии «Шрека».",
+            BirthDate = new DateOnly(1966, 11, 23),
+            IsDeleted = false
+        };
+        actors.Add(vincent);
+
+        // Horror — "A Nightmare on Elm Street"
+        var robert = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Роберт",
+            LastName = "Энглунд",
+            Biography = "Роберт Энглунд — американский актёр, сыграл Фредди Крюгера в «Кошмаре на улице Вязов».",
+            BirthDate = new DateOnly(1947, 6, 6),
+            IsDeleted = false
+        };
+        actors.Add(robert);
+
+        var heather = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Хизер",
+            LastName = "Лангкенп",
+            Biography = "Хизер Лэнгенкамп — американская актриса, сыграла Нэнси Томпсон.",
+            BirthDate = new DateOnly(1964, 7, 17),
+            IsDeleted = false
+        };
+        actors.Add(heather);
+
+        var johnS = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джон",
+            LastName = "Саксон",
+            Biography = "Джон Саксон — американский актёр, сыграл лейтенанта Дональда Томпсона.",
+            BirthDate = new DateOnly(1936, 8, 10),
+            IsDeleted = false
+        };
+        actors.Add(johnS);
+
+        var ronee = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Рони",
+            LastName = "Блэкли",
+            Biography = "Рони Блэкли — американская актриса, сыграла Мардж Томпсон.",
+            BirthDate = new DateOnly(1945, 4, 16),
+            IsDeleted = false
+        };
+        actors.Add(ronee);
+
+        var johnny = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джонни",
+            LastName = "Депп",
+            Biography = "Джонни Депп — американский актёр, сыграл Глена Лэнца, дебют в кино.",
+            BirthDate = new DateOnly(1963, 6, 9),
+            IsDeleted = false
+        };
+        actors.Add(johnny);
+
+        // Horror — "Halloween" (1978)
+        var jamie = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джейми",
+            LastName = "Ли Кёртис",
+            Biography = "Джейми Ли Кёртис — американская актриса, сыграла Лори Строуд в «Хэллоуине» (1978).",
+            BirthDate = new DateOnly(1958, 11, 22),
+            IsDeleted = false
+        };
+        actors.Add(jamie);
+
+        var donald = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Дональд",
+            LastName = "Плезенс",
+            Biography = "Дональд Плезенс — британский актёр, сыграл доктора Лумиса.",
+            BirthDate = new DateOnly(1919, 10, 5),
+            IsDeleted = false
+        };
+        actors.Add(donald);
+
+        var tonyMorana = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Тони",
+            LastName = "Морана",
+            Biography = "Тони Морана — американский актёр, сыграл Лэнса Бостона.",
+            BirthDate = new DateOnly(1953, 7, 14),
+            IsDeleted = false
+        };
+        actors.Add(tony);
+
+        var nudelman = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Николас",
+            LastName = "Рудельман",
+            Biography = "Николас Рудельман — американский актёр, сыграл студента Шермана.",
+            BirthDate = new DateOnly(1950, 5, 1),
+            IsDeleted = false
+        };
+        actors.Add(nudelman);
+
+        var ira = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Ира",
+            LastName = "Хорли",
+            Biography = "Ира Хорли — американский актёр, сыграл Пэта Роджерса.",
+            BirthDate = new DateOnly(1950, 3, 17),
+            IsDeleted = false
+        };
+        actors.Add(ira);
+
+        // Comedy — "The Big Lebowski"
+        var jeff = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джефф",
+            LastName = "Бриджес",
+            Biography = "Джефф Бриджес — американский актёр, сыграл Джеффри „Чувака“ Лебовски в «The Big Lebowski».",
+            BirthDate = new DateOnly(1949, 12, 4),
+            IsDeleted = false
+        };
+        actors.Add(jeff);
+
+        var johnTurturro = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джон",
+            LastName = "Туртурро",
+            Biography = "Джон Туртурро — американский актёр, сыграл Уолтера Собчака в «The Big Lebowski».",
+            BirthDate = new DateOnly(1957, 2, 28),
+            IsDeleted = false
+        };
+        actors.Add(johnTurturro);
+
+        var julianne = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джулианна",
+            LastName = "Мур",
+            Biography = "Джулианна Мур — американская актриса, сыграла Лорен Лебовски в «The Big Lebowski».",
+            BirthDate = new DateOnly(1960, 12, 3),
+            IsDeleted = false
+        };
+        actors.Add(julianne);
+
+        var steveBuscemi = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Стив",
+            LastName = "Бушеми",
+            Biography = "Стив Бушеми — американский актёр, сыграл Ти-Боун в «The Big Lebowski».",
+            BirthDate = new DateOnly(1957, 12, 13),
+            IsDeleted = false
+        };
+        actors.Add(steveBuscemi);
+
+        var philip = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Филип",
+            LastName = "Сеймур Хоффман",
+            Biography = "Филипп Сеймур Хоффман — американский актёр, сыграл Brandt в «The Big Lebowski».",
+            BirthDate = new DateOnly(1967, 7, 23),
+            IsDeleted = false
+        };
+        actors.Add(philip);
+
+        // Comedy — "Office Space"
+        var jenniferAniston = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Дженнифер",
+            LastName = "Энистон",
+            Biography = "Дженнифер Энистон — американская актриса, сыграла Доанна в «Office Space».",
+            BirthDate = new DateOnly(1969, 2, 11),
+            IsDeleted = false
+        };
+        actors.Add(jenniferAniston);
+
+        var gary = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Гэри",
+            LastName = "Коул",
+            Biography = "Гэри Коул — американский актёр, сыграл Билла Ламбча в «Office Space».",
+            BirthDate = new DateOnly(1956, 2, 20),
+            IsDeleted = false
+        };
+        actors.Add(gary);
+
+        var stephenRoot = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Стивен",
+            LastName = "Рут",
+            Biography = "Стивен Рут — американский актёр, сыграл Майкла Болтона в «Office Space».",
+            BirthDate = new DateOnly(1955, 7, 22),
+            IsDeleted = false
+        };
+        actors.Add(stephenRoot);
+
+        var jason = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джейсон",
+            LastName = "Бирд",
+            Biography = "Джейсон Бирд — американский актёр, сыграл Сэмира Нату в «Office Space».",
+            BirthDate = new DateOnly(1969, 1, 23),
+            IsDeleted = false
+        };
+        actors.Add(jason);
+
+        // Comedy — "Shaun of the Dead"
+        var simon = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Саймон",
+            LastName = "Пегг",
+            Biography = "Саймон Пегг — британский актёр, сыграл Шона в «Shaun of the Dead».",
+            BirthDate = new DateOnly(1970, 2, 14),
+            IsDeleted = false
+        };
+        actors.Add(simon);
+
+        var nick = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Ник",
+            LastName = "Фрост",
+            Biography = "Ник Фрост — британский актёр, сыграл Эда в «Shaun of the Dead».",
+            BirthDate = new DateOnly(1972, 3, 28),
+            IsDeleted = false
+        };
+        actors.Add(nick);
+
+        var kateAshfield = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Кейт",
+            LastName = "Эшфилд",
+            Biography = "Кейт Эшфилд — британская актриса, сыграла Диану в «Shaun of the Dead».",
+            BirthDate = new DateOnly(1972, 10, 17),
+            IsDeleted = false
+        };
+        actors.Add(kate);
+
+        var lucy = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Люси",
+            LastName = "Дэвис",
+            Biography = "Люси Давис — британская актриса, сыграла Люси в «Shaun of the Dead».",
+            BirthDate = new DateOnly(1966, 6, 13),
+            IsDeleted = false
+        };
+        actors.Add(lucy);
+
+        var billNighy = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Билл",
+            LastName = "Найи",
+            Biography = "Билл Найи — британский актёр, сыграл Филиппа в «Shaun of the Dead».",
+            BirthDate = new DateOnly(1949, 12, 12),
+            IsDeleted = false
+        };
+        actors.Add(billNighy);
+
+        // Drama — "The Godfather"
+        var marlon = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Марлон",
+            LastName = "Брандо",
+            Biography = "Марлон Брандо — американский актёр, сыграл Вито Корлеоне в «The Godfather».",
+            BirthDate = new DateOnly(1924, 4, 3),
+            IsDeleted = false
+        };
+        actors.Add(marlon);
+
+        var alPacino = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Аль",
+            LastName = "Пачино",
+            Biography = "Аль Пачино — американский актёр, сыграл Майкла Корлеоне в «The Godfather».",
+            BirthDate = new DateOnly(1940, 4, 25),
+            IsDeleted = false
+        };
+        actors.Add(alPacino);
+
+        var jamesCaan = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джеймс",
+            LastName = "Каан",
+            Biography = "Джеймс Каан — американский актёр, сыграл Сона Корлеоне в «The Godfather».",
+            BirthDate = new DateOnly(1940, 3, 26),
+            IsDeleted = false
+        };
+        actors.Add(jamesCaan);
+
+        var robertDuvall = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Роберт",
+            LastName = "Дувалль",
+            Biography = "Роберт Дувалль — американский актёр, сыграл Брана в «The Godfather».",
+            BirthDate = new DateOnly(1931, 1, 5),
+            IsDeleted = false
+        };
+        actors.Add(robertDuvall);
+
+        var diane = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Диана",
+            LastName = "Кийтон",
+            Biography = "Диана Кийтон — американская актриса, сыграла Кей Адамс в «The Godfather».",
+            BirthDate = new DateOnly(1946, 1, 5),
+            IsDeleted = false
+        };
+        actors.Add(diane);
+
+        // Drama — "Schindler's List"
+        var liam = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Лиам",
+            LastName = "Нисон",
+            Biography = "Лиам Нисон — ирландский актёр, сыграл Оскара Шиндлера в «Schindler's List».",
+            BirthDate = new DateOnly(1952, 6, 7),
+            IsDeleted = false
+        };
+        actors.Add(liam);
         
+        var carolineGoodall = new ActorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Кэролайн",
+            LastName = "Гудолл",
+            Biography = "Кэролайн Гудолл — британская актриса, сыграла Эмили Шиндлер.",
+            BirthDate = new DateOnly(1959, 11, 13),
+            IsDeleted = false
+        };
+        actors.Add(carolineGoodall);
         
         // ===== ФИЛЬМЫ =====
         var movies = new List<MovieEntity>();
@@ -1853,6 +2311,341 @@ public static class MovieSeeder
         };
         movies.Add(furyRoad);
 
+        // Animation — "Toy Story"
+        var toystoryDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джон",
+            LastName = "Лассетер"
+        };
+        var toystoryWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Эндрю",
+            LastName = "Стантон"
+        };
+        var toyStory = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "История игрушек",
+            Description = "История игрушек, оживающих, когда никто не видит.",
+            Year = 1995,
+            DurationAtMinutes = 81,
+            AgeRating = "G",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { toystoryDirector },
+            Writers = new List<MovieWriterEntity> { toystoryWriter },
+            Genres = genres.Where(g => g.Name == "Animation").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = tom, CharacterName = "Вуди (долликовый ковбой)" },
+                new() { Actor = tim, CharacterName = "Базз Лайтер" },
+                new() { Actor = don, CharacterName = "Мистер Картофанчик" },
+                new() { Actor = jim, CharacterName = "Слинки Дог" },
+                new() { Actor = wallace, CharacterName = "Рекс" }
+            }
+        };
+        movies.Add(toyStory);
+
+        // Animation — "Finding Nemo"
+        var findingDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Эндрю",
+            LastName = "Стэнтон"
+        };
+        var findingWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Боб",
+            LastName = "Питерсон"
+        };
+        var findingNemo = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "В поисках Немо",
+            Description = "Отец-рыба ищет своего сына Немо через океан.",
+            Year = 2003,
+            DurationAtMinutes = 100,
+            AgeRating = "G",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { findingDirector },
+            Writers = new List<MovieWriterEntity> { findingWriter },
+            Genres = genres.Where(g => g.Name == "Animation").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = albert, CharacterName = "Марлин" },
+                new() { Actor = ellen, CharacterName = "Дори" },
+                new() { Actor = alexandr, CharacterName = "Немо" },
+                new() { Actor = will, CharacterName = "Бруно" },
+                new() { Actor = geoff, CharacterName = "Джек-Хэд" }
+            }
+        };
+        movies.Add(findingNemo);
+
+        // Animation — "Shrek"
+        var shrekDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Эндрю",
+            LastName = "Адамсон"
+        };
+        var shrekWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Тед",
+            LastName = "Эллиот"
+        };
+        var shrek = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "Шрек",
+            Description = "Ог Шрек отправляется спасать принцессу Фиону.",
+            Year = 2001,
+            DurationAtMinutes = 90,
+            AgeRating = "PG",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { shrekDirector },
+            Writers = new List<MovieWriterEntity> { shrekWriter },
+            Genres = genres.Where(g => g.Name == "Animation").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = mike, CharacterName = "Шрек" },
+                new() { Actor = eddy, CharacterName = "Осёл" },
+                new() { Actor = cameron, CharacterName = "Фиона" },
+                new() { Actor = john, CharacterName = "Лорд Фаркуад" },
+                new() { Actor = vincent, CharacterName = "Король Гарольд (франц. версия)" }
+            }
+        };
+        movies.Add(shrek);
+
+        // Horror — "A Nightmare on Elm Street"
+        var cravenDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Уэс",
+            LastName = "Крейвен"
+        };
+        var cravenWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Уэс",
+            LastName = "Крейвен"
+        };
+        var nightmare = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "Кошмар на улице Вязов",
+            Description = "Фредди Крюгер убивает подростков во сне.",
+            Year = 1984,
+            DurationAtMinutes = 91,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { cravenDirector },
+            Writers = new List<MovieWriterEntity> { cravenWriter },
+            Genres = genres.Where(g => g.Name == "Horror").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = robert, CharacterName = "Фредди Крюгер" },
+                new() { Actor = heather, CharacterName = "Нэнси Томпсон" },
+                new() { Actor = johnS, CharacterName = "Лейтенант Дон Томпсон" },
+                new() { Actor = ronee, CharacterName = "Мардж Томпсон" },
+                new() { Actor = johnny, CharacterName = "Глен Лэнц" }
+            }
+        };
+        movies.Add(nightmare);
+
+        // Horror — "Halloween"
+        var carpenterDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джон",
+            LastName = "Карпентер"
+        };
+        var carpenterWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джон",
+            LastName = "Карпентер"
+        };
+        var halloween = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "Хэллоуин",
+            Description = "Майкл Майерс возвращается в Хэддонфилд на Хэллоуин.",
+            Year = 1978,
+            DurationAtMinutes = 91,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { carpenterDirector },
+            Writers = new List<MovieWriterEntity> { carpenterWriter },
+            Genres = genres.Where(g => g.Name == "Horror").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = jamie, CharacterName = "Лори Строуд" },
+                new() { Actor = donald, CharacterName = "доктор Лумис" },
+                new() { Actor = tonyMorana, CharacterName = "Лэнс Бостон" },
+                new() { Actor = nudelman, CharacterName = "студент Шерман" },
+                new() { Actor = ira, CharacterName = "Пэт Роджерс" }
+            }
+        };
+        movies.Add(halloween);
+
+        // Comedy — "The Big Lebowski"
+        var lebowskiDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Джоэл",
+            LastName = "Коэн"
+        };
+        var lebowskiWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Итан",
+            LastName = "Коэн"
+        };
+        var bigLebowski = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "Большой Лебовски",
+            Description = "„Чувак“ ввязывается в абсурдное дело из-за чужого коврика.",
+            Year = 1998,
+            DurationAtMinutes = 117,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { lebowskiDirector },
+            Writers = new List<MovieWriterEntity> { lebowskiWriter },
+            Genres = genres.Where(g => g.Name == "Comedy").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = jeff, CharacterName = "Джеффри «Чувак» Лебовски" },
+                new() { Actor = johnTurturro, CharacterName = "Уолтер Собчак" },
+                new() { Actor = julianne, CharacterName = "Лорен Лебовски" },
+                new() { Actor = steveBuscemi, CharacterName = "Ти‑Боун" },
+                new() { Actor = philip, CharacterName = "Брандт" }
+            }
+        };
+        movies.Add(bigLebowski);
+
+        // Comedy — "Office Space"
+        var officeDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Майк",
+            LastName = "Джадж"
+        };
+        var officeWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Майк",
+            LastName = "Джадж"
+        };
+        var officeSpace = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "Офисное пространство",
+            Description = "Антиутопичная комедия о нелюбимой офисной работе.",
+            Year = 1999,
+            DurationAtMinutes = 89,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { officeDirector },
+            Writers = new List<MovieWriterEntity> { officeWriter },
+            Genres = genres.Where(g => g.Name == "Comedy").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = ron, CharacterName = "Питер Гиббонс" },
+                new() { Actor = jenniferAniston, CharacterName = "Доанна" },
+                new() { Actor = gary, CharacterName = "Билл Ламбч" },
+                new() { Actor = stephenRoot, CharacterName = "Майкл Болтон" },
+                new() { Actor = jason, CharacterName = "Самир На'ту" }
+            }
+        };
+        movies.Add(officeSpace);
+
+        // Comedy — "Shaun of the Dead"
+        var shaunDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Эдгар",
+            LastName = "Райт"
+        };
+        var shaunWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Эдгар",
+            LastName = "Райт"
+        };
+        var shaun = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "Зомби по имени Шон",
+            Description = "Британская зомби-комедия о том, как спасают мир после апокалипсиса.",
+            Year = 2004,
+            DurationAtMinutes = 99,
+            AgeRating = "15",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { shaunDirector },
+            Writers = new List<MovieWriterEntity> { shaunWriter },
+            Genres = genres.Where(g => g.Name == "Comedy").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = simon, CharacterName = "Шон" },
+                new() { Actor = nick, CharacterName = "Эд" },
+                new() { Actor = kate, CharacterName = "Диана" },
+                new() { Actor = lucy, CharacterName = "Люси" },
+                new() { Actor = billNighy, CharacterName = "Филипп" }
+            }
+        };
+        movies.Add(shaun);
+
+        // Drama — "The Godfather"
+        var godfatherDirector = new MovieDirectorEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Фрэнсис",
+            LastName = "Форд Коппола"
+        };
+        var godfatherWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Марио",
+            LastName = "Пьюзо"
+        };
+        var godfather = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "Крёстный отец",
+            Description = "Сага о семье Корлеоне и власти в криминальном мире.",
+            Year = 1972,
+            DurationAtMinutes = 175,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { godfatherDirector },
+            Writers = new List<MovieWriterEntity> { godfatherWriter },
+            Genres = genres.Where(g => g.Name == "Drama").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = marlon, CharacterName = "Вито Корлеоне" },
+                new() { Actor = alPacino, CharacterName = "Майкл Корлеоне" },
+                new() { Actor = jamesCaan, CharacterName = "Сонни Корлеоне" },
+                new() { Actor = robertDuvall, CharacterName = "Бранч Корлеоне" },
+                new() { Actor = diane, CharacterName = "Кей Адамс" }
+            }
+        };
+        movies.Add(godfather);
+
+        // Drama — "Schindler's List"
+        var schindlerWriter = new MovieWriterEntity {
+            Id = Guid.NewGuid(),
+            FirstName = "Стивен",
+            LastName = "Заилян"
+        };
+        var schindler = new MovieEntity {
+            Id = Guid.NewGuid(),
+            Title = "Список Шиндлера",
+            Description = "История Оскара Шиндлера, спасшего сотни евреев во время Холокоста.",
+            Year = 1993,
+            DurationAtMinutes = 195,
+            AgeRating = "R",
+            RatingCount = 0,
+            RatingSum = 0,
+            IsDeleted = false,
+            Directors = new List<MovieDirectorEntity> { spielbergDirector },
+            Writers = new List<MovieWriterEntity> { schindlerWriter },
+            Genres = genres.Where(g => g.Name == "Drama").ToList(),
+            MovieActors = new List<MovieActorEntity> {
+                new() { Actor = liam, CharacterName = "Оскар Шиндлер" },
+                new() { Actor = ben, CharacterName = "Ицхак Штерн" },
+                new() { Actor = ralph, CharacterName = "Амон Гот" },
+                new() { Actor = carolineGoodall, CharacterName = "Эмили Шиндлер" },
+                new() { Actor = jonah, CharacterName = "заполнитель" }
+            }
+        };
+        movies.Add(schindler);
+        
         // Заполнение
         foreach (var actor in actors)
         {
