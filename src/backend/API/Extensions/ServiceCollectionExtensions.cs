@@ -13,6 +13,7 @@ using Domain.Abstractions.Services;
 using FluentValidation;
 using Infrastructure.Database.Mappings;
 using Infrastructure.Database.Repositories;
+using Infrastructure.Frontend;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -21,13 +22,17 @@ namespace API.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCustomCors(this IServiceCollection services)
+    public static IServiceCollection AddCustomCors(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<FrontendOptions>(configuration.GetSection("FrontendOptions"));
+        
+        var frontendOptions = configuration.GetSection("FrontendOptions").Get<FrontendOptions>();
+        
         services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("http://localhost:5173", "http://localhost:3000");
+                policy.WithOrigins(frontendOptions!.LocalUrl, frontendOptions.PublicUrl);
                 policy.AllowAnyHeader();
                 policy.AllowAnyMethod();
                 policy.AllowCredentials();

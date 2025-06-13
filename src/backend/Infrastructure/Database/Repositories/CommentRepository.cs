@@ -46,7 +46,23 @@ public class CommentRepository(AppDbContext dbContext, IMapper mapper): IComment
             ? Result<DiscussionTopic>.Failure("Topic not found")!
             : Result<DiscussionTopic>.Success(mapper.Map<DiscussionTopic>(topicEntity));
     }
-    
+
+    public async Task<Result<Comment>> GetCommentById(Guid? commentId)
+    {
+        var commentEntity = await ActiveComments
+            .Include(c => c.User)
+            .FirstOrDefaultAsync(c => c.Id == commentId);
+
+        if (commentEntity == null)
+        {
+            return Result<Comment>.Failure("Comment not found")!;
+        }
+        
+        var comment = mapper.Map<Comment>(commentEntity);
+        
+        return Result<Comment>.Success(comment);
+    }
+
     public async Task<Result> ExistsAsync(Guid id)
     {
         var exists = await dbContext.Comments

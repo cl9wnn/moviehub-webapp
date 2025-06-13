@@ -3,10 +3,11 @@ using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Utils;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Application.Services;
 
-public class CommentService(ICommentRepository commentRepository): ICommentService
+public class CommentService(ICommentRepository commentRepository, IEmailService emailService, ILogger<CommentService> logger): ICommentService
 {
     public async Task<Result<List<Comment>>> GetAllComments()
     {
@@ -26,21 +27,33 @@ public class CommentService(ICommentRepository commentRepository): ICommentServi
             : Result<Comment>.Failure(createResult.ErrorMessage!)!;
     }
 
-    public async Task<Result<Comment>> CreateReplyCommentAsync(Comment comment)
+    public async Task<Result<Comment>> CreateReplyCommentAsync(Guid userId, Comment comment, string url)
     {
-        var getTopicIdResult = await commentRepository.GetTopicByCommentId(comment.ParentCommentId);
+        var topicResult = await commentRepository.GetTopicByCommentId(comment.ParentCommentId);
 
-        if (!getTopicIdResult.IsSuccess)
+        if (!topicResult.IsSuccess)
         {
-            return Result<Comment>.Failure("Topic of comment not found!")!;
+            return Result<Comment>.Failure(topicResult.ErrorMessage!)!;
         }
-        
-        comment.TopicId = getTopicIdResult.Data.Id;
-        var createResult = await commentRepository.AddAsync(comment);
-        
-        return createResult.IsSuccess
-            ? Result<Comment>.Success(createResult.Data)
-            : Result<Comment>.Failure(createResult.ErrorMessage!)!;
+        var parentResult = await commentRepository.GetCommentById(comment.ParentCommentId);
+
+        if (!parentResult.IsSuccess)
+        {
+            return Result<Comment>.Failure(parentResult.ErrorMessage!)!;
+        }
+        comment.TopicId = topicResult.Data.Id;
+
+        var addResult = await commentRepository.AddAsync(comment);
+
+        if (addResult.IsSuccess)
+        {
+            logger.LogInformation("{url}", url);
+            await NotifyParentCommentAuthor(parentResult.Data, comment.TopicId, userId, url, addResult.Data.Content);
+        }
+
+        return addResult.IsSuccess
+            ? Result<Comment>.Success(addResult.Data)
+            : Result<Comment>.Failure(addResult.ErrorMessage!)!;
     }
 
     public async Task<Result<Comment>> GetByIdAsync(Guid id)
@@ -103,5 +116,25 @@ public class CommentService(ICommentRepository commentRepository): ICommentServi
         return deleteResult.IsSuccess
             ? Result.Success()
             : Result.Failure(deleteResult.ErrorMessage!);
+    }
+    
+    private async Task NotifyParentCommentAuthor(Comment parentComment, Guid topicId, Guid currentUserId, string url, string replyMessageText)
+    {
+        if (parentComment.User.Id == currentUserId)
+        {
+            return;
+        }
+        
+        var topicUrl = $"{url}/topics/{topicId}";
+
+        await emailService.SendEmailAsync(
+            parentComment.User.Email,
+            "💬 Вам ответили на комментарий!",
+            $"Здравствуйте, {parentComment.User.Username}!\n\n" +
+            $"💬 Новый ответ на ваш комментарий:\n" +
+            $"\"{replyMessageText}\"\n\n" +
+            $"📌 Посмотреть обсуждение можно по ссылке:\n\n{topicUrl}\n\n" +
+            $"С уважением,\nКоманда MovieHub 🎬"
+        );
     }
 }

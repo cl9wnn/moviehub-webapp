@@ -6,8 +6,10 @@ using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using FluentValidation;
+using Infrastructure.Frontend;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace API.Controllers;
 
@@ -15,7 +17,7 @@ namespace API.Controllers;
 [Authorize]
 [EntityExists<ICommentService, Comment>]
 [Route("api/[controller]")]
-public class CommentsController(ICommentService commentService, IMapper mapper): ControllerBase
+public class CommentsController(ICommentService commentService, IMapper mapper, IOptions<FrontendOptions> frontendOptions): ControllerBase
 {
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetCommentAsync(Guid id)
@@ -50,8 +52,10 @@ public class CommentsController(ICommentService commentService, IMapper mapper):
         var comment = mapper.Map<Comment>(request);
         comment.UserId = userId;
         comment.ParentCommentId = id;
+
+        var frontendUrl = frontendOptions.Value.LocalUrl;
         
-        var createResult = await commentService.CreateReplyCommentAsync(comment);
+        var createResult = await commentService.CreateReplyCommentAsync(userId, comment, frontendUrl);
         
         return createResult.IsSuccess
             ? Created()

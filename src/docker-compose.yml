@@ -25,6 +25,8 @@ services:
       - redis
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - FrontendOptions__LocalUrl=http://localhost:5173
+      - FrontendOptions__PublicUrl=http://localhost:3000
       - ConnectionStrings__PostgresDbConnection=Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       - MinioOptions__AccessKey=${MINIO_ROOT_USER}
       - MinioOptions__SecretKey=${MINIO_ROOT_PASSWORD}
