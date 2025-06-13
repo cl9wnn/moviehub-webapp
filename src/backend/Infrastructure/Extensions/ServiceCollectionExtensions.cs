@@ -1,6 +1,7 @@
 using Domain.Abstractions.Services;
 using Infrastructure.Cache;
 using Infrastructure.Database;
+using Infrastructure.Email;
 using Infrastructure.FileStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,6 +46,15 @@ public static class ServiceCollectionExtensions
         
         services.AddSingleton<IDistributedCacheService, RedisCacheService>();
 
+        return services;
+    }
+
+    public static IServiceCollection AddEmailService(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<EmailOptions>(configuration.GetSection("EmailOptions"));
+        
+        services.AddTransient<IEmailService, EmailService>();
+        
         return services;
     }
 }

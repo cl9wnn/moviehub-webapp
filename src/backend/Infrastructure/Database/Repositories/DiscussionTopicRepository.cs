@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Database.Repositories;
 
-public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper, ILogger<DiscussionTopicRepository> logger) : IDiscussionTopicRepository
+public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper) : IDiscussionTopicRepository
 {
     private IQueryable<DiscussionTopicEntity> ActiveTopics => dbContext.DiscussionTopics.Where(t => !t.IsDeleted);
 

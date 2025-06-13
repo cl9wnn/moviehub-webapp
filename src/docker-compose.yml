@@ -33,6 +33,11 @@ services:
       - RedisOptions__Host=redis
       - RedisOptions__Port=6379
       - AdminOptions__SecretKey=${ADMIN_SECRET_KEY}
+      - EmailOptions__SmtpServer=smtp.gmail.com
+      - EmailOptions__SmtpPort=587
+      - EmailOptions__UseSsl=true
+      - EmailOptions__UserName=${GMAIL_APP_USERNAME}
+      - EmailOptions__Password=${GMAIL_APP_PASSWORD}
       
   db:
     container_name: postgres
