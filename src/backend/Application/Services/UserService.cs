@@ -106,6 +106,23 @@ public class UserService(IUserRepository userRepository, ITokenService tokenServ
             : Result.Failure(deleteResult.ErrorMessage!);
     }
 
+    public async Task<Result> AddToNotInterestedAsync(Guid userId, Guid movieId)
+    {
+        var addResult = await userRepository.AddToNotInterestedAsync(userId, movieId);
+        
+        return addResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(addResult.ErrorMessage!);    }
+
+    public async Task<Result> DeleteFromNotInterestedAsync(Guid userId, Guid movieId)
+    {
+        var deleteResult = await userRepository.DeleteFromNotInterestedAsync(userId, movieId);
+        
+        return deleteResult.IsSuccess
+            ? Result.Success()
+            : Result.Failure(deleteResult.ErrorMessage!);
+    }
+
     public async Task<Result> PersonalizeUserAsync(PersonalizeUserDto personalizeUserDto, Guid userId)
     {
         var addResult = await userRepository.PersonalizeUserAsync(personalizeUserDto, userId);

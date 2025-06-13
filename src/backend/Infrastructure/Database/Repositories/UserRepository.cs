@@ -191,7 +191,7 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         
         return Result<List<DiscussionTopic>>.Success(topics);
     }
-
+    
     public async Task<Result<bool>> IsActorFavoriteAsync(Guid userId, Guid actorId)
     {
         var userEntity = await ActiveUsers
@@ -223,6 +223,25 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         }
         
         if (userEntity.WatchList.Any(a => a.Id == movieId))
+        {
+            return Result<bool>.Success(true);
+        }
+        
+        return Result<bool>.Success(false);
+    }
+    
+    public async Task<Result<bool>> IsMovieInNotInterestedAsync(Guid userId, Guid movieId)
+    {
+        var userEntity = await ActiveUsers
+            .Include(u => u.NotInterestedMovies)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (userEntity == null)
+        {
+            return Result<bool>.Failure("User not found")!;
+        }
+        
+        if (userEntity.NotInterestedMovies.Any(a => a.Id == movieId))
         {
             return Result<bool>.Success(true);
         }
@@ -348,6 +367,59 @@ public class UserRepository(AppDbContext context, IMapper mapper, IOptions<Minio
         }
 
         userEntity.WatchList.Remove(movieEntity);
+        await context.SaveChangesAsync();
+
+        return Result.Success();
+    }
+    
+    public async Task<Result> AddToNotInterestedAsync(Guid userId, Guid movieId)
+    {
+        var userEntity = await ActiveUsers
+            .Include(u => u.NotInterestedMovies)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (userEntity == null)
+        {
+            return Result.Failure("User not found")!;
+        }
+
+        if (userEntity.NotInterestedMovies.Any(m => m.Id == movieId))
+        {
+            return Result.Failure("Movie is already in Not Interested Movies");
+        }
+
+        var movieEntity = await context.Movies.FirstOrDefaultAsync(m => m.Id == movieId);
+
+        if (movieEntity == null)
+        {
+            return Result.Failure("Movie not found")!;
+        }
+
+        userEntity.NotInterestedMovies.Add(movieEntity);
+        await context.SaveChangesAsync();
+
+        return Result.Success();
+    }
+    
+    public async Task<Result> DeleteFromNotInterestedAsync(Guid userId, Guid movieId)
+    {
+        var userEntity = await ActiveUsers
+            .Include(u => u.NotInterestedMovies)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (userEntity == null)
+        {
+            return Result.Failure("User not found")!;
+        }
+
+        var movieEntity = userEntity.NotInterestedMovies.FirstOrDefault(m => m.Id == movieId);
+
+        if (movieEntity == null)
+        {
+            return Result.Failure("Movie not found in Not Interested Movies")!;
+        }
+
+        userEntity.NotInterestedMovies.Remove(movieEntity);
         await context.SaveChangesAsync();
 
         return Result.Success();

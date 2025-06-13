@@ -13,6 +13,8 @@ public interface IUserService: IEntityService<User>
     Task<Result> DeleteFavoriteActorAsync(Guid userId, Guid actorId);
     Task<Result> AddToWatchListAsync(Guid userId, Guid movieId);
     Task<Result> DeleteFromWatchListAsync(Guid userId, Guid movieId);
+    Task<Result> AddToNotInterestedAsync(Guid userId, Guid movieId);
+    Task<Result> DeleteFromNotInterestedAsync(Guid userId, Guid movieId);
     Task<Result> PersonalizeUserAsync(PersonalizeUserDto personalizeUserDto, Guid userId);
     Task<Result> AddOrUpdateAvatarAsync(string url, Guid userId);
     Task<Result<List<Comment>>> GetCommentsByUserIdAsync(Guid id);

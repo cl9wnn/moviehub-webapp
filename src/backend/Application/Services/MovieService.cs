@@ -126,6 +126,13 @@ public class MovieService(IMovieRepository movieRepository, IUserRepository user
             return Result<MovieWithUserInfoDto>.Failure(isInWatchListResult.ErrorMessage!)!;
         }
         
+        var isInNotInterested = await userRepository.IsMovieInNotInterestedAsync(userId, movieId);
+        
+        if (!isInNotInterested.IsSuccess)
+        {
+            return Result<MovieWithUserInfoDto>.Failure(isInWatchListResult.ErrorMessage!)!;
+        }
+        
         var ratingResult = await userRepository.GetMovieRatingAsync(userId, movieId);
 
         if (!ratingResult.IsSuccess)
@@ -137,6 +144,7 @@ public class MovieService(IMovieRepository movieRepository, IUserRepository user
         {
             Movie = movie,
             IsInWatchList = isInWatchListResult.Data,
+            IsInNotInterested = isInNotInterested.Data,
             OwnRating = ratingResult.Data
         };
         

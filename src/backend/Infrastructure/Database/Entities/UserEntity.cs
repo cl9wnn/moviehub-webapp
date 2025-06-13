@@ -21,4 +21,5 @@ public class UserEntity
     public ICollection<MovieRatingEntity> MovieRatings { get; set; } = new List<MovieRatingEntity>();
     public ICollection<DiscussionTopicEntity> Topics { get; set; } = new List<DiscussionTopicEntity>();
     public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
+    public ICollection<MovieEntity> NotInterestedMovies { get; set; } = new List<MovieEntity>();
 }

@@ -50,6 +50,7 @@ export interface ActorSearchResponse {
 export interface MovieResponse {
   movie: MovieData;
   isInWatchList: boolean;
+  isInNotInterested: boolean;
   ownRating?: number;
 }
 

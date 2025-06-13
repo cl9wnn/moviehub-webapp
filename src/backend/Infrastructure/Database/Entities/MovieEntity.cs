@@ -18,7 +18,8 @@ public class MovieEntity
     public ICollection<MovieActorEntity> MovieActors { get; set; } = new List<MovieActorEntity>();
     public ICollection<GenreEntity> Genres { get; set; } = new List<GenreEntity>();
     public ICollection<MoviePhotoEntity>? Photos { get; set; } = new List<MoviePhotoEntity>();
-    public ICollection<UserEntity> Users { get; set; } = new List<UserEntity>();
+    public ICollection<UserEntity> UsersWatchList { get; set; } = new List<UserEntity>();
     public ICollection<MovieRatingEntity> MovieRatings { get; set; } = new List<MovieRatingEntity>();
     public ICollection<DiscussionTopicEntity> Topics { get; set; } = new List<DiscussionTopicEntity>();
+    public ICollection<UserEntity> UsersNotInterested { get; set; } = new List<UserEntity>();
 }

@@ -14,6 +14,7 @@ public class RecommendationRepository(AppDbContext dbContext, IMapper mapper) : 
             .Include(u => u.PreferredGenres)
             .Include(u => u.WatchList)
                 .ThenInclude(m => m.Genres)
+            .Include(u => u.NotInterestedMovies)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
         if (user == null)
@@ -52,20 +53,23 @@ public class RecommendationRepository(AppDbContext dbContext, IMapper mapper) : 
             AddWeight(genreWeights, gid, 0.5);
 
         // 6. Фильмы, которые пользователь уже оценивал
+        var notInterestedIds = user.NotInterestedMovies.Select(m => m.Id).ToList();
+
+        // 7. Фильмы которые пользователь пометил как "Не интересно" 
         var seenMovieIds = await dbContext.MovieRatings
             .Where(r => r.UserId == userId)
             .Select(r => r.MovieId)
             .ToListAsync();
-
-        // ------------------ Фильмы которые пользователь пометил как "Не интересно" --------------
-        
         
         // 7. Кандидаты на рекомендацию (не удалены и не видны)
         var candidates = await dbContext.Movies
             .Include(m => m.Genres)
-            .Where(m => !m.IsDeleted && !seenMovieIds.Contains(m.Id))
+            .Where(m =>
+                !m.IsDeleted &&
+                !seenMovieIds.Contains(m.Id) &&
+                !notInterestedIds.Contains(m.Id)) 
             .ToListAsync();
-
+        
         // 8. Расчёт score и ранжирование
         var scored = candidates
             .Select(m =>

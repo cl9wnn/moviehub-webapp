@@ -40,5 +40,15 @@ public class UserConfiguration: IEntityTypeConfiguration<UserEntity>
             .HasMaxLength(32)
             .IsRequired()
             .HasDefaultValue(UserRole.User);
+        
+        builder
+            .HasMany(u => u.WatchList)
+            .WithMany(m => m.UsersWatchList)
+            .UsingEntity(j => j.ToTable("WatchList"));
+
+        builder
+            .HasMany(u => u.NotInterestedMovies)
+            .WithMany(m => m.UsersNotInterested)
+            .UsingEntity(j => j.ToTable("NotInterestedMovies"));
     }
 }

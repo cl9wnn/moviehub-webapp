@@ -228,6 +228,36 @@ public class UsersController(
             ? Ok()
             : BadRequest(new { Error = deleteResult.ErrorMessage });
     }
+    
+    [HttpPost("not-interested/{movieId:guid}")]
+    public async Task<IActionResult> AddToNotInterestedAsync(Guid movieId)
+    {
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+
+        var addResult = await userService.AddToNotInterestedAsync(userId, movieId);
+
+        return addResult.IsSuccess
+            ? Ok()
+            : BadRequest(new { Error = addResult.ErrorMessage });
+    }
+    
+    [HttpDelete("not-interested/{movieId:guid}")]
+    public async Task<IActionResult> DeleteFromNotInterestedAsync(Guid movieId)
+    {
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+
+        var deleteResult = await userService.DeleteFromNotInterestedAsync(userId, movieId);
+
+        return deleteResult.IsSuccess
+            ? Ok()
+            : BadRequest(new { Error = deleteResult.ErrorMessage });
+    }
 
     [HttpPatch("personalize")]
     public async Task<IActionResult> PersonalizeUserAsync([FromBody] PersonalizeUserRequest request,

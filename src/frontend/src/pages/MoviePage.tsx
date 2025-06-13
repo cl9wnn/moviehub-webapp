@@ -14,11 +14,13 @@ import Header from "../components/header/Header.tsx";
 import Divider from "../components/common/Divider.tsx";
 import {addToWatchlist, removeFromWatchlist} from "../services/users/toggleToWatchlist.ts";
 import MoviesTopicsCarousel from "../components/topics/MoviesTopicsCarousel.tsx";
+import {addToNotInterested, removeFromNotInterested} from "../services/users/toggleNotInterested.ts";
 
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState<MovieData | null>(null);
   const [isInWatchList, setIsInWatchList] = useState(false);
+  const [isInNotInterested, setIsInNotInterested] = useState(false);
   const [ownRating, setOwnRating] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,6 +42,26 @@ const MoviePage: React.FC = () => {
         setError(err.message);
       } else {
         setError("Не удалось изменить статус watchlist");
+      }
+    }
+  };
+
+  const toggleNotInterested = async () => {
+    if (!movieId) return;
+
+    try {
+      if (isInNotInterested) {
+        await removeFromNotInterested(movieId);
+        setIsInNotInterested(false);
+      } else {
+        await addToNotInterested(movieId);
+        setIsInNotInterested(true);
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Не удалось изменить статус not interested");
       }
     }
   };
@@ -68,6 +90,7 @@ const MoviePage: React.FC = () => {
         const movieResponse = await getMovieById(movieId);
         setMovie(movieResponse.movie);
         setIsInWatchList(movieResponse.isInWatchList);
+        setIsInNotInterested(movieResponse.isInNotInterested);
         setOwnRating(movieResponse.ownRating ?? null);
       } catch (err) {
         if (err instanceof Error) {
@@ -95,7 +118,13 @@ const MoviePage: React.FC = () => {
             <MoviePoster posterUrl={movie?.posterUrl} title={movie?.title} />
 
             <div className="flex-1 max-w-3xl space-y-8">
-              {movie && <MovieTitle title={movie?.title} isInWatchList={isInWatchList} onToggleWatchlist={toggleWatchlist} />}
+              {movie && <MovieTitle
+                  title={movie?.title}
+                  isInWatchList={isInWatchList}
+                  isInNotInterested={isInNotInterested}
+                  onToggleNotInterested={toggleNotInterested}
+                  onToggleWatchlist={toggleWatchlist}
+              />}
               {movie && <MovieInfo movie={movie} />}
             </div>
 
