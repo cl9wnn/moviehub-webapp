@@ -4,7 +4,6 @@ using API.Models.Responses;
 using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Models;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,18 +38,8 @@ public class AdminActorsController(IActorService actorService, IMediaService med
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateActorAsync([FromBody] CreateActorRequest createActorRequest,
-         [FromServices] IValidator<CreateActorRequest> validator)
+    public async Task<IActionResult> CreateActorAsync([FromBody] CreateActorRequest createActorRequest)
     {
-        var validationResult = await validator.ValidateAsync(createActorRequest);
-        
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors
-                .Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(errors);
-        }
-        
         var actor = mapper.Map<Actor>(createActorRequest);
         var createResult = await actorService.CreateActorAsync(actor);
         

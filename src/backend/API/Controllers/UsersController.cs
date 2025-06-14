@@ -1,7 +1,5 @@
-using System.Security.Claims;
 using API.Attributes;
 using API.Extensions;
-using API.Models;
 using API.Models.Requests;
 using API.Models.Responses;
 using API.Pipeline.Auth;
@@ -10,7 +8,6 @@ using Domain.Abstractions.Services;
 using Domain.Dtos;
 using Domain.Enums;
 using Domain.Models;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -49,18 +46,8 @@ public class UsersController(
 
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<IActionResult> RegisterAsync([FromBody] RegisterUserRequest request,
-        [FromServices] IValidator<RegisterUserRequest> requestValidator)
+    public async Task<IActionResult> RegisterAsync([FromBody] RegisterUserRequest request)
     {
-        var validationResult = await requestValidator.ValidateAsync(request);
-
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors
-                .Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(errors);
-        }
-
         var userDto = mapper.Map<RegisterUserRequest, User>(request);
         var registerResult = await userService.RegisterAsync(userDto);
 
@@ -80,18 +67,8 @@ public class UsersController(
 
     [AllowAnonymous]
     [HttpPost("register-admin")]
-    public async Task<IActionResult> RegisterAdminAsync([FromBody] RegisterAdminRequest request,
-        [FromServices] IValidator<RegisterAdminRequest> requestValidator)
+    public async Task<IActionResult> RegisterAdminAsync([FromBody] RegisterAdminRequest request)
     {
-        var validationResult = await requestValidator.ValidateAsync(request);
-
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors
-                .Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(errors);
-        }
-
         if (request.SecretKey != adminOptions.Value.SecretKey)
         {
             return Unauthorized("Invalid secret key!");
@@ -260,18 +237,8 @@ public class UsersController(
     }
 
     [HttpPatch("personalize")]
-    public async Task<IActionResult> PersonalizeUserAsync([FromBody] PersonalizeUserRequest request,
-        [FromServices] IValidator<PersonalizeUserRequest> requestValidator)
+    public async Task<IActionResult> PersonalizeUserAsync([FromBody] PersonalizeUserRequest request)
     {
-        var validationResult = await requestValidator.ValidateAsync(request);
-
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors
-                .Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(errors);
-        }
-
         if (User.GetUserId() is not Guid userId)
         {
             return Unauthorized("Incorrect format for user id");

@@ -1,16 +1,10 @@
-﻿using System.Security.Claims;
-using API.Attributes;
-using API.Models.Requests;
+﻿using API.Attributes;
 using API.Models.Responses;
-using API.Pipeline.Auth;
 using AutoMapper;
 using Domain.Abstractions.Services;
-using Domain.Dtos;
 using Domain.Models;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace API.Controllers.Admin;
 

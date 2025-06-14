@@ -3,7 +3,6 @@ using System.Text;
 using System.Threading.RateLimiting;
 using API.Filters;
 using API.Mappings;
-using API.Models;
 using API.Models.Requests;
 using API.Pipeline.Auth;
 using API.Validation;
@@ -11,6 +10,7 @@ using Application.Services;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure.Database.Mappings;
 using Infrastructure.Database.Repositories;
 using Infrastructure.Frontend;
@@ -99,6 +99,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IValidator<PersonalizeUserRequest>, PersonalizeUserValidator>();
         services.AddScoped<IValidator<CreateDiscussionTopicRequest>, CreateDiscussionTopicValidator>();
         services.AddScoped<IValidator<CreateCommentRequest>, CreateCommentValidator>();
+
+        services.AddFluentValidationAutoValidation();
+
         return services;
     }
 

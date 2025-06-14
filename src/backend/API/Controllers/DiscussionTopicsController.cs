@@ -5,7 +5,6 @@ using API.Models.Responses;
 using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Models;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -75,21 +74,11 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IC
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateDiscussionTopicAsync([FromBody] CreateDiscussionTopicRequest request,
-        [FromServices] IValidator<CreateDiscussionTopicRequest> validator)
+    public async Task<IActionResult> CreateDiscussionTopicAsync([FromBody] CreateDiscussionTopicRequest request)
     {
         if (User.GetUserId() is not Guid userId)
         {
             return Unauthorized("Incorrect format for user id");
-        }
-        
-        var validationResult = await validator.ValidateAsync(request);
-        
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors
-                .Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(errors);
         }
         
         var topic = mapper.Map<DiscussionTopic>(request);
@@ -113,21 +102,11 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IC
     }
     
     [HttpPost("{id:guid}/comments")]
-    public async Task<IActionResult> CreateCommentToTopicAsync(Guid id, [FromBody] CreateCommentRequest request,
-        [FromServices] IValidator<CreateCommentRequest> validator)
+    public async Task<IActionResult> CreateCommentToTopicAsync(Guid id, [FromBody] CreateCommentRequest request)
     {
         if (User.GetUserId() is not Guid userId)
         {
             return Unauthorized("Incorrect format for user id");
-        }
-        
-        var validationResult = await validator.ValidateAsync(request);
-        
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors
-                .Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(errors);
         }
         
         var comment = mapper.Map<Comment>(request);

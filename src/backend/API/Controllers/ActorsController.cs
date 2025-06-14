@@ -1,12 +1,9 @@
-using System.Security.Claims;
 using API.Attributes;
 using API.Extensions;
-using API.Models.Requests;
 using API.Models.Responses;
 using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Models;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

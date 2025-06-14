@@ -5,7 +5,6 @@ using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Dtos;
 using Domain.Models;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,18 +39,8 @@ public class AdminMoviesController(IMovieService movieService, IMediaService med
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateMovieAsync([FromBody] CreateMovieRequest createMovieRequest,
-        [FromServices] IValidator<CreateMovieRequest> validator)
+    public async Task<IActionResult> CreateMovieAsync([FromBody] CreateMovieRequest createMovieRequest)
     {
-        var validationResult = await validator.ValidateAsync(createMovieRequest);
-        
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors
-                .Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(errors);
-        }
-        
         var movie = mapper.Map<Movie>(createMovieRequest);
         var createResult = await movieService.CreateMovieAsync(movie);
         

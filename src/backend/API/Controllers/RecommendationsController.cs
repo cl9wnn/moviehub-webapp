@@ -2,7 +2,6 @@
 using API.Models.Responses;
 using AutoMapper;
 using Domain.Abstractions.Services;
-using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

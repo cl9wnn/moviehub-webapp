@@ -5,7 +5,6 @@ using API.Models.Responses;
 using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Models;
-using FluentValidation;
 using Infrastructure.Frontend;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,21 +31,11 @@ public class CommentsController(ICommentService commentService, IMapper mapper, 
     }
     
     [HttpPost("{id:guid}/replies")]
-    public async Task<IActionResult> CreateReplyCommentAsync(Guid id, [FromBody] CreateCommentRequest request,
-        [FromServices] IValidator<CreateCommentRequest> validator)
+    public async Task<IActionResult> CreateReplyCommentAsync(Guid id, [FromBody] CreateCommentRequest request)
     {
         if (User.GetUserId() is not Guid userId)
         {
             return Unauthorized("Incorrect format for user id");
-        }
-        
-        var validationResult = await validator.ValidateAsync(request);
-        
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors
-                .Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(errors);
         }
         
         var comment = mapper.Map<Comment>(request);
