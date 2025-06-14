@@ -2,10 +2,10 @@
 using API.Extensions;
 using API.Models.Requests;
 using API.Models.Responses;
+using API.Options;
 using AutoMapper;
 using Domain.Abstractions.Services;
 using Domain.Models;
-using Infrastructure.Frontend;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

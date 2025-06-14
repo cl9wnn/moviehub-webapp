@@ -1,4 +1,5 @@
-﻿using API.Pipeline.Middlewares;
+﻿using API.Options;
+using API.Pipeline.Middlewares;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -53,6 +54,9 @@ public static class ApplicationExtensions
     
     public static WebApplicationBuilder ConfigureSerilog(this WebApplicationBuilder builder)
     {
+        builder.Services.Configure<SensitiveLoggingOptions>(
+            builder.Configuration.GetSection("SensitiveLogging"));
+        
         var seqUrl = builder.Configuration["Seq:Url"];
 
         Log.Logger = new LoggerConfiguration()

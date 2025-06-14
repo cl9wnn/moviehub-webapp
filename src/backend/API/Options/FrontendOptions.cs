@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Frontend;
+﻿namespace API.Options;
 
 public class FrontendOptions
 {

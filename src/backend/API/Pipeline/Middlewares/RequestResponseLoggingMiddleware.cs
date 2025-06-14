@@ -1,17 +1,17 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using API.Options;
+using Microsoft.Extensions.Options;
 
 namespace API.Pipeline.Middlewares;
 
-public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<RequestResponseLoggingMiddleware> logger)
+public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<RequestResponseLoggingMiddleware> logger,
+    IOptionsMonitor<SensitiveLoggingOptions> options)
 {
-    private static readonly HashSet<string> SensitiveKeys = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "password", "token", "accessToken"
-    };
-    
     public async Task InvokeAsync(HttpContext context)
     {
+        var sensitiveKeys = new HashSet<string>(options.CurrentValue.Keys, StringComparer.OrdinalIgnoreCase);
+        
         var isMedia = context.Request.ContentType?.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase) == true;
         var requestBody = "[Skipped due to multipart/form-data]";
         
@@ -33,8 +33,8 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<Requ
         var responseText = await new StreamReader(context.Response.Body).ReadToEndAsync();
         context.Response.Body.Seek(0, SeekOrigin.Begin);
         
-        var filteredRequestBody = FilterSensitiveData(requestBody);
-        var filteredResponseBody = FilterSensitiveData(responseText);
+        var filteredRequestBody = FilterSensitiveData(requestBody, sensitiveKeys);
+        var filteredResponseBody = FilterSensitiveData(responseText, sensitiveKeys);
         
         logger.LogInformation("HTTP  {Method}  {Path}  {StatusCode} Request: {@RequestBody} Response: {@ResponseBody}", 
             context.Request.Method, context.Request.Path, context.Response.StatusCode, filteredRequestBody, filteredResponseBody);
@@ -42,13 +42,13 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<Requ
         await responseBody.CopyToAsync(originalBodyStream);
     }
     
-    private static string FilterSensitiveData(string json)
+    private string FilterSensitiveData(string json, HashSet<string> sensitiveKeys)
     {
         try
         {
             var node = JsonNode.Parse(json);
             if (node is not null)
-                FilterNode(node);
+                FilterNode(node, sensitiveKeys);
             return node?.ToJsonString(new JsonSerializerOptions
             {
                 WriteIndented = false,
@@ -62,19 +62,19 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<Requ
         }
     }
 
-    private static void FilterNode(JsonNode node)
+    private void FilterNode(JsonNode node, HashSet<string> sensitiveKeys)
     {
         if (node is JsonObject obj)
         {
             foreach (var key in obj.ToList())
             {
-                if (SensitiveKeys.Contains(key.Key))
+                if (sensitiveKeys.Contains(key.Key))
                 {
                     obj[key.Key] = "[PROTECTED]";
                 }
                 else if (obj[key.Key] is JsonNode childNode)
                 {
-                    FilterNode(childNode);
+                    FilterNode(childNode, sensitiveKeys);
                 }
             }
         }
@@ -83,7 +83,7 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<Requ
             foreach (var item in array)
             {
                 if (item is not null)
-                    FilterNode(item);
+                    FilterNode(item, sensitiveKeys);
             }
         }
     }
