@@ -1,13 +1,13 @@
-﻿using Application.Services;
+﻿using System.Security.Claims;
+using Application.Services;
 using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
-using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using System.Security.Claims;
-using Xunit;
+
+namespace Tests;
 
 public class AuthServiceTests
 {

@@ -5,7 +5,8 @@ using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
 using Moq;
-using Xunit;
+
+namespace Tests;
 
 public class MovieServiceTests
 {

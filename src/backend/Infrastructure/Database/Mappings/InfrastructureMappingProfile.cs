@@ -12,6 +12,7 @@ public class InfrastructureMappingProfile: Profile
         CreateMap<User, UserEntity>()
             .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
             .ForMember(dest => dest.RefreshToken, opt => opt.Ignore())
+            .ForMember(dest => dest.NotInterestedMovies, opt => opt.Ignore())
             .ReverseMap();
         
         CreateMap<RefreshToken, RefreshTokenEntity>()
@@ -29,6 +30,7 @@ public class InfrastructureMappingProfile: Profile
             .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
             .ForMember(dest => dest.UsersWatchList, opt => opt.Ignore())
             .ForMember(dest => dest.MovieRatings, opt => opt.Ignore())
+            .ForMember(dest => dest.UsersNotInterested, opt => opt.Ignore())
             .ReverseMap();
 
         CreateMap<MovieActorDto, MovieActorEntity>()
