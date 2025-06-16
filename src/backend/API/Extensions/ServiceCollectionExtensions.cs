@@ -12,6 +12,7 @@ using Domain.Abstractions.Repositories;
 using Domain.Abstractions.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.BackgroundJobs;
 using Infrastructure.Database.Mappings;
 using Infrastructure.Database.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -126,6 +127,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRecommendationRepository, RecommendationRepository>();
         
         services.AddScoped<IMediaService, MediaService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddBackgroundJobs(this IServiceCollection services)
+    {
+        services.AddScoped<TopicViewsSyncJob>();
 
         return services;
     }

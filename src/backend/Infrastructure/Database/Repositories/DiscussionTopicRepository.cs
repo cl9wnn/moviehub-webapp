@@ -29,6 +29,23 @@ public class DiscussionTopicRepository(AppDbContext dbContext, IMapper mapper) :
         return Result<ICollection<DiscussionTopic>>.Success(topics);
     }
 
+    public async Task<Result> UpdateViewsAsync(Guid id, int count)
+    {
+        var existingTopicEntity = await ActiveTopics
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (existingTopicEntity == null)
+        {
+            return Result.Failure("Topic not found")!;
+        }
+
+        existingTopicEntity.Views += count;
+        
+        await dbContext.SaveChangesAsync();
+        
+        return Result.Success();
+    }
+
     public async Task<Result<PaginatedDto<DiscussionTopic>>> GetPaginatedAsync(Guid userId, int page, int pageSize) 
     {
         var skip = (page - 1) * pageSize;

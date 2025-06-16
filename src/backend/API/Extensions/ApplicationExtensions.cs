@@ -1,5 +1,7 @@
-﻿using API.Options;
+﻿using API.Filters;
+using API.Options;
 using API.Pipeline.Middlewares;
+using Hangfire;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -49,6 +51,16 @@ public static class ApplicationExtensions
     public static IApplicationBuilder UseRequestResponseLogging(this IApplicationBuilder app)
     {
         app.UseMiddleware<RequestResponseLoggingMiddleware>();
+        return app;
+    }
+
+    public static IApplicationBuilder UseHangfireDashboard(this IApplicationBuilder app)
+    {
+        app.UseHangfireDashboard("/hangfire", new DashboardOptions
+        {
+            Authorization = new[] { new AllowAllDashboardAuthorizationFilter() }
+        });
+        
         return app;
     }
     

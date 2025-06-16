@@ -30,13 +30,23 @@ public class DiscussionTopicsController(IDiscussionTopicService topicService, IC
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetDiscussionTopicByIdAsync(Guid id)
     {
+        if (User.GetUserId() is not Guid userId)
+        {
+            return Unauthorized("Incorrect format for user id");
+        }
+        
         var getResult = await topicService.GetByIdAsync(id);
 
-        var topic = mapper.Map<DiscussionTopicResponse>(getResult.Data);
+        if (!getResult.IsSuccess)
+        {
+            return NotFound(getResult.ErrorMessage);
+        }
         
-        return getResult.IsSuccess
-            ? Ok(topic)
-            : NotFound(getResult.ErrorMessage);
+        var topic = mapper.Map<DiscussionTopicResponse>(getResult.Data);
+
+        await topicService.IncrementViewAsync(id, userId);
+        
+        return Ok(topic);
     }
     
     [HttpGet("paginated")]

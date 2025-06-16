@@ -3,12 +3,12 @@ using System.Text.Json.Serialization;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace Infrastructure.Cache;
 
-public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheService> logger) : IDistributedCacheService
+public class RedisCacheService(IDistributedCache cache, IConnectionMultiplexer redisDb, ILogger<RedisCacheService> logger) : IDistributedCacheService
 {
-    private readonly IDistributedCache _cache = cache;
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -18,7 +18,7 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
 
     public async Task<T?> GetAsync<T>(string key)
     {
-        var cacheData = await _cache.GetStringAsync(key);
+        var cacheData = await cache.GetStringAsync(key);
 
         if (string.IsNullOrEmpty(cacheData))
         {
@@ -46,11 +46,29 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
             options.SetSlidingExpiration(expiry.Value);
         }
         
-        await _cache.SetStringAsync(key, serializeData, options);
+        await cache.SetStringAsync(key, serializeData, options);
     }
 
     public async Task RemoveAsync(string key)
     {
-        await _cache.RemoveAsync(key);
+        await cache.RemoveAsync(key);
+    }
+    
+    public Task<IEnumerable<string>> GetKeysByPatternAsync(string pattern)
+    {
+        var endpoints = redisDb.GetEndPoints();
+        
+        foreach (var endpoint in endpoints)
+        {
+            var server = redisDb.GetServer(endpoint);
+
+            if (server.IsConnected)
+            {
+                var keys = server.Keys(pattern: pattern).Select(k => k.ToString()).ToList();
+                return Task.FromResult<IEnumerable<string>>(keys);
+            }
+        }
+
+        return Task.FromResult<IEnumerable<string>>([]);
     }
 }

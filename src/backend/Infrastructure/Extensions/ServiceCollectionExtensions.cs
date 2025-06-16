@@ -1,4 +1,7 @@
 using Domain.Abstractions.Services;
+using Hangfire;
+using Hangfire.PostgreSql;
+using Infrastructure.BackgroundJobs;
 using Infrastructure.Cache;
 using Infrastructure.Database;
 using Infrastructure.Email;
@@ -6,6 +9,7 @@ using Infrastructure.FileStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace Infrastructure.Extensions;
 
@@ -41,11 +45,28 @@ public static class ServiceCollectionExtensions
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = redisConfiguration;
-            options.InstanceName = "MovieHub:"; 
         });
         
         services.AddSingleton<IDistributedCacheService, RedisCacheService>();
+        
+        services.AddSingleton<IConnectionMultiplexer>(
+            ConnectionMultiplexer.Connect(redisConfiguration));
 
+        return services;
+    }
+
+    public static IServiceCollection AddHangfire(this IServiceCollection services, IConfiguration config)
+    {
+        services.AddHangfire(configuration =>
+        {
+            configuration.UsePostgreSqlStorage(options =>
+            {
+                options.UseNpgsqlConnection(config.GetConnectionString("PostgresDbConnection"));
+            });
+        });
+        
+        services.AddHangfireServer();
+        
         return services;
     }
 

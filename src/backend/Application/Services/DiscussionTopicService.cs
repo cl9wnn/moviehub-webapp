@@ -3,10 +3,11 @@ using Domain.Abstractions.Services;
 using Domain.Dtos;
 using Domain.Models;
 using Domain.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class DiscussionTopicService(IDiscussionTopicRepository topicRepository): IDiscussionTopicService
+public class DiscussionTopicService(IDiscussionTopicRepository topicRepository, IDistributedCacheService cacheService): IDiscussionTopicService
 {
     public async Task<Result<List<DiscussionTopic>>> GetAllTopicsAsync()
     {
@@ -19,10 +20,13 @@ public class DiscussionTopicService(IDiscussionTopicRepository topicRepository):
     public async Task<Result<DiscussionTopic>> GetByIdAsync(Guid id)
     {
         var getResult = await topicRepository.GetByIdAsync(id);
+
+        if (!getResult.IsSuccess)
+        {
+            return Result<DiscussionTopic>.Failure(getResult.ErrorMessage!)!;
+        }
         
-        return getResult.IsSuccess
-            ? Result<DiscussionTopic>.Success(getResult.Data)
-            : Result<DiscussionTopic>.Failure(getResult.ErrorMessage!)!;
+        return Result<DiscussionTopic>.Success(getResult.Data);
     }
 
     public async Task<Result> ExistsAsync(Guid id)
@@ -68,5 +72,26 @@ public class DiscussionTopicService(IDiscussionTopicRepository topicRepository):
         return getResult.IsSuccess
             ? Result<PaginatedDto<DiscussionTopic>>.Success(getResult.Data)
             : Result<PaginatedDto<DiscussionTopic>>.Failure(getResult.ErrorMessage!)!;
+    }
+
+    public async Task<Result> IncrementViewAsync(Guid topicId, Guid userId)
+    {
+         var viewFlagKey = $"topic:viewed:{topicId}:{userId}";
+         var viewCountKey = $"topic:views:{topicId}";
+         
+         var alreadyViewed = await cacheService.GetAsync<bool>(viewFlagKey);
+
+         if (alreadyViewed)
+         {
+             return Result.Failure("This topic has already been viewed.");
+         }
+         
+         await cacheService.SetAsync(viewFlagKey, true, TimeSpan.FromHours(1));
+         
+         var count = await cacheService.GetAsync<int?>(viewCountKey) ?? 0;
+         
+         await cacheService.SetAsync(viewCountKey, count + 1);
+
+         return Result.Success();
     }
 }
