@@ -10,6 +10,8 @@ services:
       - "3000:5173"
     depends_on:
       - backend
+    environment:
+      - API_TARGET=http://backend:8080
 
   backend:
     container_name: backend
