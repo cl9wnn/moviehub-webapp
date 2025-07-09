@@ -1,6 +1,5 @@
 # MovieHub
 
-
 A web application for discussion and communication between film enthusiasts.
 
 ## Features
@@ -22,3 +21,4 @@ A web application for discussion and communication between film enthusiasts.
 - **Containerization:** Docker
 - **Testing:** xUnit, Moq
 - **Logging & Monitoring:** Serilog + Seq
+- **Notification**: MailKit
